@@ -24,13 +24,17 @@ namespace AnimeTrim
 
 	public class Anime
 	{
+		// 标识，唯一性
+		public UInt32 ID
+		{ get; set; }
+
 		public String Title
 		{ get; set; }
 
 		public String Name
 		{ get; set; }
 
-		public Int32 Year
+		public UInt32 Year
 		{ get; set; }
 
 		public String Season
@@ -65,7 +69,7 @@ namespace AnimeTrim
 		public Boolean View
 		{ get; set; }
 
-		public Int32 Rate
+		public UInt32 Rate
 		{ get; set; }
 
 		public DateTime CreateTime
@@ -79,6 +83,9 @@ namespace AnimeTrim
 
 		// 动漫话数
 		public String Episode
+		{ get; set; }
+
+		public String Inc
 		{ get; set; }
 
 		public String Note
@@ -104,14 +111,19 @@ namespace AnimeTrim
 		public Anime()
 		{ }
 
+		public Anime(UInt32 id)
+		{
+			this.ID = id;
+		}
+
 		public Anime(String title)
 		{
 			this.Title = title;
 		}
 
-		public Anime(String title, String name, Int32 year, String season, MediaType type,
+		public Anime(String title, String name, UInt32 year, String season, MediaType type,
 			MergeFormat format, String publisher, SubStyles subStyle, String storeIndex,
-			Int64 space, Boolean gather, Boolean view, Int32 rate, DateTime createTime,
+			Int64 space, Boolean gather, Boolean view, UInt32 rate, DateTime createTime,
 			DateTime updateTime, String kana, String episode, String note)
 		{
 			this.Title = title;

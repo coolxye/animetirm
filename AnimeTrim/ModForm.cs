@@ -161,7 +161,7 @@ namespace AnimeTrim
 			// edit fin
 
 			_anime.Title = this.tbTitle.Text;
-			_anime.Year = Int32.Parse(this.cboYear.Text);
+			_anime.Year = UInt32.Parse(this.cboYear.Text);
 			_anime.Season = this.cboSeason.Text;
 			_anime.StoreIndex = this.tbStoreIndex.Text;
 
