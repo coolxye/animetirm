@@ -55,6 +55,7 @@ namespace AnimeTrim
 			_ai.Name = null;
 			_ai.Total = 0;
 			_ai.Space = 0L;
+			_ai.Uid = 0U;
 			_ai.IsNew = true;
 			_ai.IsSaved = true;
 		}
@@ -104,8 +105,15 @@ namespace AnimeTrim
 			//_fs = new FileStream(_aitp.Path, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 			//sr = new StreamReader(_fs);
 
+			if ((line = sr.ReadLine()) == null)
+				return false;
+
+			info = line.Split('\t');
+			if (info.Length != 3)
+				return false;
+
 			int it;
-			if (!Int32.TryParse(sr.ReadLine(), out it))
+			if (!Int32.TryParse(info[0], out it))
 			{
 				MessageBox.Show(this, "The line 1 is wrong.", "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -116,9 +124,9 @@ namespace AnimeTrim
 			else _aitp.Total = it;
 
 			long lt;
-			if (!Int64.TryParse(sr.ReadLine(), out lt))
+			if (!Int64.TryParse(info[1], out lt))
 			{
-				MessageBox.Show(this, "The line 2 is wrong.", "Read error",
+				MessageBox.Show(this, "The line 1 is wrong.", "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				sr.Close();
 
@@ -126,12 +134,23 @@ namespace AnimeTrim
 			}
 			else _aitp.Space = lt;
 
-			it = 2;
+			uint ut;
+			if (!UInt32.TryParse(info[2], out ut))
+			{
+				MessageBox.Show(this, "The line 1 is wrong.", "Read error",
+					MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				sr.Close();
+
+				return false;
+			}
+			else _aitp.Uid = ut;
+
+			int iErr = 1;
 			try
 			{
 				while ((line = sr.ReadLine()) != null)
 				{
-					it++;
+					iErr++;
 					info = line.Split('\t');
 
 					ani = new Anime();
@@ -161,7 +180,7 @@ namespace AnimeTrim
 			}
 			catch (Exception)
 			{
-				MessageBox.Show(this, String.Format("The line {0} is wrong.", it), "Read error",
+				MessageBox.Show(this, String.Format("The line {0} is wrong.", iErr), "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				_latp.Clear();
 
@@ -295,16 +314,15 @@ namespace AnimeTrim
 			StreamWriter sw = new StreamWriter(_ai.Path, false, Encoding.Unicode);
 			//StreamWriter sw = new StreamWriter(_fs, Encoding.Unicode);
 
-			sw.WriteLine(_ai.Total);
-			sw.WriteLine(_ai.Space);
+			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
 			_lani.ForEach(delegate(Anime a)
 			{
-				sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}",
-					a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+				sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}\t{19}",
+					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
 					a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
 					a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
-					a.Episode, a.Note);
+					a.Episode, a.Inc, a.Note);
 			});
 
 			sw.Close();
@@ -317,6 +335,7 @@ namespace AnimeTrim
 			_ai.Name = null;
 			_ai.Total = 0;
 			_ai.Space = 0L;
+			_ai.Uid = 0U;
 			_ai.IsNew = true;
 			_ai.IsSaved = true;
 
@@ -724,6 +743,7 @@ namespace AnimeTrim
 			if (af.ShowDialog(this) == DialogResult.OK)
 			{
 				Anime a = af.GetAnime();
+				a.ID = _ai.Uid++;
 				_ai.Space += a.Space;
 				_ai.Total++;
 				_ai.IsSaved = false;
@@ -758,7 +778,7 @@ namespace AnimeTrim
 			if (mf.ShowDialog(this) == DialogResult.OK)
 			{
 				_ai.Space -= a.Space;
-				a.eCopy(mf.GetAnime());
+				a.EditCopy(mf.GetAnime());
 				_ai.Space += a.Space;
 				_ai.IsSaved = false;
 
@@ -780,7 +800,7 @@ namespace AnimeTrim
 				return;
 			else
 			{
-				_aCopy = new Anime(a);
+				_aCopy = new Anime(a, _ai.Uid++);
 				this.btnPaste.Enabled = true;
 			}
 		}
