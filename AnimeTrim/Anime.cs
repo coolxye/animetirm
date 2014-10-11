@@ -172,6 +172,7 @@ namespace AnimeTrim
 			this.Note = other.Note;
 		}
 
+		// TODO: Del
 		public void EditCopy(Anime edit)
 		{
 			this.Title = edit.Title;

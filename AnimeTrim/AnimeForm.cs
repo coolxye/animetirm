@@ -27,6 +27,9 @@ namespace AnimeTrim
 			InitAccessFile();
 		}
 
+		private const String _sout = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}" +
+			"\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}\t{19}";
+
 		// FileStream for the Anime Doc
 		//private FileStream _fs = null;
 		private AnimeInfo _ai = new AnimeInfo();
@@ -318,7 +321,7 @@ namespace AnimeTrim
 
 			_lani.ForEach(delegate(Anime a)
 			{
-				sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}\t{19}",
+				sw.WriteLine(_sout,
 					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
 					a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
 					a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
@@ -525,6 +528,7 @@ namespace AnimeTrim
 				ResetAll();
 		}
 
+		#region up data at -> xat
 		// TODO: delete before final
 		//private void btnChange_Click(object sender, EventArgs e)
 		//{
@@ -643,18 +647,19 @@ namespace AnimeTrim
 
 		//	sw.Close();
 		//}
+		#endregion
+
 		private void btnChange_Click(object sender, EventArgs e)
 		{
 			StreamWriter sw = new StreamWriter(@"E:\Documents\AnimeDoc_updata.xat", false, Encoding.Unicode);
 
-			sw.WriteLine(_ai.Total);
-			sw.WriteLine(_ai.Space);
+			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
 			int i = 1;
 
 			_lani.ForEach(delegate(Anime a)
 			{
-				sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}\t{19}",
+				sw.WriteLine(_sout,
 					i++, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
 					a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
 					a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
@@ -771,14 +776,15 @@ namespace AnimeTrim
 			if (a == null)
 				return;
 
-			ModForm mf = new ModForm(a);
+			long ls = a.Space;
+			ModForm mf = new ModForm(ref a);
 			mf.StartPosition = FormStartPosition.CenterParent;
 			mf.MaximizeBox = false;
 
 			if (mf.ShowDialog(this) == DialogResult.OK)
 			{
-				_ai.Space -= a.Space;
-				a.EditCopy(mf.GetAnime());
+				_ai.Space -= ls;
+				//a.EditCopy(mf.GetAnime());
 				_ai.Space += a.Space;
 				_ai.IsSaved = false;
 
