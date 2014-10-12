@@ -7,7 +7,7 @@
  * Change log:
  * 2011-03-31  JPP  - Split into its own file
  * 
- * Copyright (C) 2011-2012 Phillip Piper
+ * Copyright (C) 2011-2014 Phillip Piper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -79,7 +79,22 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// Somewhere on a group
         /// </summary>
-        Group
+        Group,
+
+        /// <summary>
+        /// Somewhere in a column header
+        /// </summary>
+        Header,
+
+        /// <summary>
+        /// Somewhere in a column header checkbox
+        /// </summary>
+        HeaderCheckBox,
+
+        /// <summary>
+        /// Somewhere in a header divider
+        /// </summary>
+        HeaderDivider,
     }
 
     /// <summary>
@@ -95,24 +110,75 @@ namespace BrightIdeasSoftware {
         /// 
         /// </summary>
         LVHT_ONITEMICON = 0x00000002,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_ONITEMLABEL = 0x00000004,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_ONITEMSTATEICON = 0x00000008,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_ONITEM = (LVHT_ONITEMICON | LVHT_ONITEMLABEL | LVHT_ONITEMSTATEICON),
 
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_ABOVE = 0x00000008,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_BELOW = 0x00000010,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_TORIGHT = 0x00000020,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_TOLEFT = 0x00000040,
 
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_GROUP_HEADER = 0x10000000,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_GROUP_FOOTER = 0x20000000,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_GROUP_COLLAPSE = 0x40000000,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_GROUP_BACKGROUND = -2147483648, // 0x80000000
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_GROUP_STATEICON = 0x01000000,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_GROUP_SUBSETLINK = 0x02000000,
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_GROUP = (LVHT_EX_GROUP_BACKGROUND | LVHT_EX_GROUP_COLLAPSE | LVHT_EX_GROUP_FOOTER | LVHT_EX_GROUP_HEADER | LVHT_EX_GROUP_STATEICON | LVHT_EX_GROUP_SUBSETLINK),
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_GROUP_MINUS_FOOTER_AND_BKGRD = (LVHT_EX_GROUP_COLLAPSE | LVHT_EX_GROUP_HEADER | LVHT_EX_GROUP_STATEICON | LVHT_EX_GROUP_SUBSETLINK),
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_ONCONTENTS = 0x04000000, // On item AND not on the background
+        /// <summary>
+        /// 
+        /// </summary>
         LVHT_EX_FOOTER = 0x08000000,
     }
 
@@ -127,12 +193,15 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// Create a OlvListViewHitTestInfo
         /// </summary>
-        public OlvListViewHitTestInfo(OLVListItem olvListItem, OLVListSubItem subItem, int flags, OLVGroup group) {
+        public OlvListViewHitTestInfo(OLVListItem olvListItem, OLVListSubItem subItem, int flags, OLVGroup group, int iColumn)
+        {
             this.item = olvListItem;
             this.subItem = subItem;
             this.location = ConvertNativeFlagsToDotNetLocation(olvListItem, flags);
             this.HitTestLocationEx = (HitTestLocationEx)flags;
             this.Group = group;
+            this.ColumnIndex = iColumn;
+            this.ListView = olvListItem == null ? null : (ObjectListView)olvListItem.ListView;
 
             switch (location) {
                 case ListViewHitTestLocations.StateImage:
@@ -153,6 +222,16 @@ namespace BrightIdeasSoftware {
                         this.HitTestLocation = HitTestLocation.Nothing;
                     break;
             }
+        }
+
+        /// <summary>
+        /// Create a OlvListViewHitTestInfo when the header was hit
+        /// </summary>
+        public OlvListViewHitTestInfo(ObjectListView olv, int iColumn, bool isOverCheckBox, int iDivider) {
+            this.ListView = olv;
+            this.ColumnIndex = iColumn;
+            this.HeaderDividerIndex = iDivider;
+            this.HitTestLocation = isOverCheckBox ? HitTestLocation.HeaderCheckBox : (iDivider < 0 ? HitTestLocation.Header : HitTestLocation.HeaderDivider);
         }
 
         private static ListViewHitTestLocations ConvertNativeFlagsToDotNetLocation(OLVListItem hitItem, int flags)
@@ -230,8 +309,10 @@ namespace BrightIdeasSoftware {
         /// Gets the ObjectListView that was tested
         /// </summary>
         public ObjectListView ListView {
-            get { return this.Item == null ? null : (ObjectListView)this.Item.ListView; }
+            get { return listView; }
+            internal set { listView = value; }
         }
+        private ObjectListView listView;
 
         /// <summary>
         /// Gets the model object that was hit
@@ -253,13 +334,19 @@ namespace BrightIdeasSoftware {
         /// Gets the index of the column under the hit point
         /// </summary>
         public int ColumnIndex {
-            get {
-                if (this.Item == null || this.SubItem == null)
-                    return -1;
-                
-                return this.Item.SubItems.IndexOf(this.SubItem);
-            }
+            get { return columnIndex; }
+            internal set { columnIndex = value; }
         }
+        private int columnIndex;
+
+        /// <summary>
+        /// Gets the index of the header divider
+        /// </summary>
+        public int HeaderDividerIndex {
+            get { return headerDividerIndex; }
+            internal set { headerDividerIndex = value; }
+        }
+        private int headerDividerIndex = -1;
 
         /// <summary>
         /// Gets the column that was hit
@@ -267,15 +354,30 @@ namespace BrightIdeasSoftware {
         public OLVColumn Column {
             get {
                 int index = this.ColumnIndex;
-                return index < 0 ? null : this.ListView.GetColumn(index);
+                return index < 0 || this.ListView == null ? null : this.ListView.GetColumn(index);
             }
         }
 
         #endregion
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format("HitTestLocation: {0}, HitTestLocationEx: {1}, Item: {2}, SubItem: {3}, Location: {4}, Group: {5}", this.HitTestLocation, this.HitTestLocationEx, this.item, this.subItem, this.location, this.Group);
+            return string.Format("HitTestLocation: {0}, HitTestLocationEx: {1}, Item: {2}, SubItem: {3}, Location: {4}, Group: {5}, ColumnIndex: {6}", 
+                this.HitTestLocation, this.HitTestLocationEx, this.item, this.subItem, this.location, this.Group, this.ColumnIndex);
+        }
+
+        internal class HeaderHitTestInfo
+        {
+            public int ColumnIndex;
+            public bool IsOverCheckBox;
+            public int OverDividerIndex;
         }
     }
 }

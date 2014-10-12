@@ -5,6 +5,10 @@
  * Date: 27/09/2008 9:15 AM
  *
  * Change log:
+ * v2.8
+ * 2014-09-26   JPP  - Correct an incorrect use of checkStateMap when setting CheckedObjects
+ *                     and a CheckStateGetter is installed
+ * v2.6
  * 2012-06-13   JPP  - Corrected several bugs related to groups on virtual lists.
  *                   - Added EnsureNthGroupVisible() since EnsureGroupVisible() can't work on virtual lists.
  * v2.5.1
@@ -45,7 +49,7 @@
  * 2008-10-02   JPP  - MAJOR CHANGE: Use IVirtualListDataSource
  * 2008-09-27   JPP  - Separated from ObjectListView.cs
  * 
- * Copyright (C) 2006-2012 Phillip Piper
+ * Copyright (C) 2006-2014 Phillip Piper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -180,6 +184,11 @@ namespace BrightIdeasSoftware
         /// If the ListView is not currently showing CheckBoxes, this property does nothing. It does
         /// not remember any check box settings made.
         /// </para>
+        /// <para>
+        /// This class optimizes the mangement of CheckStates so that it will work efficiently even on
+        /// large lists of item. However, those optimizations are impossible if you install a CheckStateGetter.
+        /// Witha CheckStateGetter installed, the performance of this method is O(n) where n is the size 
+        /// of the list. This could be painfully slow.</para>
         /// </remarks>
         [Browsable(false),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -213,12 +222,23 @@ namespace BrightIdeasSoftware
                 if (!this.CheckBoxes)
                     return;
 
+                // If a custom check state getter is install, we can't use our check state management
+                // We have to use the (slower) base version.
+                if (this.CheckStateGetter != null) {
+                    base.CheckedObjects = value;
+                    return;
+                }
+
+                Stopwatch sw = Stopwatch.StartNew();
+
                 // Set up an efficient way of testing for the presence of a particular model
                 Hashtable table = new Hashtable(this.GetItemCount());
                 if (value != null) {
                     foreach (object x in value)
                         table[x] = true;
                 }
+
+                this.BeginUpdate();
 
                 // Uncheck anything that is no longer checked
                 Object[] keys = new Object[this.CheckStateMap.Count];
@@ -231,6 +251,10 @@ namespace BrightIdeasSoftware
                 // Check all the new checked objects
                 foreach (Object x in table.Keys)
                     this.SetObjectCheckedness(x, CheckState.Checked);
+
+                this.EndUpdate();
+
+                Debug.WriteLine(String.Format("PERF - Setting virtual CheckedObjects on {2} objects took {0}ms / {1} ticks", sw.ElapsedMilliseconds, sw.ElapsedTicks, this.GetItemCount()));
             }
         }
 
@@ -685,6 +709,70 @@ namespace BrightIdeasSoftware
 
         #endregion
 
+        #region Check boxes
+//
+//        /// <summary>
+//        /// Check all rows
+//        /// </summary>
+//        /// <remarks>The performance of this method is O(n) where n is the number of rows in the control.</remarks>
+//        public override void CheckAll()
+//        {
+//            if (!this.CheckBoxes)
+//                return;
+//
+//            Stopwatch sw = Stopwatch.StartNew();
+//
+//            this.BeginUpdate();
+//
+//            foreach (Object x in this.Objects)
+//                this.SetObjectCheckedness(x, CheckState.Checked);
+//
+//            this.EndUpdate();
+//
+//            Debug.WriteLine(String.Format("PERF - CheckAll() on {2} objects took {0}ms / {1} ticks", sw.ElapsedMilliseconds, sw.ElapsedTicks, this.GetItemCount()));
+//
+//        }
+//
+//        /// <summary>
+//        /// Uncheck all rows
+//        /// </summary>
+//        /// <remarks>The performance of this method is O(n) where n is the number of rows in the control.</remarks>
+//        public override void UncheckAll()
+//        {
+//            if (!this.CheckBoxes)
+//                return;
+//
+//            Stopwatch sw = Stopwatch.StartNew();
+//
+//            this.BeginUpdate();
+//
+//            foreach (Object x in this.Objects)
+//                this.SetObjectCheckedness(x, CheckState.Unchecked);
+//
+//            this.EndUpdate();
+//
+//            Debug.WriteLine(String.Format("PERF - UncheckAll() on {2} objects took {0}ms / {1} ticks", sw.ElapsedMilliseconds, sw.ElapsedTicks, this.GetItemCount()));
+//        }
+
+        /// <summary>
+        /// Get the checkedness of an object from the model. Returning null means the
+        /// model does know and the value from the control will be used.
+        /// </summary>
+        /// <param name="modelObject"></param>
+        /// <returns></returns>
+        protected override CheckState? GetCheckState(object modelObject)
+        {
+            if (this.CheckStateGetter != null)
+                return base.GetCheckState(modelObject);
+
+            CheckState state;
+            if (modelObject != null && this.CheckStateMap.TryGetValue(modelObject, out state))
+                return state;
+            return CheckState.Unchecked;
+        }
+
+        #endregion
+
         #region Implementation
 
         /// <summary>
@@ -706,7 +794,7 @@ namespace BrightIdeasSoftware
         /// <summary>
         /// Clear any cached info this list may have been using
         /// </summary>
-        public virtual void ClearCachedInfo() {
+        public override void ClearCachedInfo() {
             this.lastRetrieveVirtualItemIndex = -1;
         }
 
@@ -735,18 +823,16 @@ namespace BrightIdeasSoftware
         /// Do the plumbing to disable groups on a virtual list
         /// </summary>
         protected void DisableVirtualGroups() {
-            IntPtr x;
-
-            int err = NativeMethods.ClearGroups(this);
+            NativeMethods.ClearGroups(this);
             //System.Diagnostics.Debug.WriteLine(err);
 
             const int LVM_ENABLEGROUPVIEW = 0x1000 + 157;
-            x = NativeMethods.SendMessage(this.Handle, LVM_ENABLEGROUPVIEW, 0, 0);
+            IntPtr x = NativeMethods.SendMessage(this.Handle, LVM_ENABLEGROUPVIEW, 0, 0);
             //System.Diagnostics.Debug.WriteLine(x);
 
             const int LVM_SETOWNERDATACALLBACK = 0x10BB;
-            x = NativeMethods.SendMessage(this.Handle, LVM_SETOWNERDATACALLBACK, 0, 0);
-            //System.Diagnostics.Debug.WriteLine(x);
+            IntPtr x2 = NativeMethods.SendMessage(this.Handle, LVM_SETOWNERDATACALLBACK, 0, 0);
+            //System.Diagnostics.Debug.WriteLine(x2);
         }
 
         /// <summary>
@@ -769,22 +855,6 @@ namespace BrightIdeasSoftware
             //System.Diagnostics.Debug.WriteLine(x);
         }
         private OwnerDataCallbackImpl ownerDataCallbackImpl;
-
-        /// <summary>
-        /// Get the checkedness of an object from the model. Returning null means the
-        /// model does know and the value from the control will be used.
-        /// </summary>
-        /// <param name="modelObject"></param>
-        /// <returns></returns>
-        protected override CheckState? GetCheckState(object modelObject) {
-            if (this.CheckStateGetter != null)
-                return base.GetCheckState(modelObject);
-
-            CheckState state = CheckState.Unchecked;
-            if (modelObject != null)
-                this.CheckStateMap.TryGetValue(modelObject, out state);
-            return state;
-        }
 
         /// <summary>
         /// Return the position of the given itemIndex in the list as it currently shown to the user.
@@ -833,7 +903,7 @@ namespace BrightIdeasSoftware
         /// <param name="n"></param>
         /// <returns></returns>
         public override OLVListItem GetNthItemInDisplayOrder(int n) {
-            if (!this.ShowGroups)
+            if (!this.ShowGroups || this.OLVGroups == null || this.OLVGroups.Count == 0)
                 return this.GetItem(n);
 
             foreach (OLVGroup group in this.OLVGroups) {
@@ -976,7 +1046,7 @@ namespace BrightIdeasSoftware
         /// <param name="olvi">The item to refresh</param>
         public override void RefreshItem(OLVListItem olvi) {
             this.ClearCachedInfo();
-            this.RedrawItems(olvi.Index, olvi.Index, false);
+            this.RedrawItems(olvi.Index, olvi.Index, true);
         }
 
         /// <summary>

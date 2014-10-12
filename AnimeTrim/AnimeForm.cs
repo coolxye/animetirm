@@ -27,6 +27,9 @@ namespace AnimeTrim
 			InitAccessFile();
 		}
 
+		private const String _sout = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}" +
+			"\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}\t{19}";
+
 		// FileStream for the Anime Doc
 		//private FileStream _fs = null;
 		private AnimeInfo _ai = new AnimeInfo();
@@ -55,6 +58,7 @@ namespace AnimeTrim
 			_ai.Name = null;
 			_ai.Total = 0;
 			_ai.Space = 0L;
+			_ai.Uid = 0U;
 			_ai.IsNew = true;
 			_ai.IsSaved = true;
 		}
@@ -104,8 +108,15 @@ namespace AnimeTrim
 			//_fs = new FileStream(_aitp.Path, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
 			//sr = new StreamReader(_fs);
 
+			if ((line = sr.ReadLine()) == null)
+				return false;
+
+			info = line.Split('\t');
+			if (info.Length != 3)
+				return false;
+
 			int it;
-			if (!Int32.TryParse(sr.ReadLine(), out it))
+			if (!Int32.TryParse(info[0], out it))
 			{
 				MessageBox.Show(this, "The line 1 is wrong.", "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -116,9 +127,9 @@ namespace AnimeTrim
 			else _aitp.Total = it;
 
 			long lt;
-			if (!Int64.TryParse(sr.ReadLine(), out lt))
+			if (!Int64.TryParse(info[1], out lt))
 			{
-				MessageBox.Show(this, "The line 2 is wrong.", "Read error",
+				MessageBox.Show(this, "The line 1 is wrong.", "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				sr.Close();
 
@@ -126,40 +137,53 @@ namespace AnimeTrim
 			}
 			else _aitp.Space = lt;
 
-			it = 2;
+			uint ut;
+			if (!UInt32.TryParse(info[2], out ut))
+			{
+				MessageBox.Show(this, "The line 1 is wrong.", "Read error",
+					MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				sr.Close();
+
+				return false;
+			}
+			else _aitp.Uid = ut;
+
+			int iErr = 1;
 			try
 			{
 				while ((line = sr.ReadLine()) != null)
 				{
-					it++;
+					iErr++;
 					info = line.Split('\t');
 
 					ani = new Anime();
-					ani.Title = info[0];
-					ani.Name = info[1];
-					ani.Year = Int32.Parse(info[2]);
-					ani.Season = info[3];
-					ani.Type = (MediaType)Enum.Parse(typeof(MediaType), info[4]);
-					ani.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), info[5]);
-					ani.Publisher = info[6];
-					ani.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), info[7]);
-					ani.StoreIndex = info[8];
-					ani.Space = Int64.Parse(info[9]);
-					ani.Gather = Boolean.Parse(info[10]);
-					ani.View = Boolean.Parse(info[11]);
-					ani.Rate = Int32.Parse(info[12]);
-					ani.CreateTime = DateTime.Parse(info[13]);
-					ani.UpdateTime = DateTime.Parse(info[14]);
-					ani.Kana = info[15];
-					ani.Episode = info[16];
-					ani.Note = info[17];
+					ani.ID = UInt32.Parse(info[0]);
+					ani.Title = info[1];
+					ani.Name = info[2];
+					ani.Year = UInt32.Parse(info[3]);
+					ani.Season = info[4];
+					ani.Type = (MediaType)Enum.Parse(typeof(MediaType), info[5]);
+					ani.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), info[6]);
+					ani.Publisher = info[7];
+					ani.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), info[8]);
+					ani.StoreIndex = info[9];
+					ani.Space = Int64.Parse(info[10]);
+					ani.Gather = Boolean.Parse(info[11]);
+					ani.View = Boolean.Parse(info[12]);
+					ani.Rate = UInt32.Parse(info[13]);
+					ani.CreateTime = DateTime.Parse(info[14]);
+					ani.UpdateTime = DateTime.Parse(info[15]);
+					ani.Kana = info[16];
+					ani.Episode = info[17];
+					ani.Inc = info[18];
+					ani.Note = info[19];
 
 					_latp.Add(ani);
 				}
 			}
 			catch (Exception)
 			{
-				MessageBox.Show(this, String.Format("The line {0} is wrong.", it), "Read error",
+				MessageBox.Show(this, String.Format("The line {0} is wrong.", iErr), "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				_latp.Clear();
 
@@ -247,7 +271,7 @@ namespace AnimeTrim
 			tc = new TypedColumn<Anime>(this.olvColRate);
 			tc.AspectPutter = delegate(Anime a, object opr)
 			{
-				int onr = (int)opr;
+				uint onr = (uint)opr;
 				a.Rate = onr < 10 ? 10 : onr;
 			};
 			this.olvColRate.Renderer = new MultiImageRenderer(Properties.Resources.Star, 3, 9, 31);
@@ -293,16 +317,15 @@ namespace AnimeTrim
 			StreamWriter sw = new StreamWriter(_ai.Path, false, Encoding.Unicode);
 			//StreamWriter sw = new StreamWriter(_fs, Encoding.Unicode);
 
-			sw.WriteLine(_ai.Total);
-			sw.WriteLine(_ai.Space);
+			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
 			_lani.ForEach(delegate(Anime a)
 			{
-				sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}",
-					a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+				sw.WriteLine(_sout,
+					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
 					a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
 					a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
-					a.Episode, a.Note);
+					a.Episode, a.Inc, a.Note);
 			});
 
 			sw.Close();
@@ -315,6 +338,7 @@ namespace AnimeTrim
 			_ai.Name = null;
 			_ai.Total = 0;
 			_ai.Space = 0L;
+			_ai.Uid = 0U;
 			_ai.IsNew = true;
 			_ai.IsSaved = true;
 
@@ -504,121 +528,143 @@ namespace AnimeTrim
 				ResetAll();
 		}
 
+		#region up data at -> xat
 		// TODO: delete before final
+		//private void btnChange_Click(object sender, EventArgs e)
+		//{
+		//	const string path = @"E:\Documents\AnimeDoc.at";
+
+		//	List<Anime> lani = new List<Anime>();
+
+		//	StreamReader sr = new StreamReader(path);
+		//	int total = Int32.Parse(sr.ReadLine());
+		//	long dspace = (Int64)(Double.Parse(sr.ReadLine()) * 1073741824D + 0.5D);
+
+		//	string title;
+		//	string name;
+		//	int year;
+		//	string season;
+		//	MediaType type;
+		//	MergeFormat format;
+		//	string publisher;
+		//	SubStyles subStyle;
+		//	string storeIndex;
+		//	long space;
+		//	bool gather;
+		//	bool view;
+		//	int rate;
+		//	DateTime createTime;
+		//	DateTime updateTime;
+		//	string kana;
+		//	string episode;
+		//	string note;
+
+		//	string line;
+		//	string[] info;
+		//	string[] date;
+		//	int i = 10;
+
+		//	while ((line = sr.ReadLine()) != null)
+		//	{
+		//		info = line.Split('\t');
+
+		//		title = info[0]; name = info[1];
+		//		date = info[2].Split('.');
+		//		year = Int32.Parse(date[0]);
+		//		season = date[1];
+
+		//		switch (info[3])
+		//		{
+		//			case "BDRip": type = MediaType.BDRip; break;
+		//			case "DVDRip": type = MediaType.DVDRip; break;
+		//			case "BDRAW": type = MediaType.BDRAW; break;
+		//			case "DVDRAW": type = MediaType.DVDRAW; break;
+		//			case "BDMV": type = MediaType.BDMV; break;
+		//			case "TVRip": type = MediaType.TVRip; break;
+		//			default: type = MediaType.DVDRip; break;
+		//		}
+
+		//		switch (info[4])
+		//		{
+		//			case "MKV": format = MergeFormat.MKV; break;
+		//			case "MP4": format = MergeFormat.MP4; break;
+		//			case "M2TS": format = MergeFormat.M2TS; break;
+		//			case "WMV": format = MergeFormat.WMV; break;
+		//			case "AVI": format = MergeFormat.AVI; break;
+		//			default: format = MergeFormat.MKV; break;
+		//		}
+
+		//		publisher = info[5];
+
+		//		switch (info[6])
+		//		{
+		//			case "External": subStyle = SubStyles.External; break;
+		//			case "Sealed": subStyle = SubStyles.Sealed; break;
+		//			case "Embedded": subStyle = SubStyles.Embedded; break;
+		//			default: subStyle = SubStyles.External; break;
+		//		}
+
+		//		storeIndex = info[7];
+
+		//		space = (Int64)(Double.Parse(info[8]) * 1073741824D + 0.5D);
+
+		//		gather = (info[9] == "Fin.") ? true : false;
+
+		//		view = (info[10] == "^-^") ? true : false;
+
+		//		rate = i++;
+
+		//		if (i > 40) i = 10;
+
+		//		createTime = DateTime.Now;
+
+		//		updateTime = DateTime.Now;
+
+		//		kana = info[11];
+
+		//		episode = "12";
+
+		//		note = info[12];
+
+		//		lani.Add(new Anime(title, name, year, season, type, format,
+		//			publisher, subStyle, storeIndex, space, gather, view,
+		//			rate, createTime, updateTime, kana, episode, note));
+		//	}
+
+		//	sr.Close();
+
+		//	StreamWriter sw = new StreamWriter(@"AnimeDoc.txt", false, Encoding.Unicode);
+		//	sw.WriteLine(total); sw.WriteLine(dspace);
+
+		//	foreach (Anime ani in lani)
+		//	{
+		//		sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}",
+		//			ani.Title, ani.Name, ani.Year, ani.Season, ani.Type, ani.Format,
+		//			ani.Publisher, ani.SubStyle, ani.StoreIndex, ani.Space, ani.Gather,
+		//			ani.View, ani.Rate, ani.CreateTime, ani.UpdateTime, ani.Kana,
+		//			ani.Episode, ani.Note);
+		//	}
+
+		//	sw.Close();
+		//}
+		#endregion
+
 		private void btnChange_Click(object sender, EventArgs e)
 		{
-			const string path = @"E:\Documents\AnimeDoc.at";
+			StreamWriter sw = new StreamWriter(@"E:\Documents\AnimeDoc_updata.xat", false, Encoding.Unicode);
 
-			List<Anime> lani = new List<Anime>();
+			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
-			StreamReader sr = new StreamReader(path);
-			int total = Int32.Parse(sr.ReadLine());
-			long dspace = (Int64)(Double.Parse(sr.ReadLine()) * 1073741824D + 0.5D);
+			int i = 1;
 
-			string title;
-			string name;
-			int year;
-			string season;
-			MediaType type;
-			MergeFormat format;
-			string publisher;
-			SubStyles subStyle;
-			string storeIndex;
-			long space;
-			bool gather;
-			bool view;
-			int rate;
-			DateTime createTime;
-			DateTime updateTime;
-			string kana;
-			string episode;
-			string note;
-
-			string line;
-			string[] info;
-			string[] date;
-			int i = 10;
-
-			while ((line = sr.ReadLine()) != null)
+			_lani.ForEach(delegate(Anime a)
 			{
-				info = line.Split('\t');
-
-				title = info[0]; name = info[1];
-				date = info[2].Split('.');
-				year = Int32.Parse(date[0]);
-				season = date[1];
-
-				switch (info[3])
-				{
-					case "BDRip": type = MediaType.BDRip; break;
-					case "DVDRip": type = MediaType.DVDRip; break;
-					case "BDRAW": type = MediaType.BDRAW; break;
-					case "DVDRAW": type = MediaType.DVDRAW; break;
-					case "BDMV": type = MediaType.BDMV; break;
-					case "TVRip": type = MediaType.TVRip; break;
-					default: type = MediaType.DVDRip; break;
-				}
-
-				switch (info[4])
-				{
-					case "MKV": format = MergeFormat.MKV; break;
-					case "MP4": format = MergeFormat.MP4; break;
-					case "M2TS": format = MergeFormat.M2TS; break;
-					case "WMV": format = MergeFormat.WMV; break;
-					case "AVI": format = MergeFormat.AVI; break;
-					default: format = MergeFormat.MKV; break;
-				}
-
-				publisher = info[5];
-
-				switch (info[6])
-				{
-					case "External": subStyle = SubStyles.External; break;
-					case "Sealed": subStyle = SubStyles.Sealed; break;
-					case "Embedded": subStyle = SubStyles.Embedded; break;
-					default: subStyle = SubStyles.External; break;
-				}
-
-				storeIndex = info[7];
-
-				space = (Int64)(Double.Parse(info[8]) * 1073741824D + 0.5D);
-
-				gather = (info[9] == "Fin.") ? true : false;
-
-				view = (info[10] == "^-^") ? true : false;
-
-				rate = i++;
-
-				if (i > 40) i = 10;
-
-				createTime = DateTime.Now;
-
-				updateTime = DateTime.Now;
-
-				kana = info[11];
-
-				episode = "12";
-
-				note = info[12];
-
-				lani.Add(new Anime(title, name, year, season, type, format,
-					publisher, subStyle, storeIndex, space, gather, view,
-					rate, createTime, updateTime, kana, episode, note));
-			}
-
-			sr.Close();
-
-			StreamWriter sw = new StreamWriter(@"AnimeDoc.txt", false, Encoding.Unicode);
-			sw.WriteLine(total); sw.WriteLine(dspace);
-
-			foreach (Anime ani in lani)
-			{
-				sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}",
-					ani.Title, ani.Name, ani.Year, ani.Season, ani.Type, ani.Format,
-					ani.Publisher, ani.SubStyle, ani.StoreIndex, ani.Space, ani.Gather,
-					ani.View, ani.Rate, ani.CreateTime, ani.UpdateTime, ani.Kana,
-					ani.Episode, ani.Note);
-			}
+				sw.WriteLine(_sout,
+					i++, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+					a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
+					a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
+					a.Episode, a.Inc, a.Note);
+			});
 
 			sw.Close();
 		}
@@ -702,6 +748,7 @@ namespace AnimeTrim
 			if (af.ShowDialog(this) == DialogResult.OK)
 			{
 				Anime a = af.GetAnime();
+				a.ID = _ai.Uid++;
 				_ai.Space += a.Space;
 				_ai.Total++;
 				_ai.IsSaved = false;
@@ -729,14 +776,15 @@ namespace AnimeTrim
 			if (a == null)
 				return;
 
-			ModForm mf = new ModForm(a);
+			long ls = a.Space;
+			ModForm mf = new ModForm(ref a);
 			mf.StartPosition = FormStartPosition.CenterParent;
 			mf.MaximizeBox = false;
 
 			if (mf.ShowDialog(this) == DialogResult.OK)
 			{
-				_ai.Space -= a.Space;
-				a.eCopy(mf.GetAnime());
+				_ai.Space -= ls;
+				//a.EditCopy(mf.GetAnime());
 				_ai.Space += a.Space;
 				_ai.IsSaved = false;
 
@@ -758,7 +806,7 @@ namespace AnimeTrim
 				return;
 			else
 			{
-				_aCopy = new Anime(a);
+				_aCopy = new Anime(a, _ai.Uid++);
 				this.btnPaste.Enabled = true;
 			}
 		}
