@@ -47,6 +47,8 @@
 			this.lblMatchTitle = new System.Windows.Forms.Label();
 			this.lblMatchYear = new System.Windows.Forms.Label();
 			this.lblMatchStoreIndex = new System.Windows.Forms.Label();
+			this.tbInc = new System.Windows.Forms.TextBox();
+			this.lblInc = new System.Windows.Forms.Label();
 			this.gbNote.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -59,7 +61,7 @@
 			// 
 			// btnOK
 			// 
-			this.btnOK.Location = new System.Drawing.Point(456, 207);
+			this.btnOK.Location = new System.Drawing.Point(456, 234);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
 			this.btnOK.TabIndex = 8;
@@ -70,7 +72,7 @@
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(537, 207);
+			this.btnCancel.Location = new System.Drawing.Point(537, 234);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 9;
@@ -79,7 +81,7 @@
 			// 
 			// btnBrowser
 			// 
-			this.btnBrowser.Location = new System.Drawing.Point(395, 63);
+			this.btnBrowser.Location = new System.Drawing.Point(395, 90);
 			this.btnBrowser.Name = "btnBrowser";
 			this.btnBrowser.Size = new System.Drawing.Size(75, 23);
 			this.btnBrowser.TabIndex = 6;
@@ -88,7 +90,7 @@
 			// 
 			// tbStoreIndex
 			// 
-			this.tbStoreIndex.Location = new System.Drawing.Point(89, 65);
+			this.tbStoreIndex.Location = new System.Drawing.Point(89, 92);
 			this.tbStoreIndex.Name = "tbStoreIndex";
 			this.tbStoreIndex.Size = new System.Drawing.Size(300, 21);
 			this.tbStoreIndex.TabIndex = 5;
@@ -145,7 +147,7 @@
 			// gbNote
 			// 
 			this.gbNote.Controls.Add(this.rtbNote);
-			this.gbNote.Location = new System.Drawing.Point(12, 92);
+			this.gbNote.Location = new System.Drawing.Point(12, 119);
 			this.gbNote.Name = "gbNote";
 			this.gbNote.Size = new System.Drawing.Size(600, 109);
 			this.gbNote.TabIndex = 7;
@@ -166,7 +168,7 @@
 			// lblStoreIndex
 			// 
 			this.lblStoreIndex.AutoSize = true;
-			this.lblStoreIndex.Location = new System.Drawing.Point(12, 68);
+			this.lblStoreIndex.Location = new System.Drawing.Point(12, 95);
 			this.lblStoreIndex.Name = "lblStoreIndex";
 			this.lblStoreIndex.Size = new System.Drawing.Size(65, 12);
 			this.lblStoreIndex.TabIndex = 14;
@@ -235,13 +237,31 @@
 			this.lblMatchStoreIndex.TabIndex = 17;
 			this.lblMatchStoreIndex.Text = "label3";
 			// 
+			// tbInc
+			// 
+			this.tbInc.Location = new System.Drawing.Point(89, 65);
+			this.tbInc.Name = "tbInc";
+			this.tbInc.Size = new System.Drawing.Size(180, 21);
+			this.tbInc.TabIndex = 18;
+			// 
+			// lblInc
+			// 
+			this.lblInc.AutoSize = true;
+			this.lblInc.Location = new System.Drawing.Point(12, 68);
+			this.lblInc.Name = "lblInc";
+			this.lblInc.Size = new System.Drawing.Size(23, 12);
+			this.lblInc.TabIndex = 19;
+			this.lblInc.Text = "Inc";
+			// 
 			// ModForm
 			// 
 			this.AcceptButton = this.btnOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(624, 242);
+			this.ClientSize = new System.Drawing.Size(624, 269);
+			this.Controls.Add(this.tbInc);
+			this.Controls.Add(this.lblInc);
 			this.Controls.Add(this.lblMatchStoreIndex);
 			this.Controls.Add(this.lblMatchYear);
 			this.Controls.Add(this.lblMatchTitle);
@@ -289,5 +309,7 @@
 		private System.Windows.Forms.Label lblMatchTitle;
 		private System.Windows.Forms.Label lblMatchYear;
 		private System.Windows.Forms.Label lblMatchStoreIndex;
+		private System.Windows.Forms.TextBox tbInc;
+		private System.Windows.Forms.Label lblInc;
 	}
 }

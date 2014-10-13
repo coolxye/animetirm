@@ -67,6 +67,7 @@ namespace AnimeTrim
 			this.tbTitle.Text = a.Title;
 			this.tbKana.Text = a.Kana;
 			this.tbEpisode.Text = a.Episode;
+			this.tbInc.Text = a.Inc;
 
 			this.cboYear.Text = a.Year.ToString("0000");
 			this.cboSeason.Text = a.Season;
@@ -168,6 +169,7 @@ namespace AnimeTrim
 			_anime.UpdateTime = DateTime.Now;
 			_anime.Kana = this.tbKana.Text;
 			_anime.Episode = this.tbEpisode.Text;
+			_anime.Inc = this.tbInc.Text;
 			_anime.Note = this.rtbNote.Text.Replace('\n', '\u0002');
 
 			this.DialogResult = DialogResult.OK;
