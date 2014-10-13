@@ -7,7 +7,7 @@
  * Change log:
  * 2010-09-22   JPP  - Initial version
  *
- * Copyright (C) 2006-2012 Phillip Piper
+ * Copyright (C) 2006-2014 Phillip Piper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,20 @@ namespace BrightIdeasSoftware
     public class FastDataListView : FastObjectListView
     {
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets whether or not columns will be automatically generated to show the
+        /// columns when the DataSource is set. 
+        /// </summary>
+        /// <remarks>This must be set before the DataSource is set. It has no effect afterwards.</remarks>
+        [Category("Data"),
+         Description("Should the control automatically generate columns from the DataSource"),
+         DefaultValue(true)]
+        public bool AutoGenerateColumns
+        {
+            get { return this.Adapter.AutoGenerateColumns; }
+            set { this.Adapter.AutoGenerateColumns = value; }
+        }
 
         /// <summary>
         /// Get or set the VirtualListDataSource that will be displayed in this list view.

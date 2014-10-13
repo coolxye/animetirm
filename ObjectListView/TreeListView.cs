@@ -5,6 +5,12 @@
  * Date: 23/09/2008 11:15 AM
  *
  * Change log:
+ * 2014-10-08  JPP  - Fixed an issue where pre-expanded branches would not initially expand properly
+ * 2014-09-29  JPP  - Fixed issue where RefreshObject() on a root object could cause exceptions
+ *                  - Fixed issue where CollapseAll() while filtering could cause exception
+ * 2014-03-09  JPP  - Fixed bug where removing a branches only child and then calling RefreshObject()
+ *                    could throw an exception.
+ * v2.7
  * 2014-02-23  JPP  - Added Reveal() method to show a deeply nested models.
  * 2014-02-05  JPP  - Fix bug where refreshing a non-root item would collapse all expanded children of that item
  * 2014-02-01  JPP  - ClearObjects() now actually, you know, clears objects :)
@@ -88,7 +94,7 @@
  *
  * TO DO:
  * 
- * Copyright (C) 2006-2013 Phillip Piper
+ * Copyright (C) 2006-2014 Phillip Piper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -111,7 +117,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
@@ -180,6 +185,7 @@ namespace BrightIdeasSoftware
 
             // This improves hit detection even if we don't have any state image
             this.SmallImageList = new ImageList();
+           // this.StateImageList.ImageSize = new Size(6, 6);
         }
 
         //------------------------------------------------------------------------------------------
@@ -504,7 +510,7 @@ namespace BrightIdeasSoftware
                 this.UpdateVirtualListSize();
                 this.SelectedObjects = selection;
                 if (index < this.GetItemCount())
-                    this.RedrawItems(index, this.GetItemCount() - 1, false);
+                    this.RedrawItems(index, this.GetItemCount() - 1, true);
                 this.OnCollapsed(new TreeBranchCollapsedEventArgs(model, item));
             }
         }
@@ -526,7 +532,8 @@ namespace BrightIdeasSoftware
             if (index >= 0) {
                 this.UpdateVirtualListSize();
                 this.SelectedObjects = selection;
-                this.RedrawItems(index, this.GetItemCount() - 1, false);
+                if (index < this.GetItemCount())
+                    this.RedrawItems(index, this.GetItemCount() - 1, true);
                 this.OnCollapsed(new TreeBranchCollapsedEventArgs(null, null));
             }
         }
@@ -581,7 +588,7 @@ namespace BrightIdeasSoftware
                 this.SelectedObjects = selection;
 
             // Redraw the items that were changed by the expand operation
-            this.RedrawItems(index, this.GetItemCount() - 1, false);
+            this.RedrawItems(index, this.GetItemCount() - 1, true);
 
             this.OnExpanded(new TreeBranchExpandedEventArgs(model, item));
 
@@ -628,7 +635,7 @@ namespace BrightIdeasSoftware
             this.UpdateVirtualListSize();
             using (this.SuspendSelectionEventsDuring())
                 this.SelectedObjects = selection;
-            this.RedrawItems(index, this.GetItemCount() - 1, false);
+            this.RedrawItems(index, this.GetItemCount() - 1, true);
             this.OnExpanded(new TreeBranchExpandedEventArgs(null, null));
         }
 
@@ -715,7 +722,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         public override void RefreshObjects(IList modelObjects) {
             if (this.InvokeRequired) {
-                this.Invoke((MethodInvoker)delegate { this.RefreshObjects(modelObjects); });
+                this.Invoke((MethodInvoker) delegate { this.RefreshObjects(modelObjects); });
                 return;
             }
             // There is no point in refreshing anything if the list is empty
@@ -732,18 +739,29 @@ namespace BrightIdeasSoftware
             foreach (Object model in modelObjects) {
                 if (model == null)
                     continue;
+                modelsAndParents[model] = true;
                 object parent = GetParent(model);
                 if (parent == null) {
                     updatedRoots.Add(model);
                 } else {
-                    modelsAndParents[model] = true;
                     modelsAndParents[parent] = true;
                 }
             }
 
-            // Updates to root level objects are treated like updates on a normal OLV
-            if (updatedRoots.Count > 0)
-                base.RefreshObjects(updatedRoots);
+            // Update any changed roots
+            if (updatedRoots.Count > 0) {
+                ArrayList newRoots = ObjectListView.EnumerableToArray(this.Roots, false);
+                bool changed = false;
+                foreach (Object model in updatedRoots) {
+                    int index = newRoots.IndexOf(model);
+                    if (index >= 0 && !ReferenceEquals(newRoots[index], model)) {
+                        newRoots[index] = model;
+                        changed = true;
+                    }
+                }
+                if (changed)
+                    this.Roots = newRoots;
+            }
 
             // Refresh each object, remembering where the first update occured
             int firstChange = Int32.MaxValue;
@@ -764,7 +782,7 @@ namespace BrightIdeasSoftware
             this.SelectedObjects = selection;
 
             // Redraw everything from the first update to the end of the list
-            this.RedrawItems(firstChange, this.GetItemCount() - 1, false);
+            this.RedrawItems(firstChange, this.GetItemCount() - 1, true);
         }
 
         /// <summary>
@@ -817,13 +835,11 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="model"></param>
         public virtual void ToggleExpansion(Object model) {
-            OLVListItem item = this.ModelToItem(model);
-            if (this.IsExpanded(model)) {
+            if (this.IsExpanded(model)) 
                 this.Collapse(model);
-            } else {
+            else 
                 this.Expand(model);
             }
-        }
 
         //------------------------------------------------------------------------------------------
         // Commands - Tree traversal
@@ -1266,12 +1282,9 @@ namespace BrightIdeasSoftware
             /// <summary>
             /// Collapse all branches in this tree
             /// </summary>
-            /// <returns>Return the index of the first root that was not collapsed</returns>
+            /// <returns>Nothing useful</returns>
             public virtual int CollapseAll() {
-                foreach (Branch br in this.trunk.ChildBranches) {
-                    if (br.IsExpanded)
-                        br.Collapse();
-                }
+                this.trunk.CollapseAll();
                 this.RebuildList();
                 return 0;
             }
@@ -1291,8 +1304,9 @@ namespace BrightIdeasSoftware
                     return -1;
 
                 // Remember that the branch is expanded, even if it's currently not visible
-                if (!br.Visible) {
-                    br.Expand();
+                br.Expand();
+                if (!br.Visible)
+                {
                     return -1;
                 }
 
@@ -1331,12 +1345,10 @@ namespace BrightIdeasSoftware
             /// </summary>
             /// <param name="model">The model whose descendent count is to be returned</param>
             /// <returns>The number of visible descendents. 0 if the model doesn't exist or is collapsed</returns>
-            public virtual int GetVisibleDescendentCount(object model) {
+            public virtual int GetVisibleDescendentCount(object model)
+            {
                 Branch br = this.GetBranch(model);
-                if (br == null || !br.IsExpanded)
-                    return 0;
-                else
-                    return br.NumberVisibleDescendents;
+                return br == null || !br.IsExpanded ? 0 : br.NumberVisibleDescendents;
             }
 
             /// <summary>
@@ -1355,10 +1367,14 @@ namespace BrightIdeasSoftware
                 int index = this.GetObjectIndex(model);
                 if (count > 0)
                     this.objectList.RemoveRange(index + 1, count);
-                if (br.CanExpand && br.IsExpanded) {
+
+                // Refresh our knowledge of our children (do this even if CanExpand is false, because
+                // the branch have already collected some children and that information could be stale)
                     br.RefreshChildren();
+
+                // Insert the refreshed children if the branch can expand and is expanded
+                if (br.CanExpand && br.IsExpanded)
                     this.InsertChildren(br, index + 1);
-                }
                 return index;
             }
 
@@ -1374,7 +1390,7 @@ namespace BrightIdeasSoftware
                 // Special case: model == null is the container for the roots. This is always expanded
                 if (model == null)
                     return true;
-                bool isExpanded = false;
+                bool isExpanded;
                 this.mapObjectToExpanded.TryGetValue(model, out isExpanded);
                 return isExpanded;
             }
@@ -1473,13 +1489,13 @@ namespace BrightIdeasSoftware
             /// </summary>
             /// <param name="model"></param>
             /// <returns></returns>
-            public virtual int GetObjectIndex(object model) {
+            public virtual int GetObjectIndex(object model)
+            {
                 int index;
-
                 if (model != null && this.mapObjectToIndex.TryGetValue(model, out index))
                     return index;
-                else
-                    return -1;
+
+                return -1;
             }
 
             /// <summary>
@@ -1592,11 +1608,11 @@ namespace BrightIdeasSoftware
             /// <summary>
             /// 
             /// </summary>
-            /// <param name="modelFilter"></param>
-            /// <param name="listFilter"></param>
-            public void ApplyFilters(IModelFilter modelFilter, IListFilter listFilter) {
-                this.modelFilter = modelFilter;
-                this.listFilter = listFilter;
+            /// <param name="mFilter"></param>
+            /// <param name="lFilter"></param>
+            public void ApplyFilters(IModelFilter mFilter, IListFilter lFilter) {
+                this.modelFilter = mFilter;
+                this.listFilter = lFilter;
                 this.RebuildList();
             }
 
@@ -1631,20 +1647,23 @@ namespace BrightIdeasSoftware
 
             private OLVColumn lastSortColumn;
             private SortOrder lastSortOrder;
-            private Dictionary<Object, Branch> mapObjectToBranch = new Dictionary<object, Branch>();
+            private readonly Dictionary<Object, Branch> mapObjectToBranch = new Dictionary<object, Branch>();
+// ReSharper disable once InconsistentNaming
             internal Dictionary<Object, bool> mapObjectToExpanded = new Dictionary<object, bool>();
-            private Dictionary<Object, int> mapObjectToIndex = new Dictionary<object, int>();
+            private readonly Dictionary<Object, int> mapObjectToIndex = new Dictionary<object, int>();
             private ArrayList objectList = new ArrayList();
-            private TreeListView treeView;
-            private Branch trunk;
+            private readonly TreeListView treeView;
+            private readonly Branch trunk;
 
             /// <summary>
             /// 
             /// </summary>
+// ReSharper disable once InconsistentNaming
             protected IModelFilter modelFilter;
             /// <summary>
             /// 
             /// </summary>
+// ReSharper disable once InconsistentNaming
             protected IListFilter listFilter;
         }
 
@@ -1723,7 +1742,7 @@ namespace BrightIdeasSoftware
                 get {
                     if (this.Tree.CanExpandGetter == null || this.Model == null)
                         return false;
-                    else
+                    
                         return this.Tree.CanExpandGetter(this.Model);
                 }
             }
@@ -1765,13 +1784,13 @@ namespace BrightIdeasSoftware
                 }
             }
 
-            private void AddChild(object model) {
-                Branch br = this.Tree.GetBranch(model);
+            private void AddChild(object childModel) {
+                Branch br = this.Tree.GetBranch(childModel);
                 if (br == null)
-                    br = this.Tree.MakeBranch(this, model);
+                    br = this.Tree.MakeBranch(this, childModel);
                 else {
                     br.ParentBranch = this;
-                    br.Model = model;
+                    br.Model = childModel;
                     br.ClearCachedInfo();
                 }
                 this.ChildBranches.Add(br);
@@ -1862,8 +1881,8 @@ namespace BrightIdeasSoftware
                 get {
                     if (this.ParentBranch == null)
                         return 0;
-                    else
-                        return this.ParentBranch.Level + 1;
+                    
+                    return this.ParentBranch.Level + 1;
                 }
             }
 
@@ -1920,8 +1939,8 @@ namespace BrightIdeasSoftware
                 get {
                     if (this.ParentBranch == null)
                         return true;
-                    else
-                        return this.ParentBranch.IsExpanded && this.ParentBranch.Visible;
+                    
+                    return this.ParentBranch.IsExpanded && this.ParentBranch.Visible;
                 }
             }
 
@@ -1965,6 +1984,19 @@ namespace BrightIdeasSoftware
                 foreach (Branch br in this.ChildBranches) {
                     if (br.CanExpand)
                         br.ExpandAll();
+                }
+            }
+
+            /// <summary>
+            /// Collapse all branches in this tree
+            /// </summary>
+            /// <returns>Nothing useful</returns>
+            public virtual void CollapseAll()
+            {
+                this.Collapse();
+                foreach (Branch br in this.ChildBranches) {
+                    if (br.IsExpanded)
+                        br.CollapseAll();
                 }
             }
 
@@ -2014,8 +2046,10 @@ namespace BrightIdeasSoftware
                     lastBranch = br;
                     br.IsLastChild = false;
                     flatList.Add(br.Model);
-                    if (br.IsExpanded)
+                    if (br.IsExpanded) {
+                        br.FetchChildren(); // make sure we have the branches children
                         br.FlattenOnto(flatList);
+                    }
                 }
                 if (lastBranch != null)
                     lastBranch.IsLastChild = true;
@@ -2025,10 +2059,14 @@ namespace BrightIdeasSoftware
             /// Force a refresh of all children recursively
             /// </summary>
             public virtual void RefreshChildren() {
+                
+                // Forget any previous children. We always do this so that if
+                // IsExpanded or CanExpand have changed, we aren't left with stale information.
+                this.ClearCachedInfo();
+
                 if (!this.IsExpanded || !this.CanExpand) 
                     return;
 
-                this.ClearCachedInfo();
                 this.FetchChildren();
                 foreach (Branch br in this.ChildBranches)
                     br.RefreshChildren();
@@ -2056,7 +2094,7 @@ namespace BrightIdeasSoftware
             //------------------------------------------------------------------------------------------
             // Private instance variables
 
-            private bool alreadyHasChildren = false;
+            private bool alreadyHasChildren;
             private BranchFlags flags;
         }
 
@@ -2083,7 +2121,7 @@ namespace BrightIdeasSoftware
                 return this.actualComparer.Compare(x.Model, y.Model);
             }
 
-            private IComparer actualComparer;
+            private readonly IComparer actualComparer;
         }
 
     }

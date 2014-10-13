@@ -5,9 +5,13 @@
  * Date: 31-March-2011 5:53 pm
  *
  * Change log:
+ * v2.8
+ * 2014-09-27  JPP  - Remove faulty caching of CheckState
+ * 2014-05-06  JPP  - Added OLVListItem.Enabled flag
+ * vOld
  * 2011-03-31  JPP  - Split into its own file
  * 
- * Copyright (C) 2011-2012 Phillip Piper
+ * Copyright (C) 2011-2014 Phillip Piper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -127,40 +131,30 @@ namespace BrightIdeasSoftware {
         public CheckState CheckState {
             get {
                 switch (this.StateImageIndex) {
-                case 0:
-                    return System.Windows.Forms.CheckState.Unchecked;
-                case 1:
-                    return System.Windows.Forms.CheckState.Checked;
-                case 2:
-                    return System.Windows.Forms.CheckState.Indeterminate;
-                default:
-                    return System.Windows.Forms.CheckState.Unchecked;
+                    case 0:
+                        return System.Windows.Forms.CheckState.Unchecked;
+                    case 1:
+                        return System.Windows.Forms.CheckState.Checked;
+                    case 2:
+                        return System.Windows.Forms.CheckState.Indeterminate;
+                    default:
+                        return System.Windows.Forms.CheckState.Unchecked;
                 }
             }
             set {
-                if (this.checkState == value)
-                    return;
-
-                this.checkState = value;
-
-                //THINK: I don't think we need this, since the Checked property just uses StateImageIndex, which we are about to set.
-                //this.Checked = (checkState == CheckState.Checked);
-
-                // We have to specifically set the state image
                 switch (value) {
-                case System.Windows.Forms.CheckState.Unchecked:
-                    this.StateImageIndex = 0;
-                    break;
-                case System.Windows.Forms.CheckState.Checked:
-                    this.StateImageIndex = 1;
-                    break;
-                case System.Windows.Forms.CheckState.Indeterminate:
-                    this.StateImageIndex = 2;
-                    break;
+                    case System.Windows.Forms.CheckState.Unchecked:
+                        this.StateImageIndex = 0;
+                        break;
+                    case System.Windows.Forms.CheckState.Checked:
+                        this.StateImageIndex = 1;
+                        break;
+                    case System.Windows.Forms.CheckState.Indeterminate:
+                        this.StateImageIndex = 2;
+                        break;
                 }
             }
         }
-        private CheckState checkState;
 
         /// <summary>
         /// Gets if this item has any decorations set for it.
@@ -200,6 +194,16 @@ namespace BrightIdeasSoftware {
             }
         }
         private IList<IDecoration> decorations;
+
+        /// <summary>
+        /// Gets whether or not this row can be selected and activated
+        /// </summary>
+        public bool Enabled
+        {
+            get { return this.enabled; }
+            internal set { this.enabled = value; }
+        }
+        private bool enabled;
 
         /// <summary>
         /// Get or set the image that should be shown against this item

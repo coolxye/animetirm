@@ -5,8 +5,6 @@
  * Date: 2009-03-17 5:15 PM
  *
  * Change log:
- * 2011-04-20   JPP  - Rewrote how ModelDropEventArgs.RefreshObjects() works on TreeListViews
- * v2.4.1
  * 2010-08-24   JPP  - Moved AcceptExternal property up to SimpleDragSource.
  * v2.3
  * 2009-09-01   JPP  - Correctly handle case where RefreshObjects() is called for
@@ -22,7 +20,7 @@
  * 2009-04-15   JPP  - Separated DragDrop.cs into DropSink.cs
  * 2009-03-17   JPP  - Initial version
  * 
- * Copyright (C) 2009-2014 Phillip Piper
+ * Copyright (C) 2009-2010 Phillip Piper
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -514,17 +512,6 @@ namespace BrightIdeasSoftware
         }
         private int keyState;
 
-        /// <summary>
-        /// Gets or sets whether the drop sink will automatically use cursors
-        /// based on the drop effect. By default, this is true. If this is
-        /// set to false, you must set the Cursor yourself.
-        /// </summary>
-        public bool UseDefaultCursors {
-            get { return useDefaultCursors; }
-            set { useDefaultCursors = value; }
-        }
-        private bool useDefaultCursors = true;
-
         #endregion
 
         #region Events
@@ -613,7 +600,6 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="args"></param>
         public override void Drop(DragEventArgs args) {
-            this.dropEventArgs.DragEventArgs = args;
             this.TriggerDroppedEvent(args);
             this.timer.Stop();
             this.Cleanup();
@@ -644,7 +630,6 @@ namespace BrightIdeasSoftware
             this.dropEventArgs = new ModelDropEventArgs();
             this.dropEventArgs.DropSink = this;
             this.dropEventArgs.ListView = this.ListView;
-            this.dropEventArgs.DragEventArgs = args;
             this.dropEventArgs.DataObject = args.Data;
             OLVDataObject olvData = args.Data as OLVDataObject;
             if (olvData != null) {
@@ -656,20 +641,11 @@ namespace BrightIdeasSoftware
         }
 
         /// <summary>
-        /// Change the cursor to reflect the current drag operation.
-        /// </summary>
-        /// <param name="args"></param>
-        public override void GiveFeedback(GiveFeedbackEventArgs args) {
-            args.UseDefaultCursors = this.UseDefaultCursors;
-        }
-
-        /// <summary>
         /// The drag is moving over this control.
         /// </summary>
         /// <param name="args"></param>
         public override void Over(DragEventArgs args) {
             //System.Diagnostics.Debug.WriteLine("Over");
-            this.dropEventArgs.DragEventArgs = args;
             this.KeyState = args.KeyState;
             Point pt = this.ListView.PointToClient(new Point(args.X, args.Y));
             args.Effect = this.CalculateDropAction(args, pt);
@@ -844,7 +820,6 @@ namespace BrightIdeasSoftware
         /// <param name="pt"></param>
         /// <returns></returns>
         public virtual DragDropEffects CalculateDropAction(DragEventArgs args, Point pt) {
-
             this.CalculateDropTarget(this.dropEventArgs, pt);
 
             this.dropEventArgs.MouseLocation = pt;
@@ -1231,20 +1206,9 @@ namespace BrightIdeasSoftware
         #region Data Properties
 
         /// <summary>
-        /// Get the original drag-drop event args
-        /// </summary>
-        public DragEventArgs DragEventArgs
-        {
-            get { return this.dragEventArgs; }
-            internal set { this.dragEventArgs = value; }
-        }
-        private DragEventArgs dragEventArgs;
-
-        /// <summary>
         /// Get the data object that is being dragged
         /// </summary>
-        public object DataObject
-        {
+        public object DataObject {
             get { return this.dataObject; }
             internal set { this.dataObject = value; }
         }
@@ -1417,19 +1381,22 @@ namespace BrightIdeasSoftware
         /// Refresh all the objects involved in the operation
         /// </summary>
         public void RefreshObjects() {
-
-            toBeRefreshed.AddRange(this.SourceModels);
             TreeListView tlv = this.SourceListView as TreeListView;
-            if (tlv == null)
+            if (tlv != null) {
+                foreach (object model in this.SourceModels) {
+                    object parent = tlv.GetParent(model);
+                    if (!toBeRefreshed.Contains(parent))
+                        toBeRefreshed.Add(parent);
+                }
+            }
+            toBeRefreshed.AddRange(this.SourceModels);
+            if (this.ListView == this.SourceListView) {
+                toBeRefreshed.Add(this.TargetModel);
+                this.ListView.RefreshObjects(toBeRefreshed);
+            } else {
                 this.SourceListView.RefreshObjects(toBeRefreshed);
-            else
-                tlv.RebuildAll(true);
-
-            TreeListView tlv2 = this.ListView as TreeListView;
-            if (tlv2 == null)
                 this.ListView.RefreshObject(this.TargetModel);
-            else
-                tlv2.RebuildAll(true);
+            }
         }
     }
 }
