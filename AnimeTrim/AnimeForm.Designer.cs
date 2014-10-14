@@ -425,7 +425,7 @@
 			this.btnChange.Name = "btnChange";
 			this.btnChange.Size = new System.Drawing.Size(75, 23);
 			this.btnChange.TabIndex = 10;
-			this.btnChange.Text = "UpFormat";
+			this.btnChange.Text = "Exchange";
 			this.btnChange.UseVisualStyleBackColor = true;
 			this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
 			// 

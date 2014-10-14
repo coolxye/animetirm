@@ -160,7 +160,7 @@ namespace AnimeTrim
 
 			_anime.Title = this.tbTitle.Text;
 			_anime.Name = this.tbName.Text;
-			_anime.Year = UInt32.Parse(this.cboYear.Text);
+			_anime.Year = Int32.Parse(this.cboYear.Text);
 			_anime.Season = this.cboSeason.Text;
 			_anime.Type = (MediaType)Enum.Parse(typeof(MediaType), this.cboType.Text);
 			_anime.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), this.cboFormat.Text);
@@ -170,7 +170,7 @@ namespace AnimeTrim
 			_anime.Space = AnimeSpace.GetSpace(_anime.StoreIndex);
 			_anime.Gather = (this.cboGather.SelectedIndex == 1) ? true : false;
 			_anime.View = (this.cboView.SelectedIndex == 1) ? true : false;
-			_anime.Rate = UInt32.Parse(this.cboRate.Text);
+			_anime.Rate = Int32.Parse(this.cboRate.Text);
 			_anime.CreateTime = DateTime.Now;
 			_anime.UpdateTime = DateTime.Now;
 			_anime.Kana = this.tbKana.Text;

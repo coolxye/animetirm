@@ -24,17 +24,13 @@ namespace AnimeTrim
 
 	public class Anime
 	{
-		// 标识，唯一性
-		public UInt32 ID
-		{ get; set; }
-
 		public String Title
 		{ get; set; }
 
 		public String Name
 		{ get; set; }
 
-		public UInt32 Year
+		public Int32 Year
 		{ get; set; }
 
 		public String Season
@@ -69,7 +65,7 @@ namespace AnimeTrim
 		public Boolean View
 		{ get; set; }
 
-		public UInt32 Rate
+		public Int32 Rate
 		{ get; set; }
 
 		public DateTime CreateTime
@@ -83,9 +79,6 @@ namespace AnimeTrim
 
 		// 动漫话数
 		public String Episode
-		{ get; set; }
-
-		public String Inc
 		{ get; set; }
 
 		public String Note
@@ -111,22 +104,16 @@ namespace AnimeTrim
 		public Anime()
 		{ }
 
-		public Anime(UInt32 id)
+		public Anime(String title)
 		{
-			this.ID = id;
+			this.Title = title;
 		}
 
-		//public Anime(String title)
-		//{
-		//	this.Title = title;
-		//}
-
-		public Anime(UInt32 id, String title, String name, UInt32 year, String season, MediaType type,
+		public Anime(String title, String name, Int32 year, String season, MediaType type,
 			MergeFormat format, String publisher, SubStyles subStyle, String storeIndex,
-			Int64 space, Boolean gather, Boolean view, UInt32 rate, DateTime createTime,
-			DateTime updateTime, String kana, String episode, String inc, String note)
+			Int64 space, Boolean gather, Boolean view, Int32 rate, DateTime createTime,
+			DateTime updateTime, String kana, String episode, String note)
 		{
-			this.ID = id;
 			this.Title = title;
 			this.Name = name;
 			this.Year = year;
@@ -144,13 +131,11 @@ namespace AnimeTrim
 			this.UpdateTime = updateTime;
 			this.Kana = kana;
 			this.Episode = episode;
-			this.Inc = inc;
 			this.Note = note;
 		}
 
-		public Anime(Anime other, UInt32 id)
+		public Anime(Anime other)
 		{
-			this.ID = id;
 			this.Title = other.Title;
 			this.Name = other.Name;
 			this.Year = other.Year;
@@ -168,12 +153,10 @@ namespace AnimeTrim
 			this.UpdateTime = other.UpdateTime;
 			this.Kana = other.Kana;
 			this.Episode = other.Episode;
-			this.Inc = other.Inc;
 			this.Note = other.Note;
 		}
 
-		// TODO: Del
-		public void EditCopy(Anime edit)
+		public void eCopy(Anime edit)
 		{
 			this.Title = edit.Title;
 			this.Year = edit.Year;
@@ -183,7 +166,6 @@ namespace AnimeTrim
 			this.UpdateTime = edit.UpdateTime;
 			this.Kana = edit.Kana;
 			this.Episode = edit.Episode;
-			this.Inc = edit.Inc;
 			this.Note = edit.Note;
 		}
 	}
@@ -200,9 +182,6 @@ namespace AnimeTrim
 		{ get; set; }
 
 		public Int64 Space
-		{ get; set; }
-
-		public UInt32 Uid
 		{ get; set; }
 
 		public Boolean IsNew
