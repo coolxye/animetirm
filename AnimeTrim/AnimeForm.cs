@@ -67,7 +67,7 @@ namespace AnimeTrim
 			this.btnModify.Enabled = false;
 			this.btnCopy.Enabled = false;
 			this.btnPaste.Enabled = false;
-			this.btnRemove.Enabled = false;
+			this.btnDel.Enabled = false;
 		}
 
 		// Initalize the path and name of AnimeInfo from a xml
@@ -336,7 +336,7 @@ namespace AnimeTrim
 			this.btnSave.Enabled = false;
 			this.btnModify.Enabled = false;
 			this.btnCopy.Enabled = false;
-			this.btnRemove.Enabled = false;
+			this.btnDel.Enabled = false;
 
 			// StatusStrip reset
 			this.tsslSelected.Text = "Selected: ";
@@ -408,7 +408,7 @@ namespace AnimeTrim
 				this.rtbAnime.Text = a.Remarks();
 				this.btnModify.Enabled = true;
 				this.btnCopy.Enabled = true;
-				this.btnRemove.Enabled = true;
+				this.btnDel.Enabled = true;
 			}
 			else
 			{
@@ -425,7 +425,7 @@ namespace AnimeTrim
 				this.rtbAnime.ResetText();
 				this.btnModify.Enabled = false;
 				this.btnCopy.Enabled = false;
-				this.btnRemove.Enabled = false;
+				this.btnDel.Enabled = false;
 			}
 		}
 
