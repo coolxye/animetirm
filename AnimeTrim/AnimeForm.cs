@@ -194,30 +194,68 @@ namespace AnimeTrim
 			// Type of Anime
 			tc = new TypedColumn<Anime>(this.olvColType);
 			tc.AspectPutter = delegate(Anime a, object opt) { a.Type = (MediaType)opt; };
+			tc.ImageGetter = delegate(Anime a) {
+				switch (a.Format)
+				{ 
+					case MergeFormat.MKV:
+						return Properties.Resources.MKV;
+
+					case MergeFormat.MP4:
+						return Properties.Resources.MP4;
+
+					case MergeFormat.AVI:
+						return Properties.Resources.AVI;
+
+					case MergeFormat.WMV:
+						return Properties.Resources.WMV;
+
+					case MergeFormat.M2TS:
+						return Properties.Resources.M2TS;
+
+					default:
+						return -1;
+				}
+			};
 
 			// Format of Anime
-			this.olvColFormat.Renderer = new MappedImageRenderer(new object[] {
-				MergeFormat.MKV, Properties.Resources.MKV,
-				MergeFormat.MP4, Properties.Resources.MP4,
-				MergeFormat.AVI, Properties.Resources.AVI,
-				MergeFormat.WMV, Properties.Resources.WMV,
-				MergeFormat.M2TS, Properties.Resources.M2TS
-			});
-			tc = new TypedColumn<Anime>(this.olvColFormat);
-			tc.AspectPutter = delegate(Anime a, object opf) { a.Format = (MergeFormat)opf; };
+			//this.olvColFormat.Renderer = new MappedImageRenderer(new object[] {
+			//	MergeFormat.MKV, Properties.Resources.MKV,
+			//	MergeFormat.MP4, Properties.Resources.MP4,
+			//	MergeFormat.AVI, Properties.Resources.AVI,
+			//	MergeFormat.WMV, Properties.Resources.WMV,
+			//	MergeFormat.M2TS, Properties.Resources.M2TS
+			//});
+			//tc = new TypedColumn<Anime>(this.olvColFormat);
+			//tc.AspectPutter = delegate(Anime a, object opf) { a.Format = (MergeFormat)opf; };
 
 			// Publisher of Anime
 			tc = new TypedColumn<Anime>(this.olvColPublisher);
 			tc.AspectPutter = delegate(Anime a, object opp) { a.Publisher = opp.ToString(); };
+			tc.ImageGetter = delegate(Anime a) {
+				switch (a.SubStyle)
+				{ 
+					case SubStyles.External:
+						return Properties.Resources.External;
+					
+					case SubStyles.Sealed:
+						return Properties.Resources.Sealed;
+
+					case SubStyles.Embedded:
+						return Properties.Resources.Embedded;
+
+					default:
+						return -1;
+				}
+			};
 
 			// SubStyle of Anime
-			this.olvColSubStyle.Renderer = new MappedImageRenderer(new object[] {
-				SubStyles.External, Properties.Resources.External,
-				SubStyles.Sealed, Properties.Resources.Sealed,
-				SubStyles.Embedded, Properties.Resources.Embedded
-			});
-			tc = new TypedColumn<Anime>(this.olvColSubStyle);
-			tc.AspectPutter = delegate(Anime a, object ops) { a.SubStyle = (SubStyles)ops; };
+			//this.olvColSubStyle.Renderer = new MappedImageRenderer(new object[] {
+			//	SubStyles.External, Properties.Resources.External,
+			//	SubStyles.Sealed, Properties.Resources.Sealed,
+			//	SubStyles.Embedded, Properties.Resources.Embedded
+			//});
+			//tc = new TypedColumn<Anime>(this.olvColSubStyle);
+			//tc.AspectPutter = delegate(Anime a, object ops) { a.SubStyle = (SubStyles)ops; };
 
 			// Space of Anime
 			this.olvColSpace.AspectToStringConverter = delegate(object ots)
