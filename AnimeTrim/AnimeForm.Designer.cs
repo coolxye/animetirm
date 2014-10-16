@@ -71,6 +71,7 @@
 			this.tsSepForGroup = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
+			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
 			this.tctlAnime.SuspendLayout();
 			this.tpAnime.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).BeginInit();
@@ -121,7 +122,7 @@
 			this.folvAnime.AllColumns.Add(this.olvColNote);
 			this.folvAnime.AllowColumnReorder = true;
 			this.folvAnime.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.folvAnime.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClick;
+			this.folvAnime.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
 			this.folvAnime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColTitle,
             this.olvColName,
@@ -165,7 +166,6 @@
 			// olvColTitle
 			// 
 			this.olvColTitle.AspectName = "Title";
-			this.olvColTitle.CellPadding = null;
 			this.olvColTitle.MinimumWidth = 130;
 			this.olvColTitle.Text = "Title";
 			this.olvColTitle.UseInitialLetterForGroup = true;
@@ -174,7 +174,6 @@
 			// olvColName
 			// 
 			this.olvColName.AspectName = "Name";
-			this.olvColName.CellPadding = null;
 			this.olvColName.MinimumWidth = 120;
 			this.olvColName.Text = "Name";
 			this.olvColName.UseInitialLetterForGroup = true;
@@ -183,7 +182,6 @@
 			// olvColReleaseDate
 			// 
 			this.olvColReleaseDate.AspectName = "ReleaseDate";
-			this.olvColReleaseDate.CellPadding = null;
 			this.olvColReleaseDate.IsEditable = false;
 			this.olvColReleaseDate.MinimumWidth = 80;
 			this.olvColReleaseDate.Text = "Schedule";
@@ -192,14 +190,12 @@
 			// olvColType
 			// 
 			this.olvColType.AspectName = "Type";
-			this.olvColType.CellPadding = null;
 			this.olvColType.MinimumWidth = 60;
 			this.olvColType.Text = "Type";
 			// 
 			// olvColPublisher
 			// 
 			this.olvColPublisher.AspectName = "Publisher";
-			this.olvColPublisher.CellPadding = null;
 			this.olvColPublisher.MinimumWidth = 100;
 			this.olvColPublisher.Text = "Subtitle";
 			this.olvColPublisher.Width = 100;
@@ -207,7 +203,6 @@
 			// olvColStoreIndex
 			// 
 			this.olvColStoreIndex.AspectName = "StoreIndex";
-			this.olvColStoreIndex.CellPadding = null;
 			this.olvColStoreIndex.Hyperlink = true;
 			this.olvColStoreIndex.IsEditable = false;
 			this.olvColStoreIndex.MinimumWidth = 100;
@@ -217,7 +212,6 @@
 			// olvColSpace
 			// 
 			this.olvColSpace.AspectName = "Space";
-			this.olvColSpace.CellPadding = null;
 			this.olvColSpace.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.olvColSpace.IsEditable = false;
 			this.olvColSpace.MinimumWidth = 60;
@@ -227,7 +221,6 @@
 			// olvColGather
 			// 
 			this.olvColGather.AspectName = "Gather";
-			this.olvColGather.CellPadding = null;
 			this.olvColGather.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.olvColGather.MinimumWidth = 45;
 			this.olvColGather.Text = "Store";
@@ -237,7 +230,6 @@
 			// olvColView
 			// 
 			this.olvColView.AspectName = "View";
-			this.olvColView.CellPadding = null;
 			this.olvColView.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.olvColView.MinimumWidth = 45;
 			this.olvColView.Text = "Enjoy";
@@ -247,7 +239,6 @@
 			// olvColRate
 			// 
 			this.olvColRate.AspectName = "Rate";
-			this.olvColRate.CellPadding = null;
 			this.olvColRate.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.olvColRate.MinimumWidth = 60;
 			this.olvColRate.Text = "Grade";
@@ -256,7 +247,6 @@
 			// olvColNote
 			// 
 			this.olvColNote.AspectName = "Note";
-			this.olvColNote.CellPadding = null;
 			this.olvColNote.IsEditable = false;
 			this.olvColNote.MinimumWidth = 200;
 			this.olvColNote.Text = "Note";
@@ -272,7 +262,7 @@
 			this.tpMusic.Location = new System.Drawing.Point(4, 22);
 			this.tpMusic.Name = "tpMusic";
 			this.tpMusic.Padding = new System.Windows.Forms.Padding(3);
-			this.tpMusic.Size = new System.Drawing.Size(852, 302);
+			this.tpMusic.Size = new System.Drawing.Size(860, 305);
 			this.tpMusic.TabIndex = 1;
 			this.tpMusic.Text = "Music";
 			this.tpMusic.UseVisualStyleBackColor = true;
@@ -324,7 +314,7 @@
 			// 
 			this.tsslSelected.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.tsslSelected.Name = "tsslSelected";
-			this.tsslSelected.Size = new System.Drawing.Size(369, 21);
+			this.tsslSelected.Size = new System.Drawing.Size(373, 21);
 			this.tsslSelected.Spring = true;
 			this.tsslSelected.Text = "Selected: ";
 			// 
@@ -332,7 +322,7 @@
 			// 
 			this.tsslSelSpace.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.tsslSelSpace.Name = "tsslSelSpace";
-			this.tsslSelSpace.Size = new System.Drawing.Size(369, 21);
+			this.tsslSelSpace.Size = new System.Drawing.Size(373, 21);
 			this.tsslSelSpace.Spring = true;
 			this.tsslSelSpace.Text = "Selected Space: ";
 			// 
@@ -362,7 +352,8 @@
             this.btnPaste,
             this.btnDel,
             this.tsSepForEdit,
-            this.tssBtnMore});
+            this.tssBtnMore,
+            this.tsBtnDuplicate});
 			this.tsMain.Location = new System.Drawing.Point(0, 0);
 			this.tsMain.Name = "tsMain";
 			this.tsMain.Size = new System.Drawing.Size(892, 25);
@@ -432,7 +423,6 @@
 			this.btnCopy.Name = "btnCopy";
 			this.btnCopy.Size = new System.Drawing.Size(23, 22);
 			this.btnCopy.Text = "Copy";
-			this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
 			// 
 			// btnPaste
 			// 
@@ -442,7 +432,6 @@
 			this.btnPaste.Name = "btnPaste";
 			this.btnPaste.Size = new System.Drawing.Size(23, 22);
 			this.btnPaste.Text = "Paste";
-			this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
 			// 
 			// btnDel
 			// 
@@ -474,14 +463,14 @@
 			// tsMenItmFormat
 			// 
 			this.tsMenItmFormat.Name = "tsMenItmFormat";
-			this.tsMenItmFormat.Size = new System.Drawing.Size(119, 22);
+			this.tsMenItmFormat.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmFormat.Text = "Format";
 			this.tsMenItmFormat.Click += new System.EventHandler(this.btnChange_Click);
 			// 
 			// tsMenItmBackup
 			// 
 			this.tsMenItmBackup.Name = "tsMenItmBackup";
-			this.tsMenItmBackup.Size = new System.Drawing.Size(119, 22);
+			this.tsMenItmBackup.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmBackup.Text = "Backup";
 			// 
 			// tsMore
@@ -528,6 +517,16 @@
 			this.tbFilter.Name = "tbFilter";
 			this.tbFilter.Size = new System.Drawing.Size(120, 25);
 			this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
+			// 
+			// tsBtnDuplicate
+			// 
+			this.tsBtnDuplicate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnDuplicate.Image")));
+			this.tsBtnDuplicate.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnDuplicate.Name = "tsBtnDuplicate";
+			this.tsBtnDuplicate.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnDuplicate.Text = "Duplicate";
+			this.tsBtnDuplicate.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
 			// 
 			// AnimeForm
 			// 
@@ -604,6 +603,7 @@
 		private System.Windows.Forms.ToolStripSeparator tsSepForGroup;
 		private System.Windows.Forms.ToolStripComboBox cboFilter;
 		private System.Windows.Forms.ToolStripTextBox tbFilter;
+		private System.Windows.Forms.ToolStripButton tsBtnDuplicate;
 
 	}
 }

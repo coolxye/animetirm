@@ -242,15 +242,15 @@ namespace AnimeTrim
 			};
 
 			// Format of Anime
-			this.olvColFormat.Renderer = new MappedImageRenderer(new object[] {
-				MergeFormat.MKV, Properties.Resources.MKV,
-				MergeFormat.MP4, Properties.Resources.MP4,
-				MergeFormat.AVI, Properties.Resources.AVI,
-				MergeFormat.WMV, Properties.Resources.WMV,
-				MergeFormat.M2TS, Properties.Resources.M2TS
-			});
-			tc = new TypedColumn<Anime>(this.olvColFormat);
-			tc.AspectPutter = delegate(Anime a, object opf) { a.Format = (MergeFormat)opf; };
+			//this.olvColFormat.Renderer = new MappedImageRenderer(new object[] {
+			//	MergeFormat.MKV, Properties.Resources.MKV,
+			//	MergeFormat.MP4, Properties.Resources.MP4,
+			//	MergeFormat.AVI, Properties.Resources.AVI,
+			//	MergeFormat.WMV, Properties.Resources.WMV,
+			//	MergeFormat.M2TS, Properties.Resources.M2TS
+			//});
+			//tc = new TypedColumn<Anime>(this.olvColFormat);
+			//tc.AspectPutter = delegate(Anime a, object opf) { a.Format = (MergeFormat)opf; };
 
 			// Publisher of Anime
 			tc = new TypedColumn<Anime>(this.olvColPublisher);
@@ -834,36 +834,62 @@ namespace AnimeTrim
 			}
 		}
 
-		private Anime _aCopy;
+		#region Copy + Paste = Duplicate
+		//private Anime _aCopy;
 
-		private void btnCopy_Click(object sender, EventArgs e)
+		//private void btnCopy_Click(object sender, EventArgs e)
+		//{
+		//	Anime a = this.folvAnime.SelectedObject as Anime;
+
+		//	if (a == null)
+		//		return;
+		//	else
+		//	{
+		//		_aCopy = new Anime(a, _ai.Uid++);
+		//		this.btnPaste.Enabled = true;
+		//	}
+		//}
+
+		//private void btnPaste_Click(object sender, EventArgs e)
+		//{
+		//	_ai.Space += _aCopy.Space;
+		//	_ai.Total++;
+		//	_ai.IsSaved = false;
+		//	_lani.Add(_aCopy);
+
+		//	this.folvAnime.AddObject(_aCopy);
+		//	this.folvAnime.SelectedObject = _aCopy;
+		//	this.folvAnime.SelectedItem.EnsureVisible();
+		//	// TODO: 需修正工具栏
+		//	this.folvAnime.Focus();
+		//	this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+		//	this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+		//	this.btnSave.Enabled = true;
+		//}
+		#endregion
+
+		private void tsBtnDuplicate_Click(object sender, EventArgs e)
 		{
-			Anime a = this.folvAnime.SelectedObject as Anime;
+			Anime aCopy = null;
 
-			if (a == null)
-				return;
-			else
+			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
-				_aCopy = new Anime(a, _ai.Uid++);
-				this.btnPaste.Enabled = true;
+				aCopy = new Anime(a, _ai.Uid++);
+				_ai.Space += aCopy.Space;
+				_ai.Total++;
+				_lani.Add(aCopy);
+
+				this.folvAnime.AddObject(aCopy);
 			}
-		}
 
-		private void btnPaste_Click(object sender, EventArgs e)
-		{
-			_ai.Space += _aCopy.Space;
-			_ai.Total++;
-			_ai.IsSaved = false;
-			_lani.Add(_aCopy);
+			if (aCopy != null)
+			{
+				_ai.IsSaved = false;
 
-			this.folvAnime.AddObject(_aCopy);
-			this.folvAnime.SelectedObject = _aCopy;
-			this.folvAnime.SelectedItem.EnsureVisible();
-			// TODO: 需修正工具栏
-			this.folvAnime.Focus();
-			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-			this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-			this.btnSave.Enabled = true;
+				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+				this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+				this.btnSave.Enabled = true;
+			}
 		}
 
 		private void btnRemove_Click(object sender, EventArgs e)

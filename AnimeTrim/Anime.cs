@@ -42,7 +42,7 @@ namespace AnimeTrim
 
 		public String ReleaseDate()
 		{
-			return String.Format("{0}.{1}", Year, Season);
+			return String.Format("{0} {1}", Year, Season);
 		}
 
 		public MediaType Type
