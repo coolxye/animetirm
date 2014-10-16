@@ -49,6 +49,10 @@
 			this.lblMatchStoreIndex = new System.Windows.Forms.Label();
 			this.tbInc = new System.Windows.Forms.TextBox();
 			this.lblInc = new System.Windows.Forms.Label();
+			this.cboFormat = new System.Windows.Forms.ComboBox();
+			this.lblMergeFormat = new System.Windows.Forms.Label();
+			this.cboSubStyle = new System.Windows.Forms.ComboBox();
+			this.lblSubStyle = new System.Windows.Forms.Label();
 			this.gbNote.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -61,7 +65,7 @@
 			// 
 			// btnOK
 			// 
-			this.btnOK.Location = new System.Drawing.Point(456, 234);
+			this.btnOK.Location = new System.Drawing.Point(456, 235);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
 			this.btnOK.TabIndex = 8;
@@ -72,7 +76,7 @@
 			// btnCancel
 			// 
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(537, 234);
+			this.btnCancel.Location = new System.Drawing.Point(537, 235);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 9;
@@ -81,7 +85,7 @@
 			// 
 			// btnBrowser
 			// 
-			this.btnBrowser.Location = new System.Drawing.Point(395, 90);
+			this.btnBrowser.Location = new System.Drawing.Point(359, 91);
 			this.btnBrowser.Name = "btnBrowser";
 			this.btnBrowser.Size = new System.Drawing.Size(75, 23);
 			this.btnBrowser.TabIndex = 6;
@@ -90,7 +94,7 @@
 			// 
 			// tbStoreIndex
 			// 
-			this.tbStoreIndex.Location = new System.Drawing.Point(89, 92);
+			this.tbStoreIndex.Location = new System.Drawing.Point(53, 92);
 			this.tbStoreIndex.Name = "tbStoreIndex";
 			this.tbStoreIndex.Size = new System.Drawing.Size(300, 21);
 			this.tbStoreIndex.TabIndex = 5;
@@ -105,7 +109,7 @@
             "Spring",
             "Summer",
             "Fall"});
-			this.cboSeason.Location = new System.Drawing.Point(145, 39);
+			this.cboSeason.Location = new System.Drawing.Point(128, 66);
 			this.cboSeason.Name = "cboSeason";
 			this.cboSeason.Size = new System.Drawing.Size(65, 20);
 			this.cboSeason.TabIndex = 3;
@@ -123,7 +127,7 @@
             "2010",
             "2011",
             "2012"});
-			this.cboYear.Location = new System.Drawing.Point(89, 39);
+			this.cboYear.Location = new System.Drawing.Point(72, 66);
 			this.cboYear.Name = "cboYear";
 			this.cboYear.Size = new System.Drawing.Size(50, 20);
 			this.cboYear.TabIndex = 2;
@@ -147,7 +151,7 @@
 			// gbNote
 			// 
 			this.gbNote.Controls.Add(this.rtbNote);
-			this.gbNote.Location = new System.Drawing.Point(12, 119);
+			this.gbNote.Location = new System.Drawing.Point(12, 120);
 			this.gbNote.Name = "gbNote";
 			this.gbNote.Size = new System.Drawing.Size(600, 109);
 			this.gbNote.TabIndex = 7;
@@ -168,20 +172,20 @@
 			// lblStoreIndex
 			// 
 			this.lblStoreIndex.AutoSize = true;
-			this.lblStoreIndex.Location = new System.Drawing.Point(12, 95);
+			this.lblStoreIndex.Location = new System.Drawing.Point(13, 95);
 			this.lblStoreIndex.Name = "lblStoreIndex";
-			this.lblStoreIndex.Size = new System.Drawing.Size(65, 12);
+			this.lblStoreIndex.Size = new System.Drawing.Size(29, 12);
 			this.lblStoreIndex.TabIndex = 14;
-			this.lblStoreIndex.Text = "StoreIndex";
+			this.lblStoreIndex.Text = "Path";
 			// 
 			// lblReleaseDate
 			// 
 			this.lblReleaseDate.AutoSize = true;
-			this.lblReleaseDate.Location = new System.Drawing.Point(12, 42);
+			this.lblReleaseDate.Location = new System.Drawing.Point(13, 69);
 			this.lblReleaseDate.Name = "lblReleaseDate";
-			this.lblReleaseDate.Size = new System.Drawing.Size(71, 12);
+			this.lblReleaseDate.Size = new System.Drawing.Size(53, 12);
 			this.lblReleaseDate.TabIndex = 12;
-			this.lblReleaseDate.Text = "ReleaseDate";
+			this.lblReleaseDate.Text = "Schedule";
 			// 
 			// lblKana
 			// 
@@ -213,7 +217,7 @@
 			// lblMatchTitle
 			// 
 			this.lblMatchTitle.AutoSize = true;
-			this.lblMatchTitle.Location = new System.Drawing.Point(490, 39);
+			this.lblMatchTitle.Location = new System.Drawing.Point(538, 66);
 			this.lblMatchTitle.Name = "lblMatchTitle";
 			this.lblMatchTitle.Size = new System.Drawing.Size(41, 12);
 			this.lblMatchTitle.TabIndex = 15;
@@ -222,7 +226,7 @@
 			// lblMatchYear
 			// 
 			this.lblMatchYear.AutoSize = true;
-			this.lblMatchYear.Location = new System.Drawing.Point(490, 55);
+			this.lblMatchYear.Location = new System.Drawing.Point(538, 82);
 			this.lblMatchYear.Name = "lblMatchYear";
 			this.lblMatchYear.Size = new System.Drawing.Size(41, 12);
 			this.lblMatchYear.TabIndex = 16;
@@ -231,7 +235,7 @@
 			// lblMatchStoreIndex
 			// 
 			this.lblMatchStoreIndex.AutoSize = true;
-			this.lblMatchStoreIndex.Location = new System.Drawing.Point(490, 71);
+			this.lblMatchStoreIndex.Location = new System.Drawing.Point(538, 98);
 			this.lblMatchStoreIndex.Name = "lblMatchStoreIndex";
 			this.lblMatchStoreIndex.Size = new System.Drawing.Size(41, 12);
 			this.lblMatchStoreIndex.TabIndex = 17;
@@ -239,7 +243,7 @@
 			// 
 			// tbInc
 			// 
-			this.tbInc.Location = new System.Drawing.Point(89, 65);
+			this.tbInc.Location = new System.Drawing.Point(53, 39);
 			this.tbInc.Name = "tbInc";
 			this.tbInc.Size = new System.Drawing.Size(180, 21);
 			this.tbInc.TabIndex = 18;
@@ -247,11 +251,57 @@
 			// lblInc
 			// 
 			this.lblInc.AutoSize = true;
-			this.lblInc.Location = new System.Drawing.Point(12, 68);
+			this.lblInc.Location = new System.Drawing.Point(13, 45);
 			this.lblInc.Name = "lblInc";
 			this.lblInc.Size = new System.Drawing.Size(23, 12);
 			this.lblInc.TabIndex = 19;
 			this.lblInc.Text = "Inc";
+			// 
+			// cboFormat
+			// 
+			this.cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboFormat.FormattingEnabled = true;
+			this.cboFormat.Items.AddRange(new object[] {
+            "MKV",
+            "MP4",
+            "AVI",
+            "WMV",
+            "M2TS"});
+			this.cboFormat.Location = new System.Drawing.Point(301, 66);
+			this.cboFormat.Name = "cboFormat";
+			this.cboFormat.Size = new System.Drawing.Size(65, 20);
+			this.cboFormat.TabIndex = 25;
+			// 
+			// lblMergeFormat
+			// 
+			this.lblMergeFormat.AutoSize = true;
+			this.lblMergeFormat.Location = new System.Drawing.Point(224, 69);
+			this.lblMergeFormat.Name = "lblMergeFormat";
+			this.lblMergeFormat.Size = new System.Drawing.Size(71, 12);
+			this.lblMergeFormat.TabIndex = 26;
+			this.lblMergeFormat.Text = "MergeFormat";
+			// 
+			// cboSubStyle
+			// 
+			this.cboSubStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboSubStyle.FormattingEnabled = true;
+			this.cboSubStyle.Items.AddRange(new object[] {
+            "External",
+            "Sealed",
+            "Embedded"});
+			this.cboSubStyle.Location = new System.Drawing.Point(452, 66);
+			this.cboSubStyle.Name = "cboSubStyle";
+			this.cboSubStyle.Size = new System.Drawing.Size(80, 20);
+			this.cboSubStyle.TabIndex = 27;
+			// 
+			// lblSubStyle
+			// 
+			this.lblSubStyle.AutoSize = true;
+			this.lblSubStyle.Location = new System.Drawing.Point(393, 69);
+			this.lblSubStyle.Name = "lblSubStyle";
+			this.lblSubStyle.Size = new System.Drawing.Size(53, 12);
+			this.lblSubStyle.TabIndex = 28;
+			this.lblSubStyle.Text = "SubStyle";
 			// 
 			// ModForm
 			// 
@@ -259,7 +309,11 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(624, 269);
+			this.ClientSize = new System.Drawing.Size(624, 270);
+			this.Controls.Add(this.cboSubStyle);
+			this.Controls.Add(this.lblSubStyle);
+			this.Controls.Add(this.cboFormat);
+			this.Controls.Add(this.lblMergeFormat);
 			this.Controls.Add(this.tbInc);
 			this.Controls.Add(this.lblInc);
 			this.Controls.Add(this.lblMatchStoreIndex);
@@ -311,5 +365,9 @@
 		private System.Windows.Forms.Label lblMatchStoreIndex;
 		private System.Windows.Forms.TextBox tbInc;
 		private System.Windows.Forms.Label lblInc;
+		private System.Windows.Forms.ComboBox cboFormat;
+		private System.Windows.Forms.Label lblMergeFormat;
+		private System.Windows.Forms.ComboBox cboSubStyle;
+		private System.Windows.Forms.Label lblSubStyle;
 	}
 }

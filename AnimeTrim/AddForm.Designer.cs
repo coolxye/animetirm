@@ -63,6 +63,8 @@
 			this.lblTitleWarning = new System.Windows.Forms.Label();
 			this.lblYearWarning = new System.Windows.Forms.Label();
 			this.lblStoreIndexWarning = new System.Windows.Forms.Label();
+			this.tbInc = new System.Windows.Forms.TextBox();
+			this.lblInc = new System.Windows.Forms.Label();
 			this.gbNote.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -98,23 +100,23 @@
 			this.lblReleaseDate.AutoSize = true;
 			this.lblReleaseDate.Location = new System.Drawing.Point(12, 69);
 			this.lblReleaseDate.Name = "lblReleaseDate";
-			this.lblReleaseDate.Size = new System.Drawing.Size(71, 12);
+			this.lblReleaseDate.Size = new System.Drawing.Size(53, 12);
 			this.lblReleaseDate.TabIndex = 22;
-			this.lblReleaseDate.Text = "ReleaseDate";
+			this.lblReleaseDate.Text = "Schedule";
 			// 
 			// lblMediaType
 			// 
 			this.lblMediaType.AutoSize = true;
-			this.lblMediaType.Location = new System.Drawing.Point(230, 69);
+			this.lblMediaType.Location = new System.Drawing.Point(12, 96);
 			this.lblMediaType.Name = "lblMediaType";
-			this.lblMediaType.Size = new System.Drawing.Size(59, 12);
+			this.lblMediaType.Size = new System.Drawing.Size(29, 12);
 			this.lblMediaType.TabIndex = 23;
-			this.lblMediaType.Text = "MediaType";
+			this.lblMediaType.Text = "Type";
 			// 
 			// lblMergeFormat
 			// 
 			this.lblMergeFormat.AutoSize = true;
-			this.lblMergeFormat.Location = new System.Drawing.Point(381, 69);
+			this.lblMergeFormat.Location = new System.Drawing.Point(176, 95);
 			this.lblMergeFormat.Name = "lblMergeFormat";
 			this.lblMergeFormat.Size = new System.Drawing.Size(71, 12);
 			this.lblMergeFormat.TabIndex = 24;
@@ -123,16 +125,16 @@
 			// lblPublisher
 			// 
 			this.lblPublisher.AutoSize = true;
-			this.lblPublisher.Location = new System.Drawing.Point(12, 95);
+			this.lblPublisher.Location = new System.Drawing.Point(12, 121);
 			this.lblPublisher.Name = "lblPublisher";
-			this.lblPublisher.Size = new System.Drawing.Size(59, 12);
+			this.lblPublisher.Size = new System.Drawing.Size(47, 12);
 			this.lblPublisher.TabIndex = 25;
-			this.lblPublisher.Text = "Publisher";
+			this.lblPublisher.Text = "SubTeam";
 			// 
 			// lblSubStyle
 			// 
 			this.lblSubStyle.AutoSize = true;
-			this.lblSubStyle.Location = new System.Drawing.Point(230, 95);
+			this.lblSubStyle.Location = new System.Drawing.Point(350, 95);
 			this.lblSubStyle.Name = "lblSubStyle";
 			this.lblSubStyle.Size = new System.Drawing.Size(53, 12);
 			this.lblSubStyle.TabIndex = 26;
@@ -141,38 +143,38 @@
 			// lblGather
 			// 
 			this.lblGather.AutoSize = true;
-			this.lblGather.Location = new System.Drawing.Point(12, 122);
+			this.lblGather.Location = new System.Drawing.Point(212, 121);
 			this.lblGather.Name = "lblGather";
-			this.lblGather.Size = new System.Drawing.Size(41, 12);
+			this.lblGather.Size = new System.Drawing.Size(35, 12);
 			this.lblGather.TabIndex = 27;
-			this.lblGather.Text = "Gather";
+			this.lblGather.Text = "Store";
 			// 
 			// lblView
 			// 
 			this.lblView.AutoSize = true;
-			this.lblView.Location = new System.Drawing.Point(230, 122);
+			this.lblView.Location = new System.Drawing.Point(350, 121);
 			this.lblView.Name = "lblView";
-			this.lblView.Size = new System.Drawing.Size(29, 12);
+			this.lblView.Size = new System.Drawing.Size(35, 12);
 			this.lblView.TabIndex = 28;
-			this.lblView.Text = "View";
+			this.lblView.Text = "Enjoy";
 			// 
 			// lblRate
 			// 
 			this.lblRate.AutoSize = true;
-			this.lblRate.Location = new System.Drawing.Point(381, 122);
+			this.lblRate.Location = new System.Drawing.Point(487, 121);
 			this.lblRate.Name = "lblRate";
-			this.lblRate.Size = new System.Drawing.Size(29, 12);
+			this.lblRate.Size = new System.Drawing.Size(35, 12);
 			this.lblRate.TabIndex = 29;
-			this.lblRate.Text = "Rate";
+			this.lblRate.Text = "Grade";
 			// 
 			// lblStoreIndex
 			// 
 			this.lblStoreIndex.AutoSize = true;
-			this.lblStoreIndex.Location = new System.Drawing.Point(12, 148);
+			this.lblStoreIndex.Location = new System.Drawing.Point(13, 147);
 			this.lblStoreIndex.Name = "lblStoreIndex";
-			this.lblStoreIndex.Size = new System.Drawing.Size(65, 12);
+			this.lblStoreIndex.Size = new System.Drawing.Size(29, 12);
 			this.lblStoreIndex.TabIndex = 30;
-			this.lblStoreIndex.Text = "StoreIndex";
+			this.lblStoreIndex.Text = "Path";
 			// 
 			// lblEpisode
 			// 
@@ -242,7 +244,7 @@
             "2013",
             "2014",
             "2015"});
-			this.cboYear.Location = new System.Drawing.Point(89, 66);
+			this.cboYear.Location = new System.Drawing.Point(71, 66);
 			this.cboYear.Name = "cboYear";
 			this.cboYear.Size = new System.Drawing.Size(50, 20);
 			this.cboYear.TabIndex = 4;
@@ -257,7 +259,7 @@
             "Spring",
             "Summer",
             "Fall"});
-			this.cboSeason.Location = new System.Drawing.Point(145, 66);
+			this.cboSeason.Location = new System.Drawing.Point(127, 66);
 			this.cboSeason.Name = "cboSeason";
 			this.cboSeason.Size = new System.Drawing.Size(65, 20);
 			this.cboSeason.TabIndex = 5;
@@ -273,7 +275,7 @@
             "DVDRAW",
             "BDMV",
             "TVRip"});
-			this.cboType.Location = new System.Drawing.Point(295, 66);
+			this.cboType.Location = new System.Drawing.Point(71, 92);
 			this.cboType.Name = "cboType";
 			this.cboType.Size = new System.Drawing.Size(65, 20);
 			this.cboType.TabIndex = 6;
@@ -288,7 +290,7 @@
             "AVI",
             "WMV",
             "M2TS"});
-			this.cboFormat.Location = new System.Drawing.Point(458, 66);
+			this.cboFormat.Location = new System.Drawing.Point(253, 92);
 			this.cboFormat.Name = "cboFormat";
 			this.cboFormat.Size = new System.Drawing.Size(65, 20);
 			this.cboFormat.TabIndex = 7;
@@ -303,7 +305,7 @@
             "POPGO",
             "SOSG",
             "KTXP"});
-			this.cboPublisher.Location = new System.Drawing.Point(89, 92);
+			this.cboPublisher.Location = new System.Drawing.Point(71, 118);
 			this.cboPublisher.Name = "cboPublisher";
 			this.cboPublisher.Size = new System.Drawing.Size(121, 20);
 			this.cboPublisher.TabIndex = 8;
@@ -316,7 +318,7 @@
             "External",
             "Sealed",
             "Embedded"});
-			this.cboSubStyle.Location = new System.Drawing.Point(295, 92);
+			this.cboSubStyle.Location = new System.Drawing.Point(409, 93);
 			this.cboSubStyle.Name = "cboSubStyle";
 			this.cboSubStyle.Size = new System.Drawing.Size(80, 20);
 			this.cboSubStyle.TabIndex = 9;
@@ -328,7 +330,7 @@
 			this.cboGather.Items.AddRange(new object[] {
             "Con.",
             "Fin."});
-			this.cboGather.Location = new System.Drawing.Point(89, 119);
+			this.cboGather.Location = new System.Drawing.Point(253, 118);
 			this.cboGather.Name = "cboGather";
 			this.cboGather.Size = new System.Drawing.Size(65, 20);
 			this.cboGather.TabIndex = 10;
@@ -340,14 +342,14 @@
 			this.cboView.Items.AddRange(new object[] {
             "-~-",
             "^-^"});
-			this.cboView.Location = new System.Drawing.Point(295, 119);
+			this.cboView.Location = new System.Drawing.Point(391, 118);
 			this.cboView.Name = "cboView";
 			this.cboView.Size = new System.Drawing.Size(65, 20);
 			this.cboView.TabIndex = 11;
 			// 
 			// tbStoreIndex
 			// 
-			this.tbStoreIndex.Location = new System.Drawing.Point(89, 145);
+			this.tbStoreIndex.Location = new System.Drawing.Point(71, 144);
 			this.tbStoreIndex.Name = "tbStoreIndex";
 			this.tbStoreIndex.Size = new System.Drawing.Size(300, 21);
 			this.tbStoreIndex.TabIndex = 13;
@@ -355,7 +357,7 @@
 			// 
 			// btnBrowser
 			// 
-			this.btnBrowser.Location = new System.Drawing.Point(395, 143);
+			this.btnBrowser.Location = new System.Drawing.Point(377, 143);
 			this.btnBrowser.Name = "btnBrowser";
 			this.btnBrowser.Size = new System.Drawing.Size(75, 23);
 			this.btnBrowser.TabIndex = 14;
@@ -396,7 +398,7 @@
             "10",
             "20",
             "30"});
-			this.cboRate.Location = new System.Drawing.Point(416, 119);
+			this.cboRate.Location = new System.Drawing.Point(528, 118);
 			this.cboRate.Name = "cboRate";
 			this.cboRate.Size = new System.Drawing.Size(50, 20);
 			this.cboRate.TabIndex = 12;
@@ -404,7 +406,7 @@
 			// lblTitleWarning
 			// 
 			this.lblTitleWarning.AutoSize = true;
-			this.lblTitleWarning.Location = new System.Drawing.Point(495, 100);
+			this.lblTitleWarning.Location = new System.Drawing.Point(495, 140);
 			this.lblTitleWarning.Name = "lblTitleWarning";
 			this.lblTitleWarning.Size = new System.Drawing.Size(0, 12);
 			this.lblTitleWarning.TabIndex = 31;
@@ -412,7 +414,7 @@
 			// lblYearWarning
 			// 
 			this.lblYearWarning.AutoSize = true;
-			this.lblYearWarning.Location = new System.Drawing.Point(495, 127);
+			this.lblYearWarning.Location = new System.Drawing.Point(495, 167);
 			this.lblYearWarning.Name = "lblYearWarning";
 			this.lblYearWarning.Size = new System.Drawing.Size(0, 12);
 			this.lblYearWarning.TabIndex = 32;
@@ -420,10 +422,26 @@
 			// lblStoreIndexWarning
 			// 
 			this.lblStoreIndexWarning.AutoSize = true;
-			this.lblStoreIndexWarning.Location = new System.Drawing.Point(488, 154);
+			this.lblStoreIndexWarning.Location = new System.Drawing.Point(488, 194);
 			this.lblStoreIndexWarning.Name = "lblStoreIndexWarning";
 			this.lblStoreIndexWarning.Size = new System.Drawing.Size(0, 12);
 			this.lblStoreIndexWarning.TabIndex = 33;
+			// 
+			// tbInc
+			// 
+			this.tbInc.Location = new System.Drawing.Point(342, 66);
+			this.tbInc.Name = "tbInc";
+			this.tbInc.Size = new System.Drawing.Size(180, 21);
+			this.tbInc.TabIndex = 34;
+			// 
+			// lblInc
+			// 
+			this.lblInc.AutoSize = true;
+			this.lblInc.Location = new System.Drawing.Point(289, 69);
+			this.lblInc.Name = "lblInc";
+			this.lblInc.Size = new System.Drawing.Size(23, 12);
+			this.lblInc.TabIndex = 35;
+			this.lblInc.Text = "Inc";
 			// 
 			// AddForm
 			// 
@@ -432,6 +450,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(624, 322);
+			this.Controls.Add(this.tbInc);
+			this.Controls.Add(this.lblInc);
 			this.Controls.Add(this.lblStoreIndexWarning);
 			this.Controls.Add(this.lblYearWarning);
 			this.Controls.Add(this.lblTitleWarning);
@@ -511,5 +531,7 @@
 		private System.Windows.Forms.Label lblTitleWarning;
 		private System.Windows.Forms.Label lblYearWarning;
 		private System.Windows.Forms.Label lblStoreIndexWarning;
+		private System.Windows.Forms.TextBox tbInc;
+		private System.Windows.Forms.Label lblInc;
 	}
 }

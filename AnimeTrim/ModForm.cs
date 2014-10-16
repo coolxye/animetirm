@@ -72,6 +72,9 @@ namespace AnimeTrim
 			this.cboYear.Text = a.Year.ToString("0000");
 			this.cboSeason.Text = a.Season;
 
+			this.cboFormat.Text = a.Format.ToString();
+			this.cboSubStyle.Text = a.SubStyle.ToString();
+
 			this.tbStoreIndex.Text = a.StoreIndex;
 			this.rtbNote.Text = a.Note.Replace('\u0002', '\n');
 
@@ -165,6 +168,9 @@ namespace AnimeTrim
 			_anime.Year = UInt32.Parse(this.cboYear.Text);
 			_anime.Season = this.cboSeason.Text;
 			_anime.StoreIndex = this.tbStoreIndex.Text;
+
+			_anime.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), this.cboFormat.Text);
+			_anime.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), this.cboSubStyle.Text);
 
 			_anime.UpdateTime = DateTime.Now;
 			_anime.Kana = this.tbKana.Text;

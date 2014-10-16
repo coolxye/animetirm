@@ -31,8 +31,8 @@ namespace AnimeTrim
 			this.cboPublisher.SelectedIndex = 0;
 			this.cboSubStyle.SelectedIndex = 0;
 
-			this.cboGather.SelectedIndex = 1;
-			this.cboView.SelectedIndex = 1;
+			this.cboGather.SelectedIndex = 0;
+			this.cboView.SelectedIndex = 0;
 			this.cboRate.SelectedIndex = 1;
 		}
 
@@ -175,6 +175,7 @@ namespace AnimeTrim
 			_anime.UpdateTime = DateTime.Now;
 			_anime.Kana = this.tbKana.Text;
 			_anime.Episode = this.tbEpisode.Text;
+			_anime.Inc = this.tbInc.Text;
 			_anime.Note = this.rtbNote.Text.Replace('\n', '\u0002');
 
 			this.DialogResult = DialogResult.OK;
