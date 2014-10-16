@@ -337,6 +337,9 @@ namespace AnimeTrim
 				txt = av.Episode;
 				g.DrawString(txt, font, this.TextBrush, textBoxRect, fmt);
 				textBoxRect.Y += size.Height;
+				txt = av.Inc;
+				g.DrawString(txt, font, this.TextBrush, textBoxRect, fmt);
+				textBoxRect.Y += size.Height;
 			}
 		}
 
