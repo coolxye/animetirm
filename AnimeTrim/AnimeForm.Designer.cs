@@ -32,17 +32,17 @@
 			this.tctlAnime = new System.Windows.Forms.TabControl();
 			this.tpAnime = new System.Windows.Forms.TabPage();
 			this.folvAnime = new BrightIdeasSoftware.FastObjectListView();
-			this.olvColTitle = new BrightIdeasSoftware.OLVColumn();
-			this.olvColName = new BrightIdeasSoftware.OLVColumn();
-			this.olvColReleaseDate = new BrightIdeasSoftware.OLVColumn();
-			this.olvColType = new BrightIdeasSoftware.OLVColumn();
-			this.olvColPublisher = new BrightIdeasSoftware.OLVColumn();
-			this.olvColStoreIndex = new BrightIdeasSoftware.OLVColumn();
-			this.olvColSpace = new BrightIdeasSoftware.OLVColumn();
-			this.olvColGather = new BrightIdeasSoftware.OLVColumn();
-			this.olvColView = new BrightIdeasSoftware.OLVColumn();
-			this.olvColRate = new BrightIdeasSoftware.OLVColumn();
-			this.olvColNote = new BrightIdeasSoftware.OLVColumn();
+			this.olvColTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColReleaseDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColPublisher = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColStoreIndex = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColSpace = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColGather = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColView = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColRate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColNote = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.tpMusic = new System.Windows.Forms.TabPage();
 			this.rtbAnime = new System.Windows.Forms.RichTextBox();
@@ -59,19 +59,17 @@
 			this.tsSepForFile = new System.Windows.Forms.ToolStripSeparator();
 			this.btnAdd = new System.Windows.Forms.ToolStripButton();
 			this.btnModify = new System.Windows.Forms.ToolStripButton();
-			this.btnCopy = new System.Windows.Forms.ToolStripButton();
-			this.btnPaste = new System.Windows.Forms.ToolStripButton();
 			this.btnDel = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForEdit = new System.Windows.Forms.ToolStripSeparator();
 			this.tssBtnMore = new System.Windows.Forms.ToolStripSplitButton();
 			this.tsMenItmFormat = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMenItmBackup = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
 			this.tsMore = new System.Windows.Forms.ToolStrip();
 			this.tsDropDnBtnGroup = new System.Windows.Forms.ToolStripDropDownButton();
 			this.tsSepForGroup = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
-			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
 			this.tctlAnime.SuspendLayout();
 			this.tpAnime.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).BeginInit();
@@ -348,12 +346,10 @@
             this.tsSepForFile,
             this.btnAdd,
             this.btnModify,
-            this.btnCopy,
-            this.btnPaste,
+            this.tsBtnDuplicate,
             this.btnDel,
             this.tsSepForEdit,
-            this.tssBtnMore,
-            this.tsBtnDuplicate});
+            this.tssBtnMore});
 			this.tsMain.Location = new System.Drawing.Point(0, 0);
 			this.tsMain.Name = "tsMain";
 			this.tsMain.Size = new System.Drawing.Size(892, 25);
@@ -415,24 +411,6 @@
 			this.btnModify.Text = "Modify";
 			this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
 			// 
-			// btnCopy
-			// 
-			this.btnCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnCopy.Image = ((System.Drawing.Image)(resources.GetObject("btnCopy.Image")));
-			this.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnCopy.Name = "btnCopy";
-			this.btnCopy.Size = new System.Drawing.Size(23, 22);
-			this.btnCopy.Text = "Copy";
-			// 
-			// btnPaste
-			// 
-			this.btnPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnPaste.Image = ((System.Drawing.Image)(resources.GetObject("btnPaste.Image")));
-			this.btnPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnPaste.Name = "btnPaste";
-			this.btnPaste.Size = new System.Drawing.Size(23, 22);
-			this.btnPaste.Text = "Paste";
-			// 
 			// btnDel
 			// 
 			this.btnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -463,15 +441,25 @@
 			// tsMenItmFormat
 			// 
 			this.tsMenItmFormat.Name = "tsMenItmFormat";
-			this.tsMenItmFormat.Size = new System.Drawing.Size(152, 22);
+			this.tsMenItmFormat.Size = new System.Drawing.Size(119, 22);
 			this.tsMenItmFormat.Text = "Format";
 			this.tsMenItmFormat.Click += new System.EventHandler(this.btnChange_Click);
 			// 
 			// tsMenItmBackup
 			// 
 			this.tsMenItmBackup.Name = "tsMenItmBackup";
-			this.tsMenItmBackup.Size = new System.Drawing.Size(152, 22);
+			this.tsMenItmBackup.Size = new System.Drawing.Size(119, 22);
 			this.tsMenItmBackup.Text = "Backup";
+			// 
+			// tsBtnDuplicate
+			// 
+			this.tsBtnDuplicate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnDuplicate.Image")));
+			this.tsBtnDuplicate.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnDuplicate.Name = "tsBtnDuplicate";
+			this.tsBtnDuplicate.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnDuplicate.Text = "Duplicate";
+			this.tsBtnDuplicate.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
 			// 
 			// tsMore
 			// 
@@ -515,18 +503,8 @@
 			// tbFilter
 			// 
 			this.tbFilter.Name = "tbFilter";
-			this.tbFilter.Size = new System.Drawing.Size(120, 25);
+			this.tbFilter.Size = new System.Drawing.Size(150, 25);
 			this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
-			// 
-			// tsBtnDuplicate
-			// 
-			this.tsBtnDuplicate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnDuplicate.Image")));
-			this.tsBtnDuplicate.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsBtnDuplicate.Name = "tsBtnDuplicate";
-			this.tsBtnDuplicate.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnDuplicate.Text = "Duplicate";
-			this.tsBtnDuplicate.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
 			// 
 			// AnimeForm
 			// 
@@ -591,8 +569,6 @@
 		private System.Windows.Forms.ToolStripSeparator tsSepForFile;
 		private System.Windows.Forms.ToolStripButton btnAdd;
 		private System.Windows.Forms.ToolStripButton btnModify;
-		private System.Windows.Forms.ToolStripButton btnCopy;
-		private System.Windows.Forms.ToolStripButton btnPaste;
 		private System.Windows.Forms.ToolStripButton btnDel;
 		private System.Windows.Forms.ToolStripSeparator tsSepForEdit;
 		private System.Windows.Forms.ToolStripSplitButton tssBtnMore;

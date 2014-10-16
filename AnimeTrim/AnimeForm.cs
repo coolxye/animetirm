@@ -69,8 +69,7 @@ namespace AnimeTrim
 		{
 			this.btnSave.Enabled = false;
 			this.btnModify.Enabled = false;
-			this.btnCopy.Enabled = false;
-			this.btnPaste.Enabled = false;
+			this.tsBtnDuplicate.Enabled = false;
 			this.btnDel.Enabled = false;
 		}
 
@@ -397,7 +396,7 @@ namespace AnimeTrim
 			// Button reset
 			this.btnSave.Enabled = false;
 			this.btnModify.Enabled = false;
-			this.btnCopy.Enabled = false;
+			this.tsBtnDuplicate.Enabled = false;
 			this.btnDel.Enabled = false;
 
 			// StatusStrip reset
@@ -459,22 +458,35 @@ namespace AnimeTrim
 
 		private void folvAnime_SelectionChanged(object sender, EventArgs e)
 		{
-			Anime a = this.folvAnime.SelectedObject as Anime;
+			int iSel = this.folvAnime.SelectedIndices.Count;
 
-			if (a != null)
+			if (iSel == 1)
 			{
+				Anime a = this.folvAnime.SelectedObject as Anime;
+
 				this.tsslSelected.Text = String.Format("Selected: {0}", a.Name);
 				this.tsslSelSpace.Text = (a.Space >= 1000000000L) ? String.Format("Selected Space: {0:#,##0.#0} GB", a.Space / 1073741824D) :
 					String.Format("Selected Space: {0:#,##0.#0} MB", a.Space / 1048576D);
 
 				this.rtbAnime.Text = a.Remarks();
 				this.btnModify.Enabled = true;
-				this.btnCopy.Enabled = true;
+				this.tsBtnDuplicate.Enabled = true;
 				this.btnDel.Enabled = true;
 			}
 			else
 			{
-				this.tsslSelected.Text = String.Format("Selected: {0}", this.folvAnime.SelectedIndices.Count);
+				if (iSel == 0)
+				{
+					this.tsBtnDuplicate.Enabled = false;
+					this.btnDel.Enabled = false;
+				}
+				else
+				{
+					this.tsBtnDuplicate.Enabled = true;
+					this.btnDel.Enabled = true;
+				}
+
+				this.tsslSelected.Text = String.Format("Selected: {0}", iSel);
 
 				long ls = 0L;
 				foreach (Anime at in this.folvAnime.SelectedObjects)
@@ -486,8 +498,6 @@ namespace AnimeTrim
 
 				this.rtbAnime.ResetText();
 				this.btnModify.Enabled = false;
-				this.btnCopy.Enabled = false;
-				this.btnDel.Enabled = false;
 			}
 		}
 
