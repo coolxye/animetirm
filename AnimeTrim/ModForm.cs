@@ -7,11 +7,11 @@ namespace AnimeTrim
 {
 	public partial class ModForm : Form
 	{
-		public ModForm(Anime a)
+		public ModForm(ref Anime a)
 		{
 			InitializeComponent();
 
-			InitModValue(a);
+			InitModValue(ref a);
 		}
 
 		// edit 13/1/13 for fun3
@@ -60,7 +60,9 @@ namespace AnimeTrim
 		}
 		// edit fin
 
-		private void InitModValue(Anime a)
+		private Anime _anime;
+
+		private void InitModValue(ref Anime a)
 		{
 			this.tbTitle.Text = a.Title;
 			this.tbKana.Text = a.Kana;
@@ -73,10 +75,8 @@ namespace AnimeTrim
 			this.tbStoreIndex.Text = a.StoreIndex;
 			this.rtbNote.Text = a.Note.Replace('\u0002', '\n');
 
-			_anime = new Anime(a);
+			_anime = a;
 		}
-
-		private Anime _anime;
 
 		public Anime GetAnime()
 		{
@@ -162,7 +162,7 @@ namespace AnimeTrim
 			// edit fin
 
 			_anime.Title = this.tbTitle.Text;
-			_anime.Year = Int32.Parse(this.cboYear.Text);
+			_anime.Year = UInt32.Parse(this.cboYear.Text);
 			_anime.Season = this.cboSeason.Text;
 			_anime.StoreIndex = this.tbStoreIndex.Text;
 
