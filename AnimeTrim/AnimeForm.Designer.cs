@@ -156,6 +156,7 @@
 			this.folvAnime.UseHyperlinks = true;
 			this.folvAnime.View = System.Windows.Forms.View.Details;
 			this.folvAnime.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.folvAnime_CellEditFinishing);
+			this.folvAnime.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.folvAnime_CellToolTipShowing);
 			this.folvAnime.IsHyperlink += new System.EventHandler<BrightIdeasSoftware.IsHyperlinkEventArgs>(this.folvAnime_IsHyperlink);
 			this.folvAnime.SelectionChanged += new System.EventHandler(this.folvAnime_SelectionChanged);
 			// 

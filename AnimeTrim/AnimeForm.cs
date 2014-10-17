@@ -957,6 +957,15 @@ namespace AnimeTrim
 			this.btnSave.Enabled = true;
 		}
 
+		private void folvAnime_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
+		{
+			if (e.Column == null || e.Column != this.olvColStoreIndex)
+				return;
+
+			e.AutoPopDelay = 8000;
+			e.Text = String.Format("{0}\nSearch this Path, and print <=10 file's name", e.SubItem.Text);
+		}
+
 		private void AnimeForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			XmlWriterSettings xwSet = new XmlWriterSettings();
