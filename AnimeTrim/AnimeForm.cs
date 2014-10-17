@@ -169,7 +169,7 @@ namespace AnimeTrim
 					ani.Space = Int64.Parse(info[10]);
 					ani.Gather = Boolean.Parse(info[11]);
 					ani.View = Boolean.Parse(info[12]);
-					ani.Rate = UInt32.Parse(info[13]);
+					ani.Rate = Int32.Parse(info[13]);
 					ani.CreateTime = DateTime.Parse(info[14]);
 					ani.UpdateTime = DateTime.Parse(info[15]);
 					ani.Kana = info[16];
@@ -308,12 +308,12 @@ namespace AnimeTrim
 			tc = new TypedColumn<Anime>(this.olvColRate);
 			tc.AspectPutter = delegate(Anime a, object opr)
 			{
-				uint onr = (uint)opr;
-				a.Rate = onr < 10 ? 10 : onr;
+				int onr = (int)opr;
+				a.Rate = onr < 1 ? 1 : onr;
 			};
-			this.olvColRate.Renderer = new MultiImageRenderer(Properties.Resources.Star, 3, 9, 31);
+			this.olvColRate.Renderer = new MultiImageRenderer(Properties.Resources.Star, 3, 0, 4);
 			this.olvColRate.MakeGroupies(
-				new int[] { 20, 30 },
+				new int[] { 1, 2 },
 				new string[] { "Normal", "Nice", "Good" }
 				);
 

@@ -69,7 +69,7 @@ namespace AnimeTrim
 		public Boolean View
 		{ get; set; }
 
-		public UInt32 Rate
+		public Int32 Rate
 		{ get; set; }
 
 		public DateTime CreateTime
@@ -123,7 +123,7 @@ namespace AnimeTrim
 
 		public Anime(UInt32 id, String title, String name, UInt32 year, String season, MediaType type,
 			MergeFormat format, String publisher, SubStyles subStyle, String storeIndex,
-			Int64 space, Boolean gather, Boolean view, UInt32 rate, DateTime createTime,
+			Int64 space, Boolean gather, Boolean view, Int32 rate, DateTime createTime,
 			DateTime updateTime, String kana, String episode, String inc, String note)
 		{
 			this.ID = id;
