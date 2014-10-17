@@ -510,7 +510,7 @@ namespace AnimeTrim
 			}
 		}
 
-		private void TimedFilter(FastObjectListView folv, string txt, int matchKind)
+		private void TimedFilter(ObjectListView folv, string txt, int matchKind)
 		{
 			TextMatchFilter filter = null;
 			if (!String.IsNullOrEmpty(txt))
@@ -803,16 +803,16 @@ namespace AnimeTrim
 				_ai.Total++;
 				_ai.IsSaved = false;
 				_lani.Add(a);
-				_lani.Sort(AnimeComparer);
+				//_lani.Sort(AnimeComparer);
 
 				this.folvAnime.AddObject(a);
-				this.folvAnime.Sort(0);
-				this.folvAnime.Unsort();
+				//this.folvAnime.Sort(0);
+				//this.folvAnime.Unsort();
 
 				this.folvAnime.SelectedObject = a;
 				this.folvAnime.SelectedItem.EnsureVisible();
 				// TODO: 需修正工具栏
-				this.folvAnime.Focus();
+				//this.folvAnime.Focus();
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 				this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 				this.btnSave.Enabled = true;

@@ -31,7 +31,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimeForm));
 			this.tctlAnime = new System.Windows.Forms.TabControl();
 			this.tpAnime = new System.Windows.Forms.TabPage();
-			this.folvAnime = new BrightIdeasSoftware.FastObjectListView();
+			this.folvAnime = new BrightIdeasSoftware.ObjectListView();
 			this.olvColTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColReleaseDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -133,7 +133,6 @@
             this.olvColView,
             this.olvColRate,
             this.olvColNote});
-			this.folvAnime.Cursor = System.Windows.Forms.Cursors.Default;
 			this.folvAnime.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.folvAnime.EmptyListMsg = "アニメがない...";
 			this.folvAnime.FullRowSelect = true;
@@ -156,7 +155,6 @@
 			this.folvAnime.UseHotItem = true;
 			this.folvAnime.UseHyperlinks = true;
 			this.folvAnime.View = System.Windows.Forms.View.Details;
-			this.folvAnime.VirtualMode = true;
 			this.folvAnime.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.folvAnime_CellEditFinishing);
 			this.folvAnime.IsHyperlink += new System.EventHandler<BrightIdeasSoftware.IsHyperlinkEventArgs>(this.folvAnime_IsHyperlink);
 			this.folvAnime.SelectionChanged += new System.EventHandler(this.folvAnime_SelectionChanged);
@@ -542,7 +540,7 @@
 		private System.Windows.Forms.TabControl tctlAnime;
 		private System.Windows.Forms.TabPage tpAnime;
 		private System.Windows.Forms.TabPage tpMusic;
-		private BrightIdeasSoftware.FastObjectListView folvAnime;
+		private BrightIdeasSoftware.ObjectListView folvAnime;
 		private BrightIdeasSoftware.OLVColumn olvColTitle;
 		private BrightIdeasSoftware.OLVColumn olvColName;
 		private BrightIdeasSoftware.OLVColumn olvColReleaseDate;
