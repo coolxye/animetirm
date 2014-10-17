@@ -699,22 +699,24 @@ namespace AnimeTrim
 
 		private void btnChange_Click(object sender, EventArgs e)
 		{
-			StreamWriter sw = new StreamWriter(@"E:\Documents\AnimeDoc_updata.xat", false, Encoding.Unicode);
+			#region format
+			//StreamWriter sw = new StreamWriter(@"E:\Documents\AnimeDoc_updata.xat", false, Encoding.Unicode);
 
-			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
+			//sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
-			int i = 1;
+			//int i = 1;
 
-			_lani.ForEach(delegate(Anime a)
-			{
-				sw.WriteLine(_sout,
-					i++, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
-					a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
-					a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
-					a.Episode, a.Inc, a.Note);
-			});
+			//_lani.ForEach(delegate(Anime a)
+			//{
+			//	sw.WriteLine(_sout,
+			//		i++, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+			//		a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
+			//		a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
+			//		a.Episode, a.Inc, a.Note);
+			//});
 
-			sw.Close();
+			//sw.Close();
+			#endregion
 		}
 
 		private void btnOpen_Click(object sender, EventArgs e)

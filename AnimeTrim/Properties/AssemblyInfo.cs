@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AnimeTrim")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("List for a lot of Anime")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Invincible Army")]
 [assembly: AssemblyProduct("AnimeTrim")]
-[assembly: AssemblyCopyright("Copyright © Invincible Army 2010")]
+[assembly: AssemblyCopyright("Copyright © Invincible Army 2010-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.1.0")]
+[assembly: AssemblyVersion("3.0.0.*")]
+[assembly: AssemblyFileVersion("3.0.2.0")]

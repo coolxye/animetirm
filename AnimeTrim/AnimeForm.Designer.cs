@@ -59,12 +59,12 @@
 			this.tsSepForFile = new System.Windows.Forms.ToolStripSeparator();
 			this.btnAdd = new System.Windows.Forms.ToolStripButton();
 			this.btnModify = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
 			this.btnDel = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForEdit = new System.Windows.Forms.ToolStripSeparator();
 			this.tssBtnMore = new System.Windows.Forms.ToolStripSplitButton();
 			this.tsMenItmFormat = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMenItmBackup = new System.Windows.Forms.ToolStripMenuItem();
-			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
 			this.tsMore = new System.Windows.Forms.ToolStrip();
 			this.tsDropDnBtnGroup = new System.Windows.Forms.ToolStripDropDownButton();
 			this.tsSepForGroup = new System.Windows.Forms.ToolStripSeparator();
@@ -294,7 +294,7 @@
 			this.scAnime.Panel2.Controls.Add(this.rtbAnime);
 			this.scAnime.Size = new System.Drawing.Size(868, 389);
 			this.scAnime.SplitterDistance = 331;
-			this.scAnime.TabIndex = 1;
+			this.scAnime.TabIndex = 2;
 			// 
 			// ssAnime
 			// 
@@ -306,7 +306,7 @@
 			this.ssAnime.Location = new System.Drawing.Point(0, 445);
 			this.ssAnime.Name = "ssAnime";
 			this.ssAnime.Size = new System.Drawing.Size(892, 26);
-			this.ssAnime.TabIndex = 2;
+			this.ssAnime.TabIndex = 3;
 			// 
 			// tsslSelected
 			// 
@@ -353,7 +353,7 @@
 			this.tsMain.Location = new System.Drawing.Point(0, 0);
 			this.tsMain.Name = "tsMain";
 			this.tsMain.Size = new System.Drawing.Size(892, 25);
-			this.tsMain.TabIndex = 3;
+			this.tsMain.TabIndex = 1;
 			this.tsMain.Text = "tsMain";
 			// 
 			// btnNew
@@ -411,6 +411,16 @@
 			this.btnModify.Text = "Modify";
 			this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
 			// 
+			// tsBtnDuplicate
+			// 
+			this.tsBtnDuplicate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnDuplicate.Image")));
+			this.tsBtnDuplicate.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnDuplicate.Name = "tsBtnDuplicate";
+			this.tsBtnDuplicate.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnDuplicate.Text = "Duplicate";
+			this.tsBtnDuplicate.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
+			// 
 			// btnDel
 			// 
 			this.btnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -451,16 +461,6 @@
 			this.tsMenItmBackup.Size = new System.Drawing.Size(119, 22);
 			this.tsMenItmBackup.Text = "Backup";
 			// 
-			// tsBtnDuplicate
-			// 
-			this.tsBtnDuplicate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnDuplicate.Image")));
-			this.tsBtnDuplicate.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsBtnDuplicate.Name = "tsBtnDuplicate";
-			this.tsBtnDuplicate.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnDuplicate.Text = "Duplicate";
-			this.tsBtnDuplicate.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
-			// 
 			// tsMore
 			// 
 			this.tsMore.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -471,7 +471,7 @@
 			this.tsMore.Location = new System.Drawing.Point(0, 25);
 			this.tsMore.Name = "tsMore";
 			this.tsMore.Size = new System.Drawing.Size(892, 25);
-			this.tsMore.TabIndex = 4;
+			this.tsMore.TabIndex = 0;
 			this.tsMore.Text = "tsMore";
 			// 
 			// tsDropDnBtnGroup
