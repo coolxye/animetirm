@@ -170,7 +170,7 @@ namespace AnimeTrim
 			_anime.Space = AnimeSpace.GetSpace(_anime.StoreIndex);
 			_anime.Gather = (this.cboGather.SelectedIndex == 1) ? true : false;
 			_anime.View = (this.cboView.SelectedIndex == 1) ? true : false;
-			_anime.Rate = UInt32.Parse(this.cboRate.Text);
+			_anime.Rate = Int32.Parse(this.cboRate.Text);
 			_anime.CreateTime = DateTime.Now;
 			_anime.UpdateTime = DateTime.Now;
 			_anime.Kana = this.tbKana.Text;
