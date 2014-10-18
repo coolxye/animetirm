@@ -167,7 +167,7 @@ namespace AnimeTrim
 			_anime.SubTeam = this.cboPublisher.Text;
 			_anime.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), this.cboSubStyle.Text);
 			_anime.Path = this.tbStoreIndex.Text;
-			_anime.Size = AnimeSpace.GetSpace(_anime.Path);
+			_anime.Size = Anime.GetSize(_anime.Path);
 			_anime.Store = (this.cboGather.SelectedIndex == 1) ? true : false;
 			_anime.Enjoy = (this.cboView.SelectedIndex == 1) ? true : false;
 			_anime.Grade = Int32.Parse(this.cboRate.Text);

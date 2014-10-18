@@ -71,6 +71,7 @@ namespace AnimeTrim
 			this.btnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
 			this.btnDel.Enabled = false;
+			this.tsBtnRefresh.Enabled = false;
 		}
 
 		// Initalize the path and name of AnimeInfo from a xml
@@ -400,6 +401,7 @@ namespace AnimeTrim
 			this.btnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
 			this.btnDel.Enabled = false;
+			this.tsBtnRefresh.Enabled = false;
 
 			// StatusStrip reset
 			this.tsslSelected.Text = "Selected: ";
@@ -474,6 +476,7 @@ namespace AnimeTrim
 				this.btnModify.Enabled = true;
 				this.tsBtnDuplicate.Enabled = true;
 				this.btnDel.Enabled = true;
+				this.tsBtnRefresh.Enabled = true;
 			}
 			else
 			{
@@ -481,11 +484,13 @@ namespace AnimeTrim
 				{
 					this.tsBtnDuplicate.Enabled = false;
 					this.btnDel.Enabled = false;
+					this.tsBtnRefresh.Enabled = false;
 				}
 				else
 				{
 					this.tsBtnDuplicate.Enabled = true;
 					this.btnDel.Enabled = true;
+					this.tsBtnRefresh.Enabled = true;
 				}
 
 				this.tsslSelected.Text = String.Format("Selected: {0}", iSel);
@@ -933,10 +938,41 @@ namespace AnimeTrim
 
 			this.folvAnime.SelectedItem.EnsureVisible();
 			// TODO: 需修正工具栏
-			this.folvAnime.Focus();
+			//this.folvAnime.Focus();
 			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 			this.btnSave.Enabled = true;
+		}
+
+		private void tsBtnRefresh_Click(object sender, EventArgs e)
+		{
+			long lSize = 0L;
+			long lSelSize = 0L;
+
+			foreach (Anime a in this.folvAnime.SelectedObjects)
+			{
+				if (a.Path.Length == 0 || !Directory.Exists(a.Path))
+				{
+					lSelSize += a.Size;
+					continue;
+				}
+				
+				lSize = Anime.GetSize(a.Path);
+				if (a.Size != lSize)
+				{
+					_ai.Space = _ai.Space - a.Size + lSize;
+					a.Size = lSize;
+					this.folvAnime.RefreshItem(this.folvAnime.ModelToItem(a));
+				}
+				lSelSize += a.Size;
+			}
+
+			if (lSize != 0L)
+			{
+				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
+						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
+				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			}
 		}
 
 		private void folvAnime_IsHyperlink(object sender, IsHyperlinkEventArgs e)

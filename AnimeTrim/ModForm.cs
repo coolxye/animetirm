@@ -161,7 +161,7 @@ namespace AnimeTrim
 			if (this.tbStoreIndex.Text == String.Empty)
 				_anime.Size = 0L;
 			else if (Directory.Exists(this.tbStoreIndex.Text))
-				_anime.Size = AnimeSpace.GetSpace(this.tbStoreIndex.Text);
+				_anime.Size = Anime.GetSize(this.tbStoreIndex.Text);
 			// edit fin
 
 			_anime.Title = this.tbTitle.Text;

@@ -206,6 +206,28 @@ namespace AnimeTrim
 			this.Note = edit.Note;
 		}
 
+		public static Int64 GetSize(String path)
+		{
+			if (!Directory.Exists(path))
+				return 0L;
+
+			long lSpace = 0L;
+			DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+			foreach (FileInfo fInfo in dirInfo.GetFiles())
+			{
+				lSpace += fInfo.Length;
+			}
+
+			DirectoryInfo[] dirInfos = dirInfo.GetDirectories();
+
+			if (dirInfos.Length > 0)
+				for (int i = 0; i < dirInfos.Length; i++)
+					lSpace += GetSize(dirInfos[i].FullName);
+
+			return lSpace;
+		}
+
 		public static String GetPreview(String path)
 		{
 			if (!Directory.Exists(path))
@@ -260,31 +282,6 @@ namespace AnimeTrim
 
 		public Boolean IsSaved
 		{ get; set; }
-	}
-
-	public class AnimeSpace
-	{
-		public static Int64 GetSpace(String path)
-		{
-			if (!Directory.Exists(path))
-				return 0L;
-
-			long lSpace = 0L;
-			DirectoryInfo dirInfo = new DirectoryInfo(path);
-
-			foreach (FileInfo fInfo in dirInfo.GetFiles())
-			{
-				lSpace += fInfo.Length;
-			}
-
-			DirectoryInfo[] dirInfos = dirInfo.GetDirectories();
-
-			if (dirInfos.Length > 0)
-				for (int i = 0; i < dirInfos.Length; i++)
-					lSpace += GetSpace(dirInfos[i].FullName);
-
-			return lSpace;
-		}
 	}
 
 	internal class AnimeViewOverlay : AbstractOverlay

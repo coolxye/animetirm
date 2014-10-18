@@ -70,6 +70,8 @@
 			this.tsSepForGroup = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
+			this.tsBtnRefresh = new System.Windows.Forms.ToolStripButton();
+			this.tsSepForSpecial = new System.Windows.Forms.ToolStripSeparator();
 			this.tctlAnime.SuspendLayout();
 			this.tpAnime.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).BeginInit();
@@ -133,6 +135,7 @@
             this.olvColEnjoy,
             this.olvColGrade,
             this.olvColNote});
+			this.folvAnime.Cursor = System.Windows.Forms.Cursors.Default;
 			this.folvAnime.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.folvAnime.EmptyListMsg = "アニメがない...";
 			this.folvAnime.FullRowSelect = true;
@@ -310,7 +313,7 @@
 			// 
 			this.tsslSelected.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.tsslSelected.Name = "tsslSelected";
-			this.tsslSelected.Size = new System.Drawing.Size(373, 21);
+			this.tsslSelected.Size = new System.Drawing.Size(379, 21);
 			this.tsslSelected.Spring = true;
 			this.tsslSelected.Text = "Selected: ";
 			// 
@@ -318,7 +321,7 @@
 			// 
 			this.tsslSelSpace.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.tsslSelSpace.Name = "tsslSelSpace";
-			this.tsslSelSpace.Size = new System.Drawing.Size(373, 21);
+			this.tsslSelSpace.Size = new System.Drawing.Size(379, 21);
 			this.tsslSelSpace.Spring = true;
 			this.tsslSelSpace.Text = "Selected Size: ";
 			// 
@@ -332,7 +335,7 @@
 			// tsslSpace
 			// 
 			this.tsslSpace.Name = "tsslSpace";
-			this.tsslSpace.Size = new System.Drawing.Size(83, 21);
+			this.tsslSpace.Size = new System.Drawing.Size(71, 21);
 			this.tsslSpace.Text = "Total Size: ";
 			// 
 			// tsMain
@@ -347,6 +350,8 @@
             this.tsBtnDuplicate,
             this.btnDel,
             this.tsSepForEdit,
+            this.tsBtnRefresh,
+            this.tsSepForSpecial,
             this.tssBtnMore});
 			this.tsMain.Location = new System.Drawing.Point(0, 0);
 			this.tsMain.Name = "tsMain";
@@ -449,14 +454,14 @@
 			// tsMenItmFormat
 			// 
 			this.tsMenItmFormat.Name = "tsMenItmFormat";
-			this.tsMenItmFormat.Size = new System.Drawing.Size(119, 22);
+			this.tsMenItmFormat.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmFormat.Text = "Format";
 			this.tsMenItmFormat.Click += new System.EventHandler(this.btnChange_Click);
 			// 
 			// tsMenItmBackup
 			// 
 			this.tsMenItmBackup.Name = "tsMenItmBackup";
-			this.tsMenItmBackup.Size = new System.Drawing.Size(119, 22);
+			this.tsMenItmBackup.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmBackup.Text = "Backup";
 			// 
 			// tsMore
@@ -503,6 +508,21 @@
 			this.tbFilter.Name = "tbFilter";
 			this.tbFilter.Size = new System.Drawing.Size(150, 25);
 			this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
+			// 
+			// tsBtnRefresh
+			// 
+			this.tsBtnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnRefresh.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnRefresh.Image")));
+			this.tsBtnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnRefresh.Name = "tsBtnRefresh";
+			this.tsBtnRefresh.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnRefresh.Text = "Refresh";
+			this.tsBtnRefresh.Click += new System.EventHandler(this.tsBtnRefresh_Click);
+			// 
+			// tsSepForSpecial
+			// 
+			this.tsSepForSpecial.Name = "tsSepForSpecial";
+			this.tsSepForSpecial.Size = new System.Drawing.Size(6, 25);
 			// 
 			// AnimeForm
 			// 
@@ -578,6 +598,8 @@
 		private System.Windows.Forms.ToolStripComboBox cboFilter;
 		private System.Windows.Forms.ToolStripTextBox tbFilter;
 		private System.Windows.Forms.ToolStripButton tsBtnDuplicate;
+		private System.Windows.Forms.ToolStripButton tsBtnRefresh;
+		private System.Windows.Forms.ToolStripSeparator tsSepForSpecial;
 
 	}
 }
