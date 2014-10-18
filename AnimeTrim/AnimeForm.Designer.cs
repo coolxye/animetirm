@@ -34,14 +34,14 @@
 			this.folvAnime = new BrightIdeasSoftware.ObjectListView();
 			this.olvColTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColReleaseDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColSchedule = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColPublisher = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColStoreIndex = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColSpace = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColGather = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColView = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColRate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColSubTeam = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColPath = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColSize = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColStore = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColEnjoy = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColGrade = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColNote = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.tpMusic = new System.Windows.Forms.TabPage();
@@ -109,14 +109,14 @@
 			// 
 			this.folvAnime.AllColumns.Add(this.olvColTitle);
 			this.folvAnime.AllColumns.Add(this.olvColName);
-			this.folvAnime.AllColumns.Add(this.olvColReleaseDate);
+			this.folvAnime.AllColumns.Add(this.olvColSchedule);
 			this.folvAnime.AllColumns.Add(this.olvColType);
-			this.folvAnime.AllColumns.Add(this.olvColPublisher);
-			this.folvAnime.AllColumns.Add(this.olvColStoreIndex);
-			this.folvAnime.AllColumns.Add(this.olvColSpace);
-			this.folvAnime.AllColumns.Add(this.olvColGather);
-			this.folvAnime.AllColumns.Add(this.olvColView);
-			this.folvAnime.AllColumns.Add(this.olvColRate);
+			this.folvAnime.AllColumns.Add(this.olvColSubTeam);
+			this.folvAnime.AllColumns.Add(this.olvColPath);
+			this.folvAnime.AllColumns.Add(this.olvColSize);
+			this.folvAnime.AllColumns.Add(this.olvColStore);
+			this.folvAnime.AllColumns.Add(this.olvColEnjoy);
+			this.folvAnime.AllColumns.Add(this.olvColGrade);
 			this.folvAnime.AllColumns.Add(this.olvColNote);
 			this.folvAnime.AllowColumnReorder = true;
 			this.folvAnime.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -124,14 +124,14 @@
 			this.folvAnime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColTitle,
             this.olvColName,
-            this.olvColReleaseDate,
+            this.olvColSchedule,
             this.olvColType,
-            this.olvColPublisher,
-            this.olvColStoreIndex,
-            this.olvColSpace,
-            this.olvColGather,
-            this.olvColView,
-            this.olvColRate,
+            this.olvColSubTeam,
+            this.olvColPath,
+            this.olvColSize,
+            this.olvColStore,
+            this.olvColEnjoy,
+            this.olvColGrade,
             this.olvColNote});
 			this.folvAnime.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.folvAnime.EmptyListMsg = "アニメがない...";
@@ -148,7 +148,6 @@
 			this.folvAnime.ShowItemToolTips = true;
 			this.folvAnime.Size = new System.Drawing.Size(854, 299);
 			this.folvAnime.TabIndex = 0;
-			this.folvAnime.TintSortColumn = true;
 			this.folvAnime.UseAlternatingBackColors = true;
 			this.folvAnime.UseCompatibleStateImageBehavior = false;
 			this.folvAnime.UseFiltering = true;
@@ -176,13 +175,13 @@
 			this.olvColName.UseInitialLetterForGroup = true;
 			this.olvColName.Width = 120;
 			// 
-			// olvColReleaseDate
+			// olvColSchedule
 			// 
-			this.olvColReleaseDate.AspectName = "ReleaseDate";
-			this.olvColReleaseDate.IsEditable = false;
-			this.olvColReleaseDate.MinimumWidth = 80;
-			this.olvColReleaseDate.Text = "Schedule";
-			this.olvColReleaseDate.Width = 80;
+			this.olvColSchedule.AspectName = "Schedule";
+			this.olvColSchedule.IsEditable = false;
+			this.olvColSchedule.MinimumWidth = 80;
+			this.olvColSchedule.Text = "Schedule";
+			this.olvColSchedule.Width = 80;
 			// 
 			// olvColType
 			// 
@@ -190,56 +189,56 @@
 			this.olvColType.MinimumWidth = 60;
 			this.olvColType.Text = "Type";
 			// 
-			// olvColPublisher
+			// olvColSubTeam
 			// 
-			this.olvColPublisher.AspectName = "Publisher";
-			this.olvColPublisher.MinimumWidth = 100;
-			this.olvColPublisher.Text = "Subtitle";
-			this.olvColPublisher.Width = 100;
+			this.olvColSubTeam.AspectName = "SubTeam";
+			this.olvColSubTeam.MinimumWidth = 100;
+			this.olvColSubTeam.Text = "Subtitle";
+			this.olvColSubTeam.Width = 100;
 			// 
-			// olvColStoreIndex
+			// olvColPath
 			// 
-			this.olvColStoreIndex.AspectName = "StoreIndex";
-			this.olvColStoreIndex.Hyperlink = true;
-			this.olvColStoreIndex.IsEditable = false;
-			this.olvColStoreIndex.MinimumWidth = 100;
-			this.olvColStoreIndex.Text = "Path";
-			this.olvColStoreIndex.Width = 120;
+			this.olvColPath.AspectName = "Path";
+			this.olvColPath.Hyperlink = true;
+			this.olvColPath.IsEditable = false;
+			this.olvColPath.MinimumWidth = 100;
+			this.olvColPath.Text = "Path";
+			this.olvColPath.Width = 120;
 			// 
-			// olvColSpace
+			// olvColSize
 			// 
-			this.olvColSpace.AspectName = "Space";
-			this.olvColSpace.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.olvColSpace.IsEditable = false;
-			this.olvColSpace.MinimumWidth = 60;
-			this.olvColSpace.Text = "Size";
-			this.olvColSpace.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.olvColSize.AspectName = "Size";
+			this.olvColSize.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.olvColSize.IsEditable = false;
+			this.olvColSize.MinimumWidth = 60;
+			this.olvColSize.Text = "Size";
+			this.olvColSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
-			// olvColGather
+			// olvColStore
 			// 
-			this.olvColGather.AspectName = "Gather";
-			this.olvColGather.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColGather.MinimumWidth = 45;
-			this.olvColGather.Text = "Store";
-			this.olvColGather.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColGather.Width = 45;
+			this.olvColStore.AspectName = "Store";
+			this.olvColStore.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColStore.MinimumWidth = 45;
+			this.olvColStore.Text = "Store";
+			this.olvColStore.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColStore.Width = 45;
 			// 
-			// olvColView
+			// olvColEnjoy
 			// 
-			this.olvColView.AspectName = "View";
-			this.olvColView.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColView.MinimumWidth = 45;
-			this.olvColView.Text = "Enjoy";
-			this.olvColView.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColView.Width = 45;
+			this.olvColEnjoy.AspectName = "Enjoy";
+			this.olvColEnjoy.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColEnjoy.MinimumWidth = 45;
+			this.olvColEnjoy.Text = "Enjoy";
+			this.olvColEnjoy.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColEnjoy.Width = 45;
 			// 
-			// olvColRate
+			// olvColGrade
 			// 
-			this.olvColRate.AspectName = "Rate";
-			this.olvColRate.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColRate.MinimumWidth = 60;
-			this.olvColRate.Text = "Grade";
-			this.olvColRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColGrade.AspectName = "Grade";
+			this.olvColGrade.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColGrade.MinimumWidth = 60;
+			this.olvColGrade.Text = "Grade";
+			this.olvColGrade.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// olvColNote
 			// 
@@ -321,7 +320,7 @@
 			this.tsslSelSpace.Name = "tsslSelSpace";
 			this.tsslSelSpace.Size = new System.Drawing.Size(373, 21);
 			this.tsslSelSpace.Spring = true;
-			this.tsslSelSpace.Text = "Selected Space: ";
+			this.tsslSelSpace.Text = "Selected Size: ";
 			// 
 			// tsslTotal
 			// 
@@ -334,7 +333,7 @@
 			// 
 			this.tsslSpace.Name = "tsslSpace";
 			this.tsslSpace.Size = new System.Drawing.Size(83, 21);
-			this.tsslSpace.Text = "Total Space: ";
+			this.tsslSpace.Text = "Total Size: ";
 			// 
 			// tsMain
 			// 
@@ -544,14 +543,14 @@
 		private BrightIdeasSoftware.ObjectListView folvAnime;
 		private BrightIdeasSoftware.OLVColumn olvColTitle;
 		private BrightIdeasSoftware.OLVColumn olvColName;
-		private BrightIdeasSoftware.OLVColumn olvColReleaseDate;
+		private BrightIdeasSoftware.OLVColumn olvColSchedule;
 		private BrightIdeasSoftware.OLVColumn olvColType;
-		private BrightIdeasSoftware.OLVColumn olvColPublisher;
-		private BrightIdeasSoftware.OLVColumn olvColStoreIndex;
-		private BrightIdeasSoftware.OLVColumn olvColSpace;
-		private BrightIdeasSoftware.OLVColumn olvColGather;
-		private BrightIdeasSoftware.OLVColumn olvColView;
-		private BrightIdeasSoftware.OLVColumn olvColRate;
+		private BrightIdeasSoftware.OLVColumn olvColSubTeam;
+		private BrightIdeasSoftware.OLVColumn olvColPath;
+		private BrightIdeasSoftware.OLVColumn olvColSize;
+		private BrightIdeasSoftware.OLVColumn olvColStore;
+		private BrightIdeasSoftware.OLVColumn olvColEnjoy;
+		private BrightIdeasSoftware.OLVColumn olvColGrade;
 		private BrightIdeasSoftware.OLVColumn olvColNote;
 		private System.Windows.Forms.RichTextBox rtbAnime;
 		private System.Windows.Forms.SplitContainer scAnime;

@@ -54,7 +54,7 @@ namespace AnimeTrim
 			}
 			else
 			{
-				this.lblMatchStoreIndex.Text = "StoreIndex isn't match";
+				this.lblMatchStoreIndex.Text = "Path isn't match";
 				return false;
 			}
 		}
@@ -75,7 +75,7 @@ namespace AnimeTrim
 			this.cboFormat.Text = a.Format.ToString();
 			this.cboSubStyle.Text = a.SubStyle.ToString();
 
-			this.tbStoreIndex.Text = a.StoreIndex;
+			this.tbStoreIndex.Text = a.Path;
 			this.rtbNote.Text = a.Note.Replace('\u0002', '\n');
 
 			_anime = a;
@@ -122,7 +122,7 @@ namespace AnimeTrim
 
 			//    if (!rx.IsMatch(this.tbStoreIndex.Text))
 			//    {
-			//        MessageBox.Show("The StoreIndex do not match!", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			//        MessageBox.Show("The Path do not match!", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			//        this.tbStoreIndex.ResetText();
 			//        this.tbStoreIndex.Focus();
 
@@ -130,9 +130,9 @@ namespace AnimeTrim
 			//    }
 
 			//    if (Directory.Exists(this.tbStoreIndex.Text))
-			//        _anime.Space = AnimeSpace.GetSpace(this.tbStoreIndex.Text);
+			//        _anime.Size = AnimeSpace.GetSpace(this.tbStoreIndex.Text);
 			//}
-			//else _anime.Space = 0L;
+			//else _anime.Size = 0L;
 
 			bool btitle, byear, bstoreindex;
 
@@ -159,15 +159,15 @@ namespace AnimeTrim
 			}
 
 			if (this.tbStoreIndex.Text == String.Empty)
-				_anime.Space = 0L;
+				_anime.Size = 0L;
 			else if (Directory.Exists(this.tbStoreIndex.Text))
-				_anime.Space = AnimeSpace.GetSpace(this.tbStoreIndex.Text);
+				_anime.Size = AnimeSpace.GetSpace(this.tbStoreIndex.Text);
 			// edit fin
 
 			_anime.Title = this.tbTitle.Text;
 			_anime.Year = UInt32.Parse(this.cboYear.Text);
 			_anime.Season = this.cboSeason.Text;
-			_anime.StoreIndex = this.tbStoreIndex.Text;
+			_anime.Path = this.tbStoreIndex.Text;
 
 			_anime.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), this.cboFormat.Text);
 			_anime.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), this.cboSubStyle.Text);

@@ -40,9 +40,15 @@ namespace AnimeTrim
 		public String Season
 		{ get; set; }
 
-		public String ReleaseDate()
+		/// <summary>
+		/// Schedule
+		/// </summary>
+		public String Schedule
 		{
-			return String.Format("{0} {1}", Year, Season);
+			get
+			{
+				return String.Format("{0} {1}", Year, Season);
+			}
 		}
 
 		public MediaType Type
@@ -51,25 +57,36 @@ namespace AnimeTrim
 		public MergeFormat Format
 		{ get; set; }
 
-		public String Publisher
+		public String SubTeam
 		{ get; set; }
 
 		public SubStyles SubStyle
 		{ get; set; }
 
-		public String StoreIndex
+		public String Path
 		{ get; set; }
 
-		public Int64 Space
+		/// <summary>
+		/// Preview of same files in Path
+		/// </summary>
+		public String Preview
+		{
+			get
+			{
+				return GetPreview(Path);
+			}
+		}
+
+		public Int64 Size
 		{ get; set; }
 
-		public Boolean Gather
+		public Boolean Store
 		{ get; set; }
 
-		public Boolean View
+		public Boolean Enjoy
 		{ get; set; }
 
-		public Int32 Rate
+		public Int32 Grade
 		{ get; set; }
 
 		public DateTime CreateTime
@@ -81,7 +98,9 @@ namespace AnimeTrim
 		public String Kana
 		{ get; set; }
 
-		// 动漫话数
+		/// <summary>
+		/// 动漫话数
+		/// </summary>
 		public String Episode
 		{ get; set; }
 
@@ -122,8 +141,8 @@ namespace AnimeTrim
 		//}
 
 		public Anime(UInt32 id, String title, String name, UInt32 year, String season, MediaType type,
-			MergeFormat format, String publisher, SubStyles subStyle, String storeIndex,
-			Int64 space, Boolean gather, Boolean view, Int32 rate, DateTime createTime,
+			MergeFormat format, String subTeam, SubStyles subStyle, String path,
+			Int64 size, Boolean store, Boolean enjoy, Int32 grade, DateTime createTime,
 			DateTime updateTime, String kana, String episode, String inc, String note)
 		{
 			this.ID = id;
@@ -133,13 +152,13 @@ namespace AnimeTrim
 			this.Season = season;
 			this.Type = type;
 			this.Format = format;
-			this.Publisher = publisher;
+			this.SubTeam = subTeam;
 			this.SubStyle = subStyle;
-			this.StoreIndex = storeIndex;
-			this.Space = space;
-			this.Gather = gather;
-			this.View = view;
-			this.Rate = rate;
+			this.Path = path;
+			this.Size = size;
+			this.Store = store;
+			this.Enjoy = enjoy;
+			this.Grade = grade;
 			this.CreateTime = createTime;
 			this.UpdateTime = updateTime;
 			this.Kana = kana;
@@ -157,13 +176,13 @@ namespace AnimeTrim
 			this.Season = other.Season;
 			this.Type = other.Type;
 			this.Format = other.Format;
-			this.Publisher = other.Publisher;
+			this.SubTeam = other.SubTeam;
 			this.SubStyle = other.SubStyle;
-			this.StoreIndex = other.StoreIndex;
-			this.Space = other.Space;
-			this.Gather = other.Gather;
-			this.View = other.View;
-			this.Rate = other.Rate;
+			this.Path = other.Path;
+			this.Size = other.Size;
+			this.Store = other.Store;
+			this.Enjoy = other.Enjoy;
+			this.Grade = other.Grade;
 			this.CreateTime = other.CreateTime;
 			this.UpdateTime = other.UpdateTime;
 			this.Kana = other.Kana;
@@ -178,13 +197,44 @@ namespace AnimeTrim
 			this.Title = edit.Title;
 			this.Year = edit.Year;
 			this.Season = edit.Season;
-			this.StoreIndex = edit.StoreIndex;
-			this.Space = edit.Space;
+			this.Path = edit.Path;
+			this.Size = edit.Size;
 			this.UpdateTime = edit.UpdateTime;
 			this.Kana = edit.Kana;
 			this.Episode = edit.Episode;
 			this.Inc = edit.Inc;
 			this.Note = edit.Note;
+		}
+
+		public static String GetPreview(String path)
+		{
+			if (!Directory.Exists(path))
+				return path;
+
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine(path);
+			DirectoryInfo dirInfo = new DirectoryInfo(path);
+			FileInfo[] fi = dirInfo.GetFiles();
+			int il = fi.Length;
+
+			if (il == 0)
+				return sb.ToString();
+
+			sb.AppendLine();
+
+			int uCnt = 0;
+			for (; uCnt < il; uCnt++)
+			{
+				if (uCnt >= 10)
+					break;
+
+				sb.AppendLine(fi[uCnt].Name);
+			}
+
+			if (uCnt == 10)
+				sb.Append("...");
+
+			return sb.ToString();
 		}
 	}
 
