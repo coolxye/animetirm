@@ -1,2 +1,2 @@
 ObjectListView v2.8.0
-AnimeTrim v3.0.2
+AnimeTrim v3.0.3
