@@ -62,16 +62,17 @@
 			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
 			this.btnDel = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForEdit = new System.Windows.Forms.ToolStripSeparator();
+			this.tsBtnRefresh = new System.Windows.Forms.ToolStripButton();
+			this.tsSepForSpecial = new System.Windows.Forms.ToolStripSeparator();
 			this.tssBtnMore = new System.Windows.Forms.ToolStripSplitButton();
 			this.tsMenItmFormat = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMenItmBackup = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMore = new System.Windows.Forms.ToolStrip();
 			this.tsDropDnBtnGroup = new System.Windows.Forms.ToolStripDropDownButton();
-			this.tsSepForGroup = new System.Windows.Forms.ToolStripSeparator();
+			this.tsDropDnBtnOverlay = new System.Windows.Forms.ToolStripDropDownButton();
+			this.tsSepForSwitch = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
-			this.tsBtnRefresh = new System.Windows.Forms.ToolStripButton();
-			this.tsSepForSpecial = new System.Windows.Forms.ToolStripSeparator();
 			this.tctlAnime.SuspendLayout();
 			this.tpAnime.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).BeginInit();
@@ -93,7 +94,7 @@
 			this.tctlAnime.Name = "tctlAnime";
 			this.tctlAnime.SelectedIndex = 0;
 			this.tctlAnime.ShowToolTips = true;
-			this.tctlAnime.Size = new System.Drawing.Size(868, 331);
+			this.tctlAnime.Size = new System.Drawing.Size(920, 356);
 			this.tctlAnime.TabIndex = 0;
 			// 
 			// tpAnime
@@ -102,7 +103,7 @@
 			this.tpAnime.Location = new System.Drawing.Point(4, 22);
 			this.tpAnime.Name = "tpAnime";
 			this.tpAnime.Padding = new System.Windows.Forms.Padding(3);
-			this.tpAnime.Size = new System.Drawing.Size(860, 305);
+			this.tpAnime.Size = new System.Drawing.Size(912, 330);
 			this.tpAnime.TabIndex = 0;
 			this.tpAnime.Text = "Anime";
 			this.tpAnime.UseVisualStyleBackColor = true;
@@ -149,7 +150,7 @@
 			this.folvAnime.ShowGroups = false;
 			this.folvAnime.ShowItemCountOnGroups = true;
 			this.folvAnime.ShowItemToolTips = true;
-			this.folvAnime.Size = new System.Drawing.Size(854, 299);
+			this.folvAnime.Size = new System.Drawing.Size(906, 324);
 			this.folvAnime.TabIndex = 0;
 			this.folvAnime.UseAlternatingBackColors = true;
 			this.folvAnime.UseCompatibleStateImageBehavior = false;
@@ -273,7 +274,7 @@
 			this.rtbAnime.Name = "rtbAnime";
 			this.rtbAnime.ReadOnly = true;
 			this.rtbAnime.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.rtbAnime.Size = new System.Drawing.Size(868, 54);
+			this.rtbAnime.Size = new System.Drawing.Size(920, 59);
 			this.rtbAnime.TabIndex = 0;
 			this.rtbAnime.Text = "";
 			// 
@@ -293,8 +294,8 @@
 			// scAnime.Panel2
 			// 
 			this.scAnime.Panel2.Controls.Add(this.rtbAnime);
-			this.scAnime.Size = new System.Drawing.Size(868, 389);
-			this.scAnime.SplitterDistance = 331;
+			this.scAnime.Size = new System.Drawing.Size(920, 419);
+			this.scAnime.SplitterDistance = 356;
 			this.scAnime.TabIndex = 2;
 			// 
 			// ssAnime
@@ -304,16 +305,16 @@
             this.tsslSelSpace,
             this.tsslTotal,
             this.tsslSpace});
-			this.ssAnime.Location = new System.Drawing.Point(0, 445);
+			this.ssAnime.Location = new System.Drawing.Point(0, 475);
 			this.ssAnime.Name = "ssAnime";
-			this.ssAnime.Size = new System.Drawing.Size(892, 26);
+			this.ssAnime.Size = new System.Drawing.Size(944, 26);
 			this.ssAnime.TabIndex = 3;
 			// 
 			// tsslSelected
 			// 
 			this.tsslSelected.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.tsslSelected.Name = "tsslSelected";
-			this.tsslSelected.Size = new System.Drawing.Size(379, 21);
+			this.tsslSelected.Size = new System.Drawing.Size(405, 21);
 			this.tsslSelected.Spring = true;
 			this.tsslSelected.Text = "Selected: ";
 			// 
@@ -321,7 +322,7 @@
 			// 
 			this.tsslSelSpace.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.tsslSelSpace.Name = "tsslSelSpace";
-			this.tsslSelSpace.Size = new System.Drawing.Size(379, 21);
+			this.tsslSelSpace.Size = new System.Drawing.Size(405, 21);
 			this.tsslSelSpace.Spring = true;
 			this.tsslSelSpace.Text = "Selected Size: ";
 			// 
@@ -355,7 +356,7 @@
             this.tssBtnMore});
 			this.tsMain.Location = new System.Drawing.Point(0, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(892, 25);
+			this.tsMain.Size = new System.Drawing.Size(944, 25);
 			this.tsMain.TabIndex = 1;
 			this.tsMain.Text = "tsMain";
 			// 
@@ -439,6 +440,21 @@
 			this.tsSepForEdit.Name = "tsSepForEdit";
 			this.tsSepForEdit.Size = new System.Drawing.Size(6, 25);
 			// 
+			// tsBtnRefresh
+			// 
+			this.tsBtnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnRefresh.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnRefresh.Image")));
+			this.tsBtnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnRefresh.Name = "tsBtnRefresh";
+			this.tsBtnRefresh.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnRefresh.Text = "Refresh";
+			this.tsBtnRefresh.Click += new System.EventHandler(this.tsBtnRefresh_Click);
+			// 
+			// tsSepForSpecial
+			// 
+			this.tsSepForSpecial.Name = "tsSepForSpecial";
+			this.tsSepForSpecial.Size = new System.Drawing.Size(6, 25);
+			// 
 			// tssBtnMore
 			// 
 			this.tssBtnMore.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -454,26 +470,27 @@
 			// tsMenItmFormat
 			// 
 			this.tsMenItmFormat.Name = "tsMenItmFormat";
-			this.tsMenItmFormat.Size = new System.Drawing.Size(152, 22);
+			this.tsMenItmFormat.Size = new System.Drawing.Size(119, 22);
 			this.tsMenItmFormat.Text = "Format";
 			this.tsMenItmFormat.Click += new System.EventHandler(this.btnChange_Click);
 			// 
 			// tsMenItmBackup
 			// 
 			this.tsMenItmBackup.Name = "tsMenItmBackup";
-			this.tsMenItmBackup.Size = new System.Drawing.Size(152, 22);
+			this.tsMenItmBackup.Size = new System.Drawing.Size(119, 22);
 			this.tsMenItmBackup.Text = "Backup";
 			// 
 			// tsMore
 			// 
 			this.tsMore.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsDropDnBtnGroup,
-            this.tsSepForGroup,
+            this.tsDropDnBtnOverlay,
+            this.tsSepForSwitch,
             this.cboFilter,
             this.tbFilter});
 			this.tsMore.Location = new System.Drawing.Point(0, 25);
 			this.tsMore.Name = "tsMore";
-			this.tsMore.Size = new System.Drawing.Size(892, 25);
+			this.tsMore.Size = new System.Drawing.Size(944, 25);
 			this.tsMore.TabIndex = 0;
 			this.tsMore.Text = "tsMore";
 			// 
@@ -487,10 +504,20 @@
 			this.tsDropDnBtnGroup.Text = "Group";
 			this.tsDropDnBtnGroup.Click += new System.EventHandler(this.cbGroups_CheckedChanged);
 			// 
-			// tsSepForGroup
+			// tsDropDnBtnOverlay
 			// 
-			this.tsSepForGroup.Name = "tsSepForGroup";
-			this.tsSepForGroup.Size = new System.Drawing.Size(6, 25);
+			this.tsDropDnBtnOverlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsDropDnBtnOverlay.Image = ((System.Drawing.Image)(resources.GetObject("tsDropDnBtnOverlay.Image")));
+			this.tsDropDnBtnOverlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsDropDnBtnOverlay.Name = "tsDropDnBtnOverlay";
+			this.tsDropDnBtnOverlay.Size = new System.Drawing.Size(29, 22);
+			this.tsDropDnBtnOverlay.Text = "Overlay";
+			this.tsDropDnBtnOverlay.Click += new System.EventHandler(this.tsDropDnBtnOverlay_Click);
+			// 
+			// tsSepForSwitch
+			// 
+			this.tsSepForSwitch.Name = "tsSepForSwitch";
+			this.tsSepForSwitch.Size = new System.Drawing.Size(6, 25);
 			// 
 			// cboFilter
 			// 
@@ -509,26 +536,11 @@
 			this.tbFilter.Size = new System.Drawing.Size(150, 25);
 			this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
 			// 
-			// tsBtnRefresh
-			// 
-			this.tsBtnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnRefresh.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnRefresh.Image")));
-			this.tsBtnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsBtnRefresh.Name = "tsBtnRefresh";
-			this.tsBtnRefresh.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnRefresh.Text = "Refresh";
-			this.tsBtnRefresh.Click += new System.EventHandler(this.tsBtnRefresh_Click);
-			// 
-			// tsSepForSpecial
-			// 
-			this.tsSepForSpecial.Name = "tsSepForSpecial";
-			this.tsSepForSpecial.Size = new System.Drawing.Size(6, 25);
-			// 
 			// AnimeForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(892, 471);
+			this.ClientSize = new System.Drawing.Size(944, 501);
 			this.Controls.Add(this.tsMore);
 			this.Controls.Add(this.tsMain);
 			this.Controls.Add(this.ssAnime);
@@ -594,12 +606,13 @@
 		private System.Windows.Forms.ToolStripMenuItem tsMenItmBackup;
 		private System.Windows.Forms.ToolStrip tsMore;
 		private System.Windows.Forms.ToolStripDropDownButton tsDropDnBtnGroup;
-		private System.Windows.Forms.ToolStripSeparator tsSepForGroup;
+		private System.Windows.Forms.ToolStripSeparator tsSepForSwitch;
 		private System.Windows.Forms.ToolStripComboBox cboFilter;
 		private System.Windows.Forms.ToolStripTextBox tbFilter;
 		private System.Windows.Forms.ToolStripButton tsBtnDuplicate;
 		private System.Windows.Forms.ToolStripButton tsBtnRefresh;
 		private System.Windows.Forms.ToolStripSeparator tsSepForSpecial;
+		private System.Windows.Forms.ToolStripDropDownButton tsDropDnBtnOverlay;
 
 	}
 }

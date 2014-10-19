@@ -975,6 +975,12 @@ namespace AnimeTrim
 			}
 		}
 
+		private void tsDropDnBtnOverlay_Click(object sender, EventArgs e)
+		{
+			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+		}
+
 		private void folvAnime_IsHyperlink(object sender, IsHyperlinkEventArgs e)
 		{
 			e.Url = e.Text;
