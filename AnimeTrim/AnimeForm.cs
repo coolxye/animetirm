@@ -67,10 +67,10 @@ namespace AnimeTrim
 		// Initalize the buttons
 		private void InitBtn()
 		{
-			this.btnSave.Enabled = false;
-			this.btnModify.Enabled = false;
+			this.tsBtnSave.Enabled = false;
+			this.tsBtnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
-			this.btnDel.Enabled = false;
+			this.tsBtnDel.Enabled = false;
 			this.tsBtnRefresh.Enabled = false;
 		}
 
@@ -397,10 +397,10 @@ namespace AnimeTrim
 			this.rtbAnime.ResetText();
 
 			// Button reset
-			this.btnSave.Enabled = false;
-			this.btnModify.Enabled = false;
+			this.tsBtnSave.Enabled = false;
+			this.tsBtnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
-			this.btnDel.Enabled = false;
+			this.tsBtnDel.Enabled = false;
 			this.tsBtnRefresh.Enabled = false;
 
 			// StatusStrip reset
@@ -434,7 +434,7 @@ namespace AnimeTrim
 			{
 				UpdateAnimeDoc();
 				_ai.IsSaved = true;
-				this.btnSave.Enabled = false;
+				this.tsBtnSave.Enabled = false;
 
 				return true;
 			}
@@ -451,7 +451,7 @@ namespace AnimeTrim
 				_ai.IsSaved = true;
 
 				UpdateAnimeDoc();
-				this.btnSave.Enabled = false;
+				this.tsBtnSave.Enabled = false;
 
 				return true;
 			}
@@ -473,9 +473,9 @@ namespace AnimeTrim
 					String.Format("Selected Size: {0:#,##0.#0} MB", a.Size / 1048576D);
 
 				this.rtbAnime.Text = a.Remarks();
-				this.btnModify.Enabled = true;
+				this.tsBtnModify.Enabled = true;
 				this.tsBtnDuplicate.Enabled = true;
-				this.btnDel.Enabled = true;
+				this.tsBtnDel.Enabled = true;
 				this.tsBtnRefresh.Enabled = true;
 			}
 			else
@@ -483,13 +483,13 @@ namespace AnimeTrim
 				if (iSel == 0)
 				{
 					this.tsBtnDuplicate.Enabled = false;
-					this.btnDel.Enabled = false;
+					this.tsBtnDel.Enabled = false;
 					this.tsBtnRefresh.Enabled = false;
 				}
 				else
 				{
 					this.tsBtnDuplicate.Enabled = true;
-					this.btnDel.Enabled = true;
+					this.tsBtnDel.Enabled = true;
 					this.tsBtnRefresh.Enabled = true;
 				}
 
@@ -504,7 +504,7 @@ namespace AnimeTrim
 					String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 
 				this.rtbAnime.ResetText();
-				this.btnModify.Enabled = false;
+				this.tsBtnModify.Enabled = false;
 			}
 		}
 
@@ -563,7 +563,7 @@ namespace AnimeTrim
 			this.tbFilter_TextChanged(null, null);
 		}
 
-		private void btnNew_Click(object sender, EventArgs e)
+		private void tsBtnNew_Click(object sender, EventArgs e)
 		{
 			// edit 13/1/9 for bug3
 			//if (!_ai.IsSaved)
@@ -573,7 +573,7 @@ namespace AnimeTrim
 			//        MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
 			//    if (dr == DialogResult.Yes)
-			//        btnSave_Click(null, null);
+			//        tsBtnSave_Click(null, null);
 			//}
 			if (!SaveCheck())
 				return;
@@ -726,7 +726,7 @@ namespace AnimeTrim
 			#endregion
 		}
 
-		private void btnOpen_Click(object sender, EventArgs e)
+		private void tsBtnOpen_Click(object sender, EventArgs e)
 		{
 			// edit 13/1/9 for bug3
 			//if (!_ai.IsSaved)
@@ -736,7 +736,7 @@ namespace AnimeTrim
 			//        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
 
 			//    if (dr == DialogResult.Yes)
-			//        btnSave_Click(null, null);
+			//        tsBtnSave_Click(null, null);
 			//    else if (dr == DialogResult.Cancel)
 			//        return;
 			//}
@@ -766,14 +766,14 @@ namespace AnimeTrim
 			}
 		}
 
-		private void btnSave_Click(object sender, EventArgs e)
+		private void tsBtnSave_Click(object sender, EventArgs e)
 		{
 			// edit 13/1/9 for bug3
 			//if (!_ai.IsNew)
 			//{
 			//    UpdateAnimeDoc();
 			//    _ai.IsSaved = true;
-			//    this.btnSave.Enabled = false;
+			//    this.tsBtnSave.Enabled = false;
 
 			//    return;
 			//}
@@ -790,13 +790,13 @@ namespace AnimeTrim
 			//    _ai.IsSaved = true;
 
 			//    UpdateAnimeDoc();
-			//    this.btnSave.Enabled = false;
+			//    this.tsBtnSave.Enabled = false;
 			//}
 			SaveData();
 			// edit fin
 		}
 
-		private void btnAdd_Click(object sender, EventArgs e)
+		private void tsBtnAdd_Click(object sender, EventArgs e)
 		{
 			AddForm af = new AddForm();
 			af.StartPosition = FormStartPosition.CenterParent;
@@ -822,11 +822,11 @@ namespace AnimeTrim
 				//this.folvAnime.Focus();
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				this.btnSave.Enabled = true;
+				this.tsBtnSave.Enabled = true;
 			}
 		}
 
-		private void btnModify_Click(object sender, EventArgs e)
+		private void tsBtnModify_Click(object sender, EventArgs e)
 		{
 			Anime a = this.folvAnime.SelectedObject as Anime;
 
@@ -850,7 +850,7 @@ namespace AnimeTrim
 				// TODO: 需修正工具栏
 				//this.folvAnime.Focus();
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				this.btnSave.Enabled = true;
+				this.tsBtnSave.Enabled = true;
 			}
 		}
 
@@ -884,7 +884,7 @@ namespace AnimeTrim
 		//	this.folvAnime.Focus();
 		//	this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 		//	this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Size / 1073741824D);
-		//	this.btnSave.Enabled = true;
+		//	this.tsBtnSave.Enabled = true;
 		//}
 		#endregion
 
@@ -908,11 +908,11 @@ namespace AnimeTrim
 
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				this.btnSave.Enabled = true;
+				this.tsBtnSave.Enabled = true;
 			}
 		}
 
-		private void btnRemove_Click(object sender, EventArgs e)
+		private void tsBtnDel_Click(object sender, EventArgs e)
 		{
 			int isel;
 
@@ -941,7 +941,7 @@ namespace AnimeTrim
 			//this.folvAnime.Focus();
 			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-			this.btnSave.Enabled = true;
+			this.tsBtnSave.Enabled = true;
 		}
 
 		private void tsBtnRefresh_Click(object sender, EventArgs e)
@@ -999,7 +999,8 @@ namespace AnimeTrim
 			this.rtbAnime.Text = a.Remarks();
 			// edit fin
 
-			this.btnSave.Enabled = true;
+			_ai.IsSaved = false;
+			this.tsBtnSave.Enabled = true;
 		}
 
 		private void folvAnime_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
@@ -1040,7 +1041,7 @@ namespace AnimeTrim
 			//        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
 
 			//    if (dr == DialogResult.Yes)
-			//        btnSave_Click(null, null);
+			//        tsBtnSave_Click(null, null);
 			//    else if (dr == DialogResult.Cancel)
 			//        e.Cancel = true;
 			//}

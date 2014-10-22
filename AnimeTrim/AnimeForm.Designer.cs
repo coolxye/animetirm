@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimeForm));
 			this.tctlAnime = new System.Windows.Forms.TabControl();
 			this.tpAnime = new System.Windows.Forms.TabPage();
@@ -43,6 +44,11 @@
 			this.olvColEnjoy = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColGrade = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColNote = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.cmsAnime = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.modifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.tpMusic = new System.Windows.Forms.TabPage();
 			this.rtbAnime = new System.Windows.Forms.RichTextBox();
@@ -53,14 +59,14 @@
 			this.tsslTotal = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsslSpace = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tsMain = new System.Windows.Forms.ToolStrip();
-			this.btnNew = new System.Windows.Forms.ToolStripButton();
-			this.btnOpen = new System.Windows.Forms.ToolStripButton();
-			this.btnSave = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnNew = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnOpen = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnSave = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForFile = new System.Windows.Forms.ToolStripSeparator();
-			this.btnAdd = new System.Windows.Forms.ToolStripButton();
-			this.btnModify = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnAdd = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnModify = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
-			this.btnDel = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnDel = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForEdit = new System.Windows.Forms.ToolStripSeparator();
 			this.tsBtnRefresh = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForSpecial = new System.Windows.Forms.ToolStripSeparator();
@@ -73,9 +79,12 @@
 			this.tsSepForSwitch = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
+			this.tsSepForCms = new System.Windows.Forms.ToolStripSeparator();
+			this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tctlAnime.SuspendLayout();
 			this.tpAnime.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).BeginInit();
+			this.cmsAnime.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.scAnime)).BeginInit();
 			this.scAnime.Panel1.SuspendLayout();
 			this.scAnime.Panel2.SuspendLayout();
@@ -136,6 +145,7 @@
             this.olvColEnjoy,
             this.olvColGrade,
             this.olvColNote});
+			this.folvAnime.ContextMenuStrip = this.cmsAnime;
 			this.folvAnime.Cursor = System.Windows.Forms.Cursors.Default;
 			this.folvAnime.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.folvAnime.EmptyListMsg = "アニメがない...";
@@ -252,6 +262,46 @@
 			this.olvColNote.Text = "Note";
 			this.olvColNote.Width = 200;
 			// 
+			// cmsAnime
+			// 
+			this.cmsAnime.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToolStripMenuItem,
+            this.modifyToolStripMenuItem,
+            this.duplicateToolStripMenuItem,
+            this.deleteToolStripMenuItem,
+            this.tsSepForCms,
+            this.refreshToolStripMenuItem});
+			this.cmsAnime.Name = "ctxtMnSpAnime";
+			this.cmsAnime.Size = new System.Drawing.Size(131, 120);
+			// 
+			// addToolStripMenuItem
+			// 
+			this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+			this.addToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.addToolStripMenuItem.Text = "Add";
+			this.addToolStripMenuItem.Click += new System.EventHandler(this.tsBtnAdd_Click);
+			// 
+			// modifyToolStripMenuItem
+			// 
+			this.modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
+			this.modifyToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.modifyToolStripMenuItem.Text = "Modify";
+			this.modifyToolStripMenuItem.Click += new System.EventHandler(this.tsBtnModify_Click);
+			// 
+			// duplicateToolStripMenuItem
+			// 
+			this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
+			this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.duplicateToolStripMenuItem.Text = "Duplicate";
+			this.duplicateToolStripMenuItem.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
+			// 
+			// deleteToolStripMenuItem
+			// 
+			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.deleteToolStripMenuItem.Text = "Delete";
+			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.tsBtnDel_Click);
+			// 
 			// hiStyle
 			// 
 			this.hiStyle.BackColor = System.Drawing.Color.PeachPuff;
@@ -262,7 +312,7 @@
 			this.tpMusic.Location = new System.Drawing.Point(4, 22);
 			this.tpMusic.Name = "tpMusic";
 			this.tpMusic.Padding = new System.Windows.Forms.Padding(3);
-			this.tpMusic.Size = new System.Drawing.Size(860, 305);
+			this.tpMusic.Size = new System.Drawing.Size(912, 330);
 			this.tpMusic.TabIndex = 1;
 			this.tpMusic.Text = "Music";
 			this.tpMusic.UseVisualStyleBackColor = true;
@@ -342,14 +392,14 @@
 			// tsMain
 			// 
 			this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnNew,
-            this.btnOpen,
-            this.btnSave,
+            this.tsBtnNew,
+            this.tsBtnOpen,
+            this.tsBtnSave,
             this.tsSepForFile,
-            this.btnAdd,
-            this.btnModify,
+            this.tsBtnAdd,
+            this.tsBtnModify,
             this.tsBtnDuplicate,
-            this.btnDel,
+            this.tsBtnDel,
             this.tsSepForEdit,
             this.tsBtnRefresh,
             this.tsSepForSpecial,
@@ -360,60 +410,60 @@
 			this.tsMain.TabIndex = 1;
 			this.tsMain.Text = "tsMain";
 			// 
-			// btnNew
+			// tsBtnNew
 			// 
-			this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnNew.Image = ((System.Drawing.Image)(resources.GetObject("btnNew.Image")));
-			this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnNew.Name = "btnNew";
-			this.btnNew.Size = new System.Drawing.Size(23, 22);
-			this.btnNew.Text = "New";
-			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+			this.tsBtnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnNew.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnNew.Image")));
+			this.tsBtnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnNew.Name = "tsBtnNew";
+			this.tsBtnNew.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnNew.Text = "New";
+			this.tsBtnNew.Click += new System.EventHandler(this.tsBtnNew_Click);
 			// 
-			// btnOpen
+			// tsBtnOpen
 			// 
-			this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
-			this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnOpen.Name = "btnOpen";
-			this.btnOpen.Size = new System.Drawing.Size(23, 22);
-			this.btnOpen.Text = "Open";
-			this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+			this.tsBtnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnOpen.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnOpen.Image")));
+			this.tsBtnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnOpen.Name = "tsBtnOpen";
+			this.tsBtnOpen.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnOpen.Text = "Open";
+			this.tsBtnOpen.Click += new System.EventHandler(this.tsBtnOpen_Click);
 			// 
-			// btnSave
+			// tsBtnSave
 			// 
-			this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
-			this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(23, 22);
-			this.btnSave.Text = "Save";
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			this.tsBtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnSave.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnSave.Image")));
+			this.tsBtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnSave.Name = "tsBtnSave";
+			this.tsBtnSave.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnSave.Text = "Save";
+			this.tsBtnSave.Click += new System.EventHandler(this.tsBtnSave_Click);
 			// 
 			// tsSepForFile
 			// 
 			this.tsSepForFile.Name = "tsSepForFile";
 			this.tsSepForFile.Size = new System.Drawing.Size(6, 25);
 			// 
-			// btnAdd
+			// tsBtnAdd
 			// 
-			this.btnAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnAdd.Image")));
-			this.btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnAdd.Name = "btnAdd";
-			this.btnAdd.Size = new System.Drawing.Size(23, 22);
-			this.btnAdd.Text = "Add";
-			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+			this.tsBtnAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnAdd.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnAdd.Image")));
+			this.tsBtnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnAdd.Name = "tsBtnAdd";
+			this.tsBtnAdd.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnAdd.Text = "Add";
+			this.tsBtnAdd.Click += new System.EventHandler(this.tsBtnAdd_Click);
 			// 
-			// btnModify
+			// tsBtnModify
 			// 
-			this.btnModify.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnModify.Image = ((System.Drawing.Image)(resources.GetObject("btnModify.Image")));
-			this.btnModify.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnModify.Name = "btnModify";
-			this.btnModify.Size = new System.Drawing.Size(23, 22);
-			this.btnModify.Text = "Modify";
-			this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
+			this.tsBtnModify.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnModify.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnModify.Image")));
+			this.tsBtnModify.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnModify.Name = "tsBtnModify";
+			this.tsBtnModify.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnModify.Text = "Modify";
+			this.tsBtnModify.Click += new System.EventHandler(this.tsBtnModify_Click);
 			// 
 			// tsBtnDuplicate
 			// 
@@ -425,15 +475,15 @@
 			this.tsBtnDuplicate.Text = "Duplicate";
 			this.tsBtnDuplicate.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
 			// 
-			// btnDel
+			// tsBtnDel
 			// 
-			this.btnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnDel.Image = ((System.Drawing.Image)(resources.GetObject("btnDel.Image")));
-			this.btnDel.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.btnDel.Name = "btnDel";
-			this.btnDel.Size = new System.Drawing.Size(23, 22);
-			this.btnDel.Text = "Delete";
-			this.btnDel.Click += new System.EventHandler(this.btnRemove_Click);
+			this.tsBtnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnDel.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnDel.Image")));
+			this.tsBtnDel.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnDel.Name = "tsBtnDel";
+			this.tsBtnDel.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnDel.Text = "Delete";
+			this.tsBtnDel.Click += new System.EventHandler(this.tsBtnDel_Click);
 			// 
 			// tsSepForEdit
 			// 
@@ -470,14 +520,14 @@
 			// tsMenItmFormat
 			// 
 			this.tsMenItmFormat.Name = "tsMenItmFormat";
-			this.tsMenItmFormat.Size = new System.Drawing.Size(119, 22);
+			this.tsMenItmFormat.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmFormat.Text = "Format";
 			this.tsMenItmFormat.Click += new System.EventHandler(this.btnChange_Click);
 			// 
 			// tsMenItmBackup
 			// 
 			this.tsMenItmBackup.Name = "tsMenItmBackup";
-			this.tsMenItmBackup.Size = new System.Drawing.Size(119, 22);
+			this.tsMenItmBackup.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmBackup.Text = "Backup";
 			// 
 			// tsMore
@@ -536,6 +586,18 @@
 			this.tbFilter.Size = new System.Drawing.Size(150, 25);
 			this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
 			// 
+			// tsSepForCms
+			// 
+			this.tsSepForCms.Name = "tsSepForCms";
+			this.tsSepForCms.Size = new System.Drawing.Size(127, 6);
+			// 
+			// refreshToolStripMenuItem
+			// 
+			this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.refreshToolStripMenuItem.Text = "Refresh";
+			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.tsBtnRefresh_Click);
+			// 
 			// AnimeForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -552,6 +614,7 @@
 			this.tctlAnime.ResumeLayout(false);
 			this.tpAnime.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).EndInit();
+			this.cmsAnime.ResumeLayout(false);
 			this.scAnime.Panel1.ResumeLayout(false);
 			this.scAnime.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.scAnime)).EndInit();
@@ -593,13 +656,13 @@
 		private System.Windows.Forms.ToolStripStatusLabel tsslTotal;
 		private System.Windows.Forms.ToolStripStatusLabel tsslSpace;
 		private System.Windows.Forms.ToolStrip tsMain;
-		private System.Windows.Forms.ToolStripButton btnNew;
-		private System.Windows.Forms.ToolStripButton btnOpen;
-		private System.Windows.Forms.ToolStripButton btnSave;
+		private System.Windows.Forms.ToolStripButton tsBtnNew;
+		private System.Windows.Forms.ToolStripButton tsBtnOpen;
+		private System.Windows.Forms.ToolStripButton tsBtnSave;
 		private System.Windows.Forms.ToolStripSeparator tsSepForFile;
-		private System.Windows.Forms.ToolStripButton btnAdd;
-		private System.Windows.Forms.ToolStripButton btnModify;
-		private System.Windows.Forms.ToolStripButton btnDel;
+		private System.Windows.Forms.ToolStripButton tsBtnAdd;
+		private System.Windows.Forms.ToolStripButton tsBtnModify;
+		private System.Windows.Forms.ToolStripButton tsBtnDel;
 		private System.Windows.Forms.ToolStripSeparator tsSepForEdit;
 		private System.Windows.Forms.ToolStripSplitButton tssBtnMore;
 		private System.Windows.Forms.ToolStripMenuItem tsMenItmFormat;
@@ -613,6 +676,13 @@
 		private System.Windows.Forms.ToolStripButton tsBtnRefresh;
 		private System.Windows.Forms.ToolStripSeparator tsSepForSpecial;
 		private System.Windows.Forms.ToolStripDropDownButton tsDropDnBtnOverlay;
+		private System.Windows.Forms.ContextMenuStrip cmsAnime;
+		private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem modifyToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator tsSepForCms;
+		private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
 
 	}
 }
