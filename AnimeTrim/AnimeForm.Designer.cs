@@ -31,17 +31,17 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimeForm));
 			this.tctlAnime = new System.Windows.Forms.TabControl();
 			this.tpAnime = new System.Windows.Forms.TabPage();
-			this.folvAnime = new BrightIdeasSoftware.FastObjectListView();
+			this.folvAnime = new BrightIdeasSoftware.ObjectListView();
 			this.olvColTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColReleaseDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColSchedule = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColPublisher = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColStoreIndex = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColSpace = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColGather = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColView = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColRate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColSubTeam = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColPath = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColSize = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColStore = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColEnjoy = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColGrade = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColNote = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.tpMusic = new System.Windows.Forms.TabPage();
@@ -62,12 +62,15 @@
 			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
 			this.btnDel = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForEdit = new System.Windows.Forms.ToolStripSeparator();
+			this.tsBtnRefresh = new System.Windows.Forms.ToolStripButton();
+			this.tsSepForSpecial = new System.Windows.Forms.ToolStripSeparator();
 			this.tssBtnMore = new System.Windows.Forms.ToolStripSplitButton();
 			this.tsMenItmFormat = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMenItmBackup = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMore = new System.Windows.Forms.ToolStrip();
 			this.tsDropDnBtnGroup = new System.Windows.Forms.ToolStripDropDownButton();
-			this.tsSepForGroup = new System.Windows.Forms.ToolStripSeparator();
+			this.tsDropDnBtnOverlay = new System.Windows.Forms.ToolStripDropDownButton();
+			this.tsSepForSwitch = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
 			this.tctlAnime.SuspendLayout();
@@ -91,7 +94,7 @@
 			this.tctlAnime.Name = "tctlAnime";
 			this.tctlAnime.SelectedIndex = 0;
 			this.tctlAnime.ShowToolTips = true;
-			this.tctlAnime.Size = new System.Drawing.Size(868, 331);
+			this.tctlAnime.Size = new System.Drawing.Size(920, 356);
 			this.tctlAnime.TabIndex = 0;
 			// 
 			// tpAnime
@@ -100,7 +103,7 @@
 			this.tpAnime.Location = new System.Drawing.Point(4, 22);
 			this.tpAnime.Name = "tpAnime";
 			this.tpAnime.Padding = new System.Windows.Forms.Padding(3);
-			this.tpAnime.Size = new System.Drawing.Size(860, 305);
+			this.tpAnime.Size = new System.Drawing.Size(912, 330);
 			this.tpAnime.TabIndex = 0;
 			this.tpAnime.Text = "Anime";
 			this.tpAnime.UseVisualStyleBackColor = true;
@@ -109,14 +112,14 @@
 			// 
 			this.folvAnime.AllColumns.Add(this.olvColTitle);
 			this.folvAnime.AllColumns.Add(this.olvColName);
-			this.folvAnime.AllColumns.Add(this.olvColReleaseDate);
+			this.folvAnime.AllColumns.Add(this.olvColSchedule);
 			this.folvAnime.AllColumns.Add(this.olvColType);
-			this.folvAnime.AllColumns.Add(this.olvColPublisher);
-			this.folvAnime.AllColumns.Add(this.olvColStoreIndex);
-			this.folvAnime.AllColumns.Add(this.olvColSpace);
-			this.folvAnime.AllColumns.Add(this.olvColGather);
-			this.folvAnime.AllColumns.Add(this.olvColView);
-			this.folvAnime.AllColumns.Add(this.olvColRate);
+			this.folvAnime.AllColumns.Add(this.olvColSubTeam);
+			this.folvAnime.AllColumns.Add(this.olvColPath);
+			this.folvAnime.AllColumns.Add(this.olvColSize);
+			this.folvAnime.AllColumns.Add(this.olvColStore);
+			this.folvAnime.AllColumns.Add(this.olvColEnjoy);
+			this.folvAnime.AllColumns.Add(this.olvColGrade);
 			this.folvAnime.AllColumns.Add(this.olvColNote);
 			this.folvAnime.AllowColumnReorder = true;
 			this.folvAnime.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -124,14 +127,14 @@
 			this.folvAnime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColTitle,
             this.olvColName,
-            this.olvColReleaseDate,
+            this.olvColSchedule,
             this.olvColType,
-            this.olvColPublisher,
-            this.olvColStoreIndex,
-            this.olvColSpace,
-            this.olvColGather,
-            this.olvColView,
-            this.olvColRate,
+            this.olvColSubTeam,
+            this.olvColPath,
+            this.olvColSize,
+            this.olvColStore,
+            this.olvColEnjoy,
+            this.olvColGrade,
             this.olvColNote});
 			this.folvAnime.Cursor = System.Windows.Forms.Cursors.Default;
 			this.folvAnime.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -147,17 +150,16 @@
 			this.folvAnime.ShowGroups = false;
 			this.folvAnime.ShowItemCountOnGroups = true;
 			this.folvAnime.ShowItemToolTips = true;
-			this.folvAnime.Size = new System.Drawing.Size(854, 299);
+			this.folvAnime.Size = new System.Drawing.Size(906, 324);
 			this.folvAnime.TabIndex = 0;
-			this.folvAnime.TintSortColumn = true;
 			this.folvAnime.UseAlternatingBackColors = true;
 			this.folvAnime.UseCompatibleStateImageBehavior = false;
 			this.folvAnime.UseFiltering = true;
 			this.folvAnime.UseHotItem = true;
 			this.folvAnime.UseHyperlinks = true;
 			this.folvAnime.View = System.Windows.Forms.View.Details;
-			this.folvAnime.VirtualMode = true;
 			this.folvAnime.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.folvAnime_CellEditFinishing);
+			this.folvAnime.CellToolTipShowing += new System.EventHandler<BrightIdeasSoftware.ToolTipShowingEventArgs>(this.folvAnime_CellToolTipShowing);
 			this.folvAnime.IsHyperlink += new System.EventHandler<BrightIdeasSoftware.IsHyperlinkEventArgs>(this.folvAnime_IsHyperlink);
 			this.folvAnime.SelectionChanged += new System.EventHandler(this.folvAnime_SelectionChanged);
 			// 
@@ -177,13 +179,13 @@
 			this.olvColName.UseInitialLetterForGroup = true;
 			this.olvColName.Width = 120;
 			// 
-			// olvColReleaseDate
+			// olvColSchedule
 			// 
-			this.olvColReleaseDate.AspectName = "ReleaseDate";
-			this.olvColReleaseDate.IsEditable = false;
-			this.olvColReleaseDate.MinimumWidth = 80;
-			this.olvColReleaseDate.Text = "Schedule";
-			this.olvColReleaseDate.Width = 80;
+			this.olvColSchedule.AspectName = "Schedule";
+			this.olvColSchedule.IsEditable = false;
+			this.olvColSchedule.MinimumWidth = 80;
+			this.olvColSchedule.Text = "Schedule";
+			this.olvColSchedule.Width = 80;
 			// 
 			// olvColType
 			// 
@@ -191,56 +193,56 @@
 			this.olvColType.MinimumWidth = 60;
 			this.olvColType.Text = "Type";
 			// 
-			// olvColPublisher
+			// olvColSubTeam
 			// 
-			this.olvColPublisher.AspectName = "Publisher";
-			this.olvColPublisher.MinimumWidth = 100;
-			this.olvColPublisher.Text = "Subtitle";
-			this.olvColPublisher.Width = 100;
+			this.olvColSubTeam.AspectName = "SubTeam";
+			this.olvColSubTeam.MinimumWidth = 100;
+			this.olvColSubTeam.Text = "Subtitle";
+			this.olvColSubTeam.Width = 100;
 			// 
-			// olvColStoreIndex
+			// olvColPath
 			// 
-			this.olvColStoreIndex.AspectName = "StoreIndex";
-			this.olvColStoreIndex.Hyperlink = true;
-			this.olvColStoreIndex.IsEditable = false;
-			this.olvColStoreIndex.MinimumWidth = 100;
-			this.olvColStoreIndex.Text = "Path";
-			this.olvColStoreIndex.Width = 120;
+			this.olvColPath.AspectName = "Path";
+			this.olvColPath.Hyperlink = true;
+			this.olvColPath.IsEditable = false;
+			this.olvColPath.MinimumWidth = 100;
+			this.olvColPath.Text = "Path";
+			this.olvColPath.Width = 120;
 			// 
-			// olvColSpace
+			// olvColSize
 			// 
-			this.olvColSpace.AspectName = "Space";
-			this.olvColSpace.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.olvColSpace.IsEditable = false;
-			this.olvColSpace.MinimumWidth = 60;
-			this.olvColSpace.Text = "Size";
-			this.olvColSpace.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.olvColSize.AspectName = "Size";
+			this.olvColSize.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.olvColSize.IsEditable = false;
+			this.olvColSize.MinimumWidth = 60;
+			this.olvColSize.Text = "Size";
+			this.olvColSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
-			// olvColGather
+			// olvColStore
 			// 
-			this.olvColGather.AspectName = "Gather";
-			this.olvColGather.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColGather.MinimumWidth = 45;
-			this.olvColGather.Text = "Store";
-			this.olvColGather.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColGather.Width = 45;
+			this.olvColStore.AspectName = "Store";
+			this.olvColStore.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColStore.MinimumWidth = 45;
+			this.olvColStore.Text = "Store";
+			this.olvColStore.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColStore.Width = 45;
 			// 
-			// olvColView
+			// olvColEnjoy
 			// 
-			this.olvColView.AspectName = "View";
-			this.olvColView.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColView.MinimumWidth = 45;
-			this.olvColView.Text = "Enjoy";
-			this.olvColView.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColView.Width = 45;
+			this.olvColEnjoy.AspectName = "Enjoy";
+			this.olvColEnjoy.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColEnjoy.MinimumWidth = 45;
+			this.olvColEnjoy.Text = "Enjoy";
+			this.olvColEnjoy.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColEnjoy.Width = 45;
 			// 
-			// olvColRate
+			// olvColGrade
 			// 
-			this.olvColRate.AspectName = "Rate";
-			this.olvColRate.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.olvColRate.MinimumWidth = 60;
-			this.olvColRate.Text = "Grade";
-			this.olvColRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColGrade.AspectName = "Grade";
+			this.olvColGrade.HeaderTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.olvColGrade.MinimumWidth = 60;
+			this.olvColGrade.Text = "Grade";
+			this.olvColGrade.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// olvColNote
 			// 
@@ -272,7 +274,7 @@
 			this.rtbAnime.Name = "rtbAnime";
 			this.rtbAnime.ReadOnly = true;
 			this.rtbAnime.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.rtbAnime.Size = new System.Drawing.Size(868, 54);
+			this.rtbAnime.Size = new System.Drawing.Size(920, 59);
 			this.rtbAnime.TabIndex = 0;
 			this.rtbAnime.Text = "";
 			// 
@@ -292,8 +294,8 @@
 			// scAnime.Panel2
 			// 
 			this.scAnime.Panel2.Controls.Add(this.rtbAnime);
-			this.scAnime.Size = new System.Drawing.Size(868, 389);
-			this.scAnime.SplitterDistance = 331;
+			this.scAnime.Size = new System.Drawing.Size(920, 419);
+			this.scAnime.SplitterDistance = 356;
 			this.scAnime.TabIndex = 2;
 			// 
 			// ssAnime
@@ -303,16 +305,16 @@
             this.tsslSelSpace,
             this.tsslTotal,
             this.tsslSpace});
-			this.ssAnime.Location = new System.Drawing.Point(0, 445);
+			this.ssAnime.Location = new System.Drawing.Point(0, 475);
 			this.ssAnime.Name = "ssAnime";
-			this.ssAnime.Size = new System.Drawing.Size(892, 26);
+			this.ssAnime.Size = new System.Drawing.Size(944, 26);
 			this.ssAnime.TabIndex = 3;
 			// 
 			// tsslSelected
 			// 
 			this.tsslSelected.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.tsslSelected.Name = "tsslSelected";
-			this.tsslSelected.Size = new System.Drawing.Size(373, 21);
+			this.tsslSelected.Size = new System.Drawing.Size(405, 21);
 			this.tsslSelected.Spring = true;
 			this.tsslSelected.Text = "Selected: ";
 			// 
@@ -320,9 +322,9 @@
 			// 
 			this.tsslSelSpace.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.tsslSelSpace.Name = "tsslSelSpace";
-			this.tsslSelSpace.Size = new System.Drawing.Size(373, 21);
+			this.tsslSelSpace.Size = new System.Drawing.Size(405, 21);
 			this.tsslSelSpace.Spring = true;
-			this.tsslSelSpace.Text = "Selected Space: ";
+			this.tsslSelSpace.Text = "Selected Size: ";
 			// 
 			// tsslTotal
 			// 
@@ -334,8 +336,8 @@
 			// tsslSpace
 			// 
 			this.tsslSpace.Name = "tsslSpace";
-			this.tsslSpace.Size = new System.Drawing.Size(83, 21);
-			this.tsslSpace.Text = "Total Space: ";
+			this.tsslSpace.Size = new System.Drawing.Size(71, 21);
+			this.tsslSpace.Text = "Total Size: ";
 			// 
 			// tsMain
 			// 
@@ -349,10 +351,12 @@
             this.tsBtnDuplicate,
             this.btnDel,
             this.tsSepForEdit,
+            this.tsBtnRefresh,
+            this.tsSepForSpecial,
             this.tssBtnMore});
 			this.tsMain.Location = new System.Drawing.Point(0, 0);
 			this.tsMain.Name = "tsMain";
-			this.tsMain.Size = new System.Drawing.Size(892, 25);
+			this.tsMain.Size = new System.Drawing.Size(944, 25);
 			this.tsMain.TabIndex = 1;
 			this.tsMain.Text = "tsMain";
 			// 
@@ -436,6 +440,21 @@
 			this.tsSepForEdit.Name = "tsSepForEdit";
 			this.tsSepForEdit.Size = new System.Drawing.Size(6, 25);
 			// 
+			// tsBtnRefresh
+			// 
+			this.tsBtnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnRefresh.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnRefresh.Image")));
+			this.tsBtnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnRefresh.Name = "tsBtnRefresh";
+			this.tsBtnRefresh.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnRefresh.Text = "Refresh";
+			this.tsBtnRefresh.Click += new System.EventHandler(this.tsBtnRefresh_Click);
+			// 
+			// tsSepForSpecial
+			// 
+			this.tsSepForSpecial.Name = "tsSepForSpecial";
+			this.tsSepForSpecial.Size = new System.Drawing.Size(6, 25);
+			// 
 			// tssBtnMore
 			// 
 			this.tssBtnMore.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -465,12 +484,13 @@
 			// 
 			this.tsMore.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsDropDnBtnGroup,
-            this.tsSepForGroup,
+            this.tsDropDnBtnOverlay,
+            this.tsSepForSwitch,
             this.cboFilter,
             this.tbFilter});
 			this.tsMore.Location = new System.Drawing.Point(0, 25);
 			this.tsMore.Name = "tsMore";
-			this.tsMore.Size = new System.Drawing.Size(892, 25);
+			this.tsMore.Size = new System.Drawing.Size(944, 25);
 			this.tsMore.TabIndex = 0;
 			this.tsMore.Text = "tsMore";
 			// 
@@ -484,10 +504,20 @@
 			this.tsDropDnBtnGroup.Text = "Group";
 			this.tsDropDnBtnGroup.Click += new System.EventHandler(this.cbGroups_CheckedChanged);
 			// 
-			// tsSepForGroup
+			// tsDropDnBtnOverlay
 			// 
-			this.tsSepForGroup.Name = "tsSepForGroup";
-			this.tsSepForGroup.Size = new System.Drawing.Size(6, 25);
+			this.tsDropDnBtnOverlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsDropDnBtnOverlay.Image = ((System.Drawing.Image)(resources.GetObject("tsDropDnBtnOverlay.Image")));
+			this.tsDropDnBtnOverlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsDropDnBtnOverlay.Name = "tsDropDnBtnOverlay";
+			this.tsDropDnBtnOverlay.Size = new System.Drawing.Size(29, 22);
+			this.tsDropDnBtnOverlay.Text = "Overlay";
+			this.tsDropDnBtnOverlay.Click += new System.EventHandler(this.tsDropDnBtnOverlay_Click);
+			// 
+			// tsSepForSwitch
+			// 
+			this.tsSepForSwitch.Name = "tsSepForSwitch";
+			this.tsSepForSwitch.Size = new System.Drawing.Size(6, 25);
 			// 
 			// cboFilter
 			// 
@@ -510,7 +540,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(892, 471);
+			this.ClientSize = new System.Drawing.Size(944, 501);
 			this.Controls.Add(this.tsMore);
 			this.Controls.Add(this.tsMain);
 			this.Controls.Add(this.ssAnime);
@@ -542,17 +572,17 @@
 		private System.Windows.Forms.TabControl tctlAnime;
 		private System.Windows.Forms.TabPage tpAnime;
 		private System.Windows.Forms.TabPage tpMusic;
-		private BrightIdeasSoftware.FastObjectListView folvAnime;
+		private BrightIdeasSoftware.ObjectListView folvAnime;
 		private BrightIdeasSoftware.OLVColumn olvColTitle;
 		private BrightIdeasSoftware.OLVColumn olvColName;
-		private BrightIdeasSoftware.OLVColumn olvColReleaseDate;
+		private BrightIdeasSoftware.OLVColumn olvColSchedule;
 		private BrightIdeasSoftware.OLVColumn olvColType;
-		private BrightIdeasSoftware.OLVColumn olvColPublisher;
-		private BrightIdeasSoftware.OLVColumn olvColStoreIndex;
-		private BrightIdeasSoftware.OLVColumn olvColSpace;
-		private BrightIdeasSoftware.OLVColumn olvColGather;
-		private BrightIdeasSoftware.OLVColumn olvColView;
-		private BrightIdeasSoftware.OLVColumn olvColRate;
+		private BrightIdeasSoftware.OLVColumn olvColSubTeam;
+		private BrightIdeasSoftware.OLVColumn olvColPath;
+		private BrightIdeasSoftware.OLVColumn olvColSize;
+		private BrightIdeasSoftware.OLVColumn olvColStore;
+		private BrightIdeasSoftware.OLVColumn olvColEnjoy;
+		private BrightIdeasSoftware.OLVColumn olvColGrade;
 		private BrightIdeasSoftware.OLVColumn olvColNote;
 		private System.Windows.Forms.RichTextBox rtbAnime;
 		private System.Windows.Forms.SplitContainer scAnime;
@@ -576,10 +606,13 @@
 		private System.Windows.Forms.ToolStripMenuItem tsMenItmBackup;
 		private System.Windows.Forms.ToolStrip tsMore;
 		private System.Windows.Forms.ToolStripDropDownButton tsDropDnBtnGroup;
-		private System.Windows.Forms.ToolStripSeparator tsSepForGroup;
+		private System.Windows.Forms.ToolStripSeparator tsSepForSwitch;
 		private System.Windows.Forms.ToolStripComboBox cboFilter;
 		private System.Windows.Forms.ToolStripTextBox tbFilter;
 		private System.Windows.Forms.ToolStripButton tsBtnDuplicate;
+		private System.Windows.Forms.ToolStripButton tsBtnRefresh;
+		private System.Windows.Forms.ToolStripSeparator tsSepForSpecial;
+		private System.Windows.Forms.ToolStripDropDownButton tsDropDnBtnOverlay;
 
 	}
 }

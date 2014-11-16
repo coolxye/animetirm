@@ -44,7 +44,7 @@ namespace AnimeTrim
 		{
 			// edit 13/1/10 for fun2 Stop
 			//if (x.Title == y.Title)
-			//    return String.Compare(x.StoreIndex, y.StoreIndex, StringComparison.InvariantCultureIgnoreCase);
+			//    return String.Compare(x.Path, y.Path, StringComparison.InvariantCultureIgnoreCase);
 			// edit fin
 
 			return String.Compare(x.Title, y.Title, StringComparison.InvariantCultureIgnoreCase);
@@ -71,6 +71,7 @@ namespace AnimeTrim
 			this.btnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
 			this.btnDel.Enabled = false;
+			this.tsBtnRefresh.Enabled = false;
 		}
 
 		// Initalize the path and name of AnimeInfo from a xml
@@ -163,13 +164,13 @@ namespace AnimeTrim
 					ani.Season = info[4];
 					ani.Type = (MediaType)Enum.Parse(typeof(MediaType), info[5]);
 					ani.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), info[6]);
-					ani.Publisher = info[7];
+					ani.SubTeam = info[7];
 					ani.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), info[8]);
-					ani.StoreIndex = info[9];
-					ani.Space = Int64.Parse(info[10]);
-					ani.Gather = Boolean.Parse(info[11]);
-					ani.View = Boolean.Parse(info[12]);
-					ani.Rate = Int32.Parse(info[13]);
+					ani.Path = info[9];
+					ani.Size = Int64.Parse(info[10]);
+					ani.Store = Boolean.Parse(info[11]);
+					ani.Enjoy = Boolean.Parse(info[12]);
+					ani.Grade = Int32.Parse(info[13]);
 					ani.CreateTime = DateTime.Parse(info[14]);
 					ani.UpdateTime = DateTime.Parse(info[15]);
 					ani.Kana = info[16];
@@ -209,8 +210,8 @@ namespace AnimeTrim
 			TypedColumn<Anime> tc = new TypedColumn<Anime>(this.olvColName);
 			tc.AspectPutter = delegate(Anime a, object opn) { a.Name = opn.ToString(); };
 
-			// ReleaseDate of Anime
-			tc = new TypedColumn<Anime>(this.olvColReleaseDate);
+			// Schedule of Anime
+			tc = new TypedColumn<Anime>(this.olvColSchedule);
 			tc.GroupKeyGetter = delegate(Anime a) { return a.Year; };
 
 			//TODO: add images to Type of Anime
@@ -251,9 +252,9 @@ namespace AnimeTrim
 			//tc = new TypedColumn<Anime>(this.olvColFormat);
 			//tc.AspectPutter = delegate(Anime a, object opf) { a.Format = (MergeFormat)opf; };
 
-			// Publisher of Anime
-			tc = new TypedColumn<Anime>(this.olvColPublisher);
-			tc.AspectPutter = delegate(Anime a, object opp) { a.Publisher = opp.ToString(); };
+			// SubTeam of Anime
+			tc = new TypedColumn<Anime>(this.olvColSubTeam);
+			tc.AspectPutter = delegate(Anime a, object opp) { a.SubTeam = opp.ToString(); };
 			tc.ImageGetter = delegate(Anime a) {
 				switch (a.SubStyle)
 				{ 
@@ -280,8 +281,8 @@ namespace AnimeTrim
 			//tc = new TypedColumn<Anime>(this.olvColSubStyle);
 			//tc.AspectPutter = delegate(Anime a, object ops) { a.SubStyle = (SubStyles)ops; };
 
-			// Space of Anime
-			this.olvColSpace.AspectToStringConverter = delegate(object ots)
+			// Size of Anime
+			this.olvColSize.AspectToStringConverter = delegate(object ots)
 			{
 				long ls = (long)ots;
 
@@ -289,31 +290,31 @@ namespace AnimeTrim
 					return String.Format("{0:#,##0.#0} G", ls / 1073741824D);
 				else return String.Format("{0:#,##0.#0} M", ls / 1048576D);
 			};
-			this.olvColSpace.MakeGroupies(
+			this.olvColSize.MakeGroupies(
 				new long[] { 5368709120L, 10737418240L },
 				new string[] { "0~5 GB", "5~10 GB", "10~ GB" }
 				);
 
-			// Gather of Anime
-			tc = new TypedColumn<Anime>(this.olvColGather);
-			tc.AspectPutter = delegate(Anime a, object opg) { a.Gather = (bool)opg; };
-			this.olvColGather.Renderer = new MappedImageRenderer(true, Properties.Resources.Yes, false, Properties.Resources.No);
+			// Store of Anime
+			tc = new TypedColumn<Anime>(this.olvColStore);
+			tc.AspectPutter = delegate(Anime a, object opg) { a.Store = (bool)opg; };
+			this.olvColStore.Renderer = new MappedImageRenderer(true, Properties.Resources.Yes, false, Properties.Resources.No);
 
-			// View of Anime
-			tc = new TypedColumn<Anime>(this.olvColView);
-			tc.AspectPutter = delegate(Anime a, object opv) { a.View = (bool)opv; };
-			this.olvColView.Renderer = new MappedImageRenderer(true, Properties.Resources.Smile, false, Properties.Resources.Sad);
+			// Enjoy of Anime
+			tc = new TypedColumn<Anime>(this.olvColEnjoy);
+			tc.AspectPutter = delegate(Anime a, object opv) { a.Enjoy = (bool)opv; };
+			this.olvColEnjoy.Renderer = new MappedImageRenderer(true, Properties.Resources.Smile, false, Properties.Resources.Sad);
 
-			// Rate of Anime
-			tc = new TypedColumn<Anime>(this.olvColRate);
+			// Grade of Anime
+			tc = new TypedColumn<Anime>(this.olvColGrade);
 			tc.AspectPutter = delegate(Anime a, object opr)
 			{
 				int onr = (int)opr;
-				a.Rate = onr < 10 ? 10 : onr;
+				a.Grade = onr < 1 ? 1 : onr;
 			};
-			this.olvColRate.Renderer = new MultiImageRenderer(Properties.Resources.Star, 3, 9, 31);
-			this.olvColRate.MakeGroupies(
-				new int[] { 20, 30 },
+			this.olvColGrade.Renderer = new MultiImageRenderer(Properties.Resources.Star, 3, 0, 4);
+			this.olvColGrade.MakeGroupies(
+				new int[] { 1, 2 },
 				new string[] { "Normal", "Nice", "Good" }
 				);
 
@@ -325,6 +326,8 @@ namespace AnimeTrim
 
 			this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
 			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+			this.folvAnime.PrimarySortColumn = this.olvColTitle;
+			this.folvAnime.PrimarySortOrder = SortOrder.Ascending;
 		}
 
 		// Initalize the model data of Anime to the FastObjectListView
@@ -346,7 +349,7 @@ namespace AnimeTrim
 			this.tctlAnime.SelectedTab.Text = _ai.Name;
 			this.tctlAnime.SelectedTab.ToolTipText = _ai.Path;
 			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-			this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 		}
 
 		private void UpdateAnimeDoc()
@@ -360,8 +363,8 @@ namespace AnimeTrim
 			{
 				sw.WriteLine(_sout,
 					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
-					a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
-					a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
+					a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+					a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
 					a.Episode, a.Inc, a.Note);
 			});
 
@@ -398,12 +401,13 @@ namespace AnimeTrim
 			this.btnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
 			this.btnDel.Enabled = false;
+			this.tsBtnRefresh.Enabled = false;
 
 			// StatusStrip reset
 			this.tsslSelected.Text = "Selected: ";
-			this.tsslSelSpace.Text = "Selected Space: ";
+			this.tsslSelSpace.Text = "Selected Size: ";
 			this.tsslTotal.Text = "Total: ";
-			this.tsslSpace.Text = "Total Space: ";
+			this.tsslSpace.Text = "Total Size: ";
 		}
 
 		// edit 13/1/9 for bug3
@@ -465,13 +469,14 @@ namespace AnimeTrim
 				Anime a = this.folvAnime.SelectedObject as Anime;
 
 				this.tsslSelected.Text = String.Format("Selected: {0}", a.Name);
-				this.tsslSelSpace.Text = (a.Space >= 1000000000L) ? String.Format("Selected Space: {0:#,##0.#0} GB", a.Space / 1073741824D) :
-					String.Format("Selected Space: {0:#,##0.#0} MB", a.Space / 1048576D);
+				this.tsslSelSpace.Text = (a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
+					String.Format("Selected Size: {0:#,##0.#0} MB", a.Size / 1048576D);
 
 				this.rtbAnime.Text = a.Remarks();
 				this.btnModify.Enabled = true;
 				this.tsBtnDuplicate.Enabled = true;
 				this.btnDel.Enabled = true;
+				this.tsBtnRefresh.Enabled = true;
 			}
 			else
 			{
@@ -479,11 +484,13 @@ namespace AnimeTrim
 				{
 					this.tsBtnDuplicate.Enabled = false;
 					this.btnDel.Enabled = false;
+					this.tsBtnRefresh.Enabled = false;
 				}
 				else
 				{
 					this.tsBtnDuplicate.Enabled = true;
 					this.btnDel.Enabled = true;
+					this.tsBtnRefresh.Enabled = true;
 				}
 
 				this.tsslSelected.Text = String.Format("Selected: {0}", iSel);
@@ -491,10 +498,10 @@ namespace AnimeTrim
 				long ls = 0L;
 				foreach (Anime at in this.folvAnime.SelectedObjects)
 				{
-					ls += at.Space;
+					ls += at.Size;
 				}
-				this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Space: {0:#,##0.#0} GB", ls / 1073741824D) :
-					String.Format("Selected Space: {0:#,##0.#0} MB", ls / 1048576D);
+				this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
+					String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 
 				this.rtbAnime.ResetText();
 				this.btnModify.Enabled = false;
@@ -510,7 +517,7 @@ namespace AnimeTrim
 			}
 		}
 
-		private void TimedFilter(FastObjectListView folv, string txt, int matchKind)
+		private void TimedFilter(ObjectListView folv, string txt, int matchKind)
 		{
 			TextMatchFilter filter = null;
 			if (!String.IsNullOrEmpty(txt))
@@ -688,8 +695,8 @@ namespace AnimeTrim
 		//	{
 		//		sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}",
 		//			ani.Title, ani.Name, ani.Year, ani.Season, ani.Type, ani.Format,
-		//			ani.Publisher, ani.SubStyle, ani.StoreIndex, ani.Space, ani.Gather,
-		//			ani.View, ani.Rate, ani.CreateTime, ani.UpdateTime, ani.Kana,
+		//			ani.SubTeam, ani.SubStyle, ani.Path, ani.Size, ani.Store,
+		//			ani.Enjoy, ani.Grade, ani.CreateTime, ani.UpdateTime, ani.Kana,
 		//			ani.Episode, ani.Note);
 		//	}
 
@@ -702,7 +709,7 @@ namespace AnimeTrim
 			#region format
 			//StreamWriter sw = new StreamWriter(@"E:\Documents\AnimeDoc_updata.xat", false, Encoding.Unicode);
 
-			//sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
+			//sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Size, _ai.Uid);
 
 			//int i = 1;
 
@@ -710,8 +717,8 @@ namespace AnimeTrim
 			//{
 			//	sw.WriteLine(_sout,
 			//		i++, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
-			//		a.Publisher, a.SubStyle, a.StoreIndex, a.Space, a.Gather,
-			//		a.View, a.Rate, a.CreateTime, a.UpdateTime, a.Kana,
+			//		a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+			//		a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
 			//		a.Episode, a.Inc, a.Note);
 			//});
 
@@ -799,22 +806,22 @@ namespace AnimeTrim
 			{
 				Anime a = af.GetAnime();
 				a.ID = _ai.Uid++;
-				_ai.Space += a.Space;
+				_ai.Space += a.Size;
 				_ai.Total++;
 				_ai.IsSaved = false;
 				_lani.Add(a);
-				_lani.Sort(AnimeComparer);
+				//_lani.Sort(AnimeComparer);
 
 				this.folvAnime.AddObject(a);
-				this.folvAnime.Sort(0);
-				this.folvAnime.Unsort();
+				//this.folvAnime.Sort(0);
+				//this.folvAnime.Unsort();
 
 				this.folvAnime.SelectedObject = a;
 				this.folvAnime.SelectedItem.EnsureVisible();
 				// TODO: 需修正工具栏
-				this.folvAnime.Focus();
+				//this.folvAnime.Focus();
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-				this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 				this.btnSave.Enabled = true;
 			}
 		}
@@ -826,7 +833,7 @@ namespace AnimeTrim
 			if (a == null)
 				return;
 
-			long ls = a.Space;
+			long ls = a.Size;
 			ModForm mf = new ModForm(ref a);
 			mf.StartPosition = FormStartPosition.CenterParent;
 			mf.MaximizeBox = false;
@@ -835,13 +842,14 @@ namespace AnimeTrim
 			{
 				_ai.Space -= ls;
 				//a.EditCopy(mf.GetAnime());
-				_ai.Space += a.Space;
+				_ai.Space += a.Size;
 				_ai.IsSaved = false;
 
 				this.folvAnime_SelectionChanged(null, null);
+				this.folvAnime.RefreshItem(this.folvAnime.SelectedItem);
 				// TODO: 需修正工具栏
-				this.folvAnime.Focus();
-				this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+				//this.folvAnime.Focus();
+				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 				this.btnSave.Enabled = true;
 			}
 		}
@@ -864,7 +872,7 @@ namespace AnimeTrim
 
 		//private void btnPaste_Click(object sender, EventArgs e)
 		//{
-		//	_ai.Space += _aCopy.Space;
+		//	_ai.Size += _aCopy.Size;
 		//	_ai.Total++;
 		//	_ai.IsSaved = false;
 		//	_lani.Add(_aCopy);
@@ -875,7 +883,7 @@ namespace AnimeTrim
 		//	// TODO: 需修正工具栏
 		//	this.folvAnime.Focus();
 		//	this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-		//	this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+		//	this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Size / 1073741824D);
 		//	this.btnSave.Enabled = true;
 		//}
 		#endregion
@@ -887,7 +895,7 @@ namespace AnimeTrim
 			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
 				aCopy = new Anime(a, _ai.Uid++);
-				_ai.Space += aCopy.Space;
+				_ai.Space += aCopy.Size;
 				_ai.Total++;
 				_lani.Add(aCopy);
 
@@ -899,7 +907,7 @@ namespace AnimeTrim
 				_ai.IsSaved = false;
 
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-				this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 				this.btnSave.Enabled = true;
 			}
 		}
@@ -916,7 +924,7 @@ namespace AnimeTrim
 
 			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
-				_ai.Space -= a.Space;
+				_ai.Space -= a.Size;
 				_ai.Total--;
 
 				_lani.Remove(a);
@@ -930,10 +938,47 @@ namespace AnimeTrim
 
 			this.folvAnime.SelectedItem.EnsureVisible();
 			// TODO: 需修正工具栏
-			this.folvAnime.Focus();
+			//this.folvAnime.Focus();
 			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-			this.tsslSpace.Text = String.Format("Total Space: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 			this.btnSave.Enabled = true;
+		}
+
+		private void tsBtnRefresh_Click(object sender, EventArgs e)
+		{
+			long lSize = 0L;
+			long lSelSize = 0L;
+
+			foreach (Anime a in this.folvAnime.SelectedObjects)
+			{
+				if (a.Path.Length == 0 || !Directory.Exists(a.Path))
+				{
+					lSelSize += a.Size;
+					continue;
+				}
+				
+				lSize = Anime.GetSize(a.Path);
+				if (a.Size != lSize)
+				{
+					_ai.Space = _ai.Space - a.Size + lSize;
+					a.Size = lSize;
+					this.folvAnime.RefreshItem(this.folvAnime.ModelToItem(a));
+				}
+				lSelSize += a.Size;
+			}
+
+			if (lSize != 0L)
+			{
+				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
+						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
+				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			}
+		}
+
+		private void tsDropDnBtnOverlay_Click(object sender, EventArgs e)
+		{
+			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
 		}
 
 		private void folvAnime_IsHyperlink(object sender, IsHyperlinkEventArgs e)
@@ -955,6 +1000,15 @@ namespace AnimeTrim
 			// edit fin
 
 			this.btnSave.Enabled = true;
+		}
+
+		private void folvAnime_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
+		{
+			if (e.Column == null || e.Column != this.olvColPath)
+				return;
+
+			e.AutoPopDelay = 8000;
+			e.Text = ((Anime)e.Model).Preview;
 		}
 
 		private void AnimeForm_FormClosed(object sender, FormClosedEventArgs e)

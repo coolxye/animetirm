@@ -83,7 +83,7 @@ namespace AnimeTrim
 			}
 			else
 			{
-				this.lblStoreIndexWarning.Text = "StoreIndex isn't match";
+				this.lblStoreIndexWarning.Text = "Path isn't match";
 				return false;
 			}
 		}
@@ -125,7 +125,7 @@ namespace AnimeTrim
 
 			//    if (!rx.IsMatch(this.tbStoreIndex.Text))
 			//    {
-			//        MessageBox.Show("The StoreIndex do not match!", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			//        MessageBox.Show("The Path do not match!", "Path error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			//        this.tbStoreIndex.ResetText();
 			//        this.tbStoreIndex.Focus();
 
@@ -164,13 +164,13 @@ namespace AnimeTrim
 			_anime.Season = this.cboSeason.Text;
 			_anime.Type = (MediaType)Enum.Parse(typeof(MediaType), this.cboType.Text);
 			_anime.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), this.cboFormat.Text);
-			_anime.Publisher = this.cboPublisher.Text;
+			_anime.SubTeam = this.cboPublisher.Text;
 			_anime.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), this.cboSubStyle.Text);
-			_anime.StoreIndex = this.tbStoreIndex.Text;
-			_anime.Space = AnimeSpace.GetSpace(_anime.StoreIndex);
-			_anime.Gather = (this.cboGather.SelectedIndex == 1) ? true : false;
-			_anime.View = (this.cboView.SelectedIndex == 1) ? true : false;
-			_anime.Rate = Int32.Parse(this.cboRate.Text);
+			_anime.Path = this.tbStoreIndex.Text;
+			_anime.Size = Anime.GetSize(_anime.Path);
+			_anime.Store = (this.cboGather.SelectedIndex == 1) ? true : false;
+			_anime.Enjoy = (this.cboView.SelectedIndex == 1) ? true : false;
+			_anime.Grade = Int32.Parse(this.cboRate.Text);
 			_anime.CreateTime = DateTime.Now;
 			_anime.UpdateTime = DateTime.Now;
 			_anime.Kana = this.tbKana.Text;
