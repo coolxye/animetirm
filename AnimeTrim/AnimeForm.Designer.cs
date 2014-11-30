@@ -49,6 +49,8 @@
 			this.modifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsSepForCms = new System.Windows.Forms.ToolStripSeparator();
+			this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.tpMusic = new System.Windows.Forms.TabPage();
 			this.rtbAnime = new System.Windows.Forms.RichTextBox();
@@ -79,8 +81,6 @@
 			this.tsSepForSwitch = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
-			this.tsSepForCms = new System.Windows.Forms.ToolStripSeparator();
-			this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tctlAnime.SuspendLayout();
 			this.tpAnime.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).BeginInit();
@@ -302,6 +302,18 @@
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.tsBtnDel_Click);
 			// 
+			// tsSepForCms
+			// 
+			this.tsSepForCms.Name = "tsSepForCms";
+			this.tsSepForCms.Size = new System.Drawing.Size(127, 6);
+			// 
+			// refreshToolStripMenuItem
+			// 
+			this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.refreshToolStripMenuItem.Text = "Refresh";
+			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.tsBtnRefresh_Click);
+			// 
 			// hiStyle
 			// 
 			this.hiStyle.BackColor = System.Drawing.Color.PeachPuff;
@@ -522,13 +534,14 @@
 			this.tsMenItmFormat.Name = "tsMenItmFormat";
 			this.tsMenItmFormat.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmFormat.Text = "Format";
-			this.tsMenItmFormat.Click += new System.EventHandler(this.btnChange_Click);
+			this.tsMenItmFormat.Click += new System.EventHandler(this.tsMenItmFormat_Click);
 			// 
 			// tsMenItmBackup
 			// 
 			this.tsMenItmBackup.Name = "tsMenItmBackup";
 			this.tsMenItmBackup.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmBackup.Text = "Backup";
+			this.tsMenItmBackup.Click += new System.EventHandler(this.tsMenItmBackup_Click);
 			// 
 			// tsMore
 			// 
@@ -586,18 +599,6 @@
 			this.tbFilter.Size = new System.Drawing.Size(150, 25);
 			this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
 			// 
-			// tsSepForCms
-			// 
-			this.tsSepForCms.Name = "tsSepForCms";
-			this.tsSepForCms.Size = new System.Drawing.Size(127, 6);
-			// 
-			// refreshToolStripMenuItem
-			// 
-			this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-			this.refreshToolStripMenuItem.Text = "Refresh";
-			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.tsBtnRefresh_Click);
-			// 
 			// AnimeForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -607,10 +608,12 @@
 			this.Controls.Add(this.tsMain);
 			this.Controls.Add(this.ssAnime);
 			this.Controls.Add(this.scAnime);
+			this.KeyPreview = true;
 			this.Name = "AnimeForm";
 			this.Text = "AnimeTrim";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AnimeForm_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AnimeForm_FormClosed);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnimeForm_KeyDown);
 			this.tctlAnime.ResumeLayout(false);
 			this.tpAnime.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).EndInit();

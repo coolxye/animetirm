@@ -1,12 +1,13 @@
-﻿using System;
+﻿using BrightIdeasSoftware;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
 using System.Xml;
 using System.Xml.XPath;
-using BrightIdeasSoftware;
-using System.Diagnostics;
 
 namespace AnimeTrim
 {
@@ -16,11 +17,8 @@ namespace AnimeTrim
 		{
 			InitializeComponent();
 
-			//if (FastObjectListView.IsVistaOrLater)
-			//    this.Font = new Font("Segoe UI", 8);
-
 			// edit 13/1/8 for bug3
-			InitAnimeData();
+			InitAnimeInfo();
 			// edit fin
 			InitBtn();
 			InitModel();
@@ -30,8 +28,6 @@ namespace AnimeTrim
 		private const String _sout = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}" +
 			"\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}\t{19}";
 
-		// FileStream for the Anime Doc
-		//private FileStream _fs = null;
 		private AnimeInfo _ai = new AnimeInfo();
 		// Temporary AnimeInfo for the wrong read
 		private AnimeInfo _aitp = new AnimeInfo();
@@ -39,20 +35,9 @@ namespace AnimeTrim
 		// Temporary Anime lists for the wrong read
 		private List<Anime> _latp = new List<Anime>();
 
-		// Sort the list
-		private static int AnimeComparer(Anime x, Anime y)
-		{
-			// edit 13/1/10 for fun2 Stop
-			//if (x.Title == y.Title)
-			//    return String.Compare(x.Path, y.Path, StringComparison.InvariantCultureIgnoreCase);
-			// edit fin
-
-			return String.Compare(x.Title, y.Title, StringComparison.InvariantCultureIgnoreCase);
-		}
-
 		// edit 13/1/8 for bug3
 		// Initalize the anime datas
-		private void InitAnimeData()
+		private void InitAnimeInfo()
 		{
 			_ai.Path = null;
 			_ai.Name = null;
@@ -72,6 +57,8 @@ namespace AnimeTrim
 			this.tsBtnDuplicate.Enabled = false;
 			this.tsBtnDel.Enabled = false;
 			this.tsBtnRefresh.Enabled = false;
+
+			this.cboFilter.SelectedIndex = 0;
 		}
 
 		// Initalize the path and name of AnimeInfo from a xml
@@ -203,6 +190,9 @@ namespace AnimeTrim
 		// Initalize the Format of the FastObjectView
 		private void InitModel()
 		{
+			if (ObjectListView.IsVistaOrLater)
+				this.Font = new Font("msyh", 8);
+
 			TypedObjectListView<Anime> tolv = new TypedObjectListView<Anime>(this.folvAnime);
 			tolv.GenerateAspectGetters();
 
@@ -1048,6 +1038,215 @@ namespace AnimeTrim
 			if (!SaveCheck())
 				e.Cancel = true;
 			// edit fin
+		}
+
+		private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			//if (e.Control)
+			//{
+			//	switch (e.KeyCode)
+			//	{
+			//		case Keys.N:
+			//			this.tsBtnNew_Click(null, null);
+			//			break;
+			//		case Keys.O:
+			//			this.tsBtnOpen_Click(null, null);
+			//			break;
+			//		case Keys.S:
+			//			this.tsBtnSave_Click(null, null);
+			//			break;
+
+			//		case Keys.D:
+			//			this.tsBtnAdd_Click(null, null);
+			//			break;
+			//		case Keys.E:
+			//			this.tsBtnModify_Click(null, null);
+			//			break;
+			//		case Keys.C:
+			//			this.tsBtnDuplicate_Click(null, null);
+			//			break;
+
+			//		case Keys.R:
+			//			this.tsBtnRefresh_Click(null, null);
+			//			break;
+
+			//		case Keys.F:
+			//			if (!this.tbFilter.Focused)
+			//				this.tbFilter.Focus();
+			//			break;
+
+			//		default:
+			//			return;
+			//	}
+
+			//	//e.Handled = true;
+			//}
+			//else if (e.KeyCode == Keys.Delete)
+			//{
+			//	this.tsBtnDel_Click(null, null);
+
+			//	//e.Handled = true;
+			//}
+		}
+
+		private void tsMenItmBackup_Click(object sender, EventArgs e)
+		{
+			if (_ai.Path == null || _ai.Name == null)
+				return;
+
+			StreamWriter sw = new StreamWriter(_ai.Path + ".bak", false, Encoding.Unicode);
+
+			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
+
+			_lani.ForEach(delegate(Anime a)
+			{
+				sw.WriteLine(_sout,
+					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+					a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+					a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
+					a.Episode, a.Inc, a.Note);
+			});
+
+			sw.Close();
+		}
+
+		private void tsMenItmFormat_Click(object sender, EventArgs e)
+		{
+			const string strFilter = "AnimeTrim Files|*.at";
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Filter = strFilter;
+
+			#region format
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				StreamReader sr = new StreamReader(ofd.FileName);
+
+				int iTotal;
+				if (!Int32.TryParse(sr.ReadLine(), out iTotal))
+				{
+					// error
+					sr.Close();
+
+					return;
+				}
+
+				long lSize;
+				double dSize;
+				if (!Double.TryParse(sr.ReadLine(), out dSize))
+				{
+					// error
+					sr.Close();
+
+					return;
+				}
+				else lSize = (Int64)(dSize * 1024D * 1024D * 1024D + 0.5D);
+
+				List<Anime> lAni = new List<Anime>();
+				Anime ani;
+				string line;
+				string[] info;
+				string[] date;
+				uint uc = 1;
+
+				try
+				{
+					while (!String.IsNullOrEmpty(line = sr.ReadLine()))
+					{
+						info = line.Split('\t');
+
+						ani = new Anime(uc++);
+						ani.Title = info[0];
+						ani.Name = info[1];
+
+						date = info[2].Split('.');
+						ani.Year = UInt32.Parse(date[0]);
+						ani.Season = date[1];
+
+						switch (info[3])
+						{
+							case "BDRip":
+							default:
+								ani.Type = MediaType.BDRip; break;
+							case "DVDRip": ani.Type = MediaType.DVDRip; break;
+							case "BDRAW": ani.Type = MediaType.BDRAW; break;
+							case "DVDRAW": ani.Type = MediaType.DVDRAW; break;
+							case "BDMV": ani.Type = MediaType.BDMV; break;
+							case "TVRip": ani.Type = MediaType.TVRip; break;
+						}
+
+						switch (info[4])
+						{
+							case "MKV":
+							default:
+								ani.Format = MergeFormat.MKV; break;
+							case "MP4": ani.Format = MergeFormat.MP4; break;
+							case "M2TS": ani.Format = MergeFormat.M2TS; break;
+							case "WMV": ani.Format = MergeFormat.WMV; break;
+							case "AVI": ani.Format = MergeFormat.AVI; break;
+						}
+
+						ani.SubTeam = info[5];
+
+						switch (info[6])
+						{
+							case "External":
+							default:
+								ani.SubStyle = SubStyles.External; break;
+							case "Sealed": ani.SubStyle = SubStyles.Sealed; break;
+							case "Embedded": ani.SubStyle = SubStyles.Embedded; break;
+						}
+
+						ani.Path = info[7];
+
+						ani.Size = (Int64)(Double.Parse(info[8]) * 1073741824D + 0.5D);
+
+						ani.Store = (info[9] == "Fin.") ? true : false;
+
+						ani.Enjoy = (info[10] == "^-^") ? true : false;
+
+						ani.Grade = 1;
+
+						ani.CreateTime = DateTime.Now;
+
+						ani.UpdateTime = DateTime.Now;
+
+						ani.Kana = info[11];
+
+						ani.Episode = String.Empty;
+
+						ani.Inc = String.Empty;
+
+						ani.Note = info[12];
+
+						lAni.Add(ani);
+					}
+				}
+				catch (Exception)
+				{
+					lAni.Clear();
+
+					return;
+				}
+				finally
+				{
+					sr.Close();
+				}
+
+				StreamWriter sw = new StreamWriter(ofd.FileName.Remove(ofd.FileName.LastIndexOf('.')) + ".xat", false, Encoding.Unicode);
+				sw.WriteLine("{0}\t{1}\t{2}", iTotal, lSize, uc);
+
+				lAni.ForEach(delegate(Anime a)
+				{
+					sw.WriteLine(_sout,
+					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+					a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+					a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
+					a.Episode, a.Inc, a.Note);
+				});
+
+				sw.Close();
+			}
+			#endregion
 		}
 
 	}
