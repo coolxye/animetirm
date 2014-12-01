@@ -498,15 +498,6 @@ namespace AnimeTrim
 			}
 		}
 
-		private void cbGroups_CheckedChanged(object sender, EventArgs e)
-		{
-			if (FastObjectListView.IsVistaOrLater)
-			{
-				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
-				this.folvAnime.BuildList();
-			}
-		}
-
 		private void TimedFilter(ObjectListView folv, string txt, int matchKind)
 		{
 			TextMatchFilter filter = null;
@@ -965,12 +956,6 @@ namespace AnimeTrim
 			}
 		}
 
-		private void tsDropDnBtnOverlay_Click(object sender, EventArgs e)
-		{
-			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
-			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
-		}
-
 		private void folvAnime_IsHyperlink(object sender, IsHyperlinkEventArgs e)
 		{
 			e.Url = e.Text;
@@ -1091,6 +1076,8 @@ namespace AnimeTrim
 
 		private void tsMenItmBackup_Click(object sender, EventArgs e)
 		{
+			this.tssBtnMore.Image = this.tsMenItmBackup.Image;
+
 			if (_ai.Path == null || _ai.Name == null)
 				return;
 
@@ -1247,6 +1234,23 @@ namespace AnimeTrim
 				sw.Close();
 			}
 			#endregion
+
+			this.tssBtnMore.Image = this.tsMenItmFormat.Image;
+		}
+
+		private	void tsBtnGroupClick(object sender, EventArgs e)
+		{
+			if (ObjectListView.IsVistaOrLater)
+			{
+				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
+				this.folvAnime.BuildList();
+			}
+		}
+
+		private void tsBtnOverlayClick(object sender, EventArgs e)
+		{
+			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
 		}
 
 	}
