@@ -76,8 +76,8 @@
 			this.tsMenItmFormat = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMenItmBackup = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMore = new System.Windows.Forms.ToolStrip();
-			this.tsBtnOverlay = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnGroup = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnOverlay = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForSwitch = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
@@ -528,6 +528,7 @@
 			this.tssBtnMore.Name = "tssBtnMore";
 			this.tssBtnMore.Size = new System.Drawing.Size(32, 22);
 			this.tssBtnMore.Text = "More";
+			this.tssBtnMore.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tssBtnMoreDropDownItemClicked);
 			// 
 			// tsMenItmFormat
 			// 
@@ -557,17 +558,6 @@
 			this.tsMore.TabIndex = 0;
 			this.tsMore.Text = "tsMore";
 			// 
-			// tsBtnOverlay
-			// 
-			this.tsBtnOverlay.CheckOnClick = true;
-			this.tsBtnOverlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnOverlay.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnOverlay.Image")));
-			this.tsBtnOverlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsBtnOverlay.Name = "tsBtnOverlay";
-			this.tsBtnOverlay.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnOverlay.Text = "Overlay";
-			this.tsBtnOverlay.Click += new System.EventHandler(this.tsBtnOverlayClick);
-			// 
 			// tsBtnGroup
 			// 
 			this.tsBtnGroup.CheckOnClick = true;
@@ -578,6 +568,17 @@
 			this.tsBtnGroup.Size = new System.Drawing.Size(23, 22);
 			this.tsBtnGroup.Text = "Group";
 			this.tsBtnGroup.Click += new System.EventHandler(this.tsBtnGroupClick);
+			// 
+			// tsBtnOverlay
+			// 
+			this.tsBtnOverlay.CheckOnClick = true;
+			this.tsBtnOverlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnOverlay.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnOverlay.Image")));
+			this.tsBtnOverlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnOverlay.Name = "tsBtnOverlay";
+			this.tsBtnOverlay.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnOverlay.Text = "Overlay";
+			this.tsBtnOverlay.Click += new System.EventHandler(this.tsBtnOverlayClick);
 			// 
 			// tsSepForSwitch
 			// 

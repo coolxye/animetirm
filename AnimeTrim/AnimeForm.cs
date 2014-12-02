@@ -59,6 +59,11 @@ namespace AnimeTrim
 			this.tsBtnRefresh.Enabled = false;
 
 			this.cboFilter.SelectedIndex = 0;
+
+			this.tssBtnMore.DefaultItem = this.tsMenItmBackup;
+			this.tssBtnMore.Text = this.tsMenItmBackup.Text;
+			this.tssBtnMore.ToolTipText = this.tsMenItmBackup.ToolTipText;
+			// this.tssBtnMore.Image = this.tsMenItmBackup.Image;
 		}
 
 		// Initalize the path and name of AnimeInfo from a xml
@@ -1251,6 +1256,14 @@ namespace AnimeTrim
 		{
 			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
 			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+		}
+
+		private void tssBtnMoreDropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			this.tssBtnMore.DefaultItem = e.ClickedItem;
+			this.tssBtnMore.Text = e.ClickedItem.Text;
+			this.tssBtnMore.ToolTipText = e.ClickedItem.ToolTipText;
+			this.tssBtnMore.Image = e.ClickedItem.Image;
 		}
 
 	}
