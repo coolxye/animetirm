@@ -1042,51 +1042,32 @@ namespace AnimeTrim
 
 		private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
 		{
-			//if (e.Control)
-			//{
-			//	switch (e.KeyCode)
-			//	{
-			//		case Keys.N:
-			//			this.tsBtnNew_Click(null, null);
-			//			break;
-			//		case Keys.O:
-			//			this.tsBtnOpen_Click(null, null);
-			//			break;
-			//		case Keys.S:
-			//			this.tsBtnSave_Click(null, null);
-			//			break;
+			if (e.Control)
+			{
+				e.Handled = true;
 
-			//		case Keys.D:
-			//			this.tsBtnAdd_Click(null, null);
-			//			break;
-			//		case Keys.E:
-			//			this.tsBtnModify_Click(null, null);
-			//			break;
-			//		case Keys.C:
-			//			this.tsBtnDuplicate_Click(null, null);
-			//			break;
+				switch (e.KeyCode)
+				{
+					case Keys.S:
+						this.tsBtnSave.PerformClick();
+						break;
+					case Keys.Add:
+						this.tsBtnAdd.PerformClick();
+						break;
+					case Keys.E:
+						this.tsBtnModify.PerformClick();
+						break;
+					case Keys.D:
+						this.tsBtnDuplicate.PerformClick();
+						break;
+					case Keys.F:
+						this.tbFilter.Focus();
+						break;
 
-			//		case Keys.R:
-			//			this.tsBtnRefresh_Click(null, null);
-			//			break;
-
-			//		case Keys.F:
-			//			if (!this.tbFilter.Focused)
-			//				this.tbFilter.Focus();
-			//			break;
-
-			//		default:
-			//			return;
-			//	}
-
-			//	//e.Handled = true;
-			//}
-			//else if (e.KeyCode == Keys.Delete)
-			//{
-			//	this.tsBtnDel_Click(null, null);
-
-			//	//e.Handled = true;
-			//}
+					default:
+						return;
+				}
+			}
 		}
 
 		private void tsMenItmBackup_Click(object sender, EventArgs e)
