@@ -272,27 +272,27 @@
             this.tsSepForCms,
             this.refreshToolStripMenuItem});
 			this.cmsAnime.Name = "ctxtMnSpAnime";
-			this.cmsAnime.Size = new System.Drawing.Size(131, 120);
+			this.cmsAnime.Size = new System.Drawing.Size(153, 142);
 			// 
 			// addToolStripMenuItem
 			// 
 			this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-			this.addToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-			this.addToolStripMenuItem.Text = "Add";
+			this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.addToolStripMenuItem.Text = "Add(+)";
 			this.addToolStripMenuItem.Click += new System.EventHandler(this.tsBtnAdd_Click);
 			// 
 			// modifyToolStripMenuItem
 			// 
 			this.modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
-			this.modifyToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-			this.modifyToolStripMenuItem.Text = "Modify";
+			this.modifyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.modifyToolStripMenuItem.Text = "Modify(E)";
 			this.modifyToolStripMenuItem.Click += new System.EventHandler(this.tsBtnModify_Click);
 			// 
 			// duplicateToolStripMenuItem
 			// 
 			this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
-			this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-			this.duplicateToolStripMenuItem.Text = "Duplicate";
+			this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.duplicateToolStripMenuItem.Text = "Duplicate(D)";
 			this.duplicateToolStripMenuItem.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
 			// 
 			// deleteToolStripMenuItem
@@ -464,7 +464,7 @@
 			this.tsBtnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnAdd.Name = "tsBtnAdd";
 			this.tsBtnAdd.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnAdd.Text = "Add";
+			this.tsBtnAdd.Text = "Add(+)";
 			this.tsBtnAdd.Click += new System.EventHandler(this.tsBtnAdd_Click);
 			// 
 			// tsBtnModify
@@ -474,7 +474,7 @@
 			this.tsBtnModify.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnModify.Name = "tsBtnModify";
 			this.tsBtnModify.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnModify.Text = "Modify";
+			this.tsBtnModify.Text = "Modify(E)";
 			this.tsBtnModify.Click += new System.EventHandler(this.tsBtnModify_Click);
 			// 
 			// tsBtnDuplicate
@@ -484,7 +484,7 @@
 			this.tsBtnDuplicate.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnDuplicate.Name = "tsBtnDuplicate";
 			this.tsBtnDuplicate.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnDuplicate.Text = "Duplicate";
+			this.tsBtnDuplicate.Text = "Duplicate(D)";
 			this.tsBtnDuplicate.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
 			// 
 			// tsBtnDel
