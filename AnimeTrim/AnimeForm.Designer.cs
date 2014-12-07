@@ -76,8 +76,8 @@
 			this.tsMenItmFormat = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMenItmBackup = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMore = new System.Windows.Forms.ToolStrip();
-			this.tsDropDnBtnGroup = new System.Windows.Forms.ToolStripDropDownButton();
-			this.tsDropDnBtnOverlay = new System.Windows.Forms.ToolStripDropDownButton();
+			this.tsBtnGroup = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnOverlay = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForSwitch = new System.Windows.Forms.ToolStripSeparator();
 			this.cboFilter = new System.Windows.Forms.ToolStripComboBox();
 			this.tbFilter = new System.Windows.Forms.ToolStripTextBox();
@@ -272,45 +272,45 @@
             this.tsSepForCms,
             this.refreshToolStripMenuItem});
 			this.cmsAnime.Name = "ctxtMnSpAnime";
-			this.cmsAnime.Size = new System.Drawing.Size(153, 142);
+			this.cmsAnime.Size = new System.Drawing.Size(148, 120);
 			// 
 			// addToolStripMenuItem
 			// 
 			this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-			this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.addToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.addToolStripMenuItem.Text = "Add(+)";
 			this.addToolStripMenuItem.Click += new System.EventHandler(this.tsBtnAdd_Click);
 			// 
 			// modifyToolStripMenuItem
 			// 
 			this.modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
-			this.modifyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.modifyToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.modifyToolStripMenuItem.Text = "Modify(E)";
 			this.modifyToolStripMenuItem.Click += new System.EventHandler(this.tsBtnModify_Click);
 			// 
 			// duplicateToolStripMenuItem
 			// 
 			this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
-			this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.duplicateToolStripMenuItem.Text = "Duplicate(D)";
 			this.duplicateToolStripMenuItem.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
 			// 
 			// deleteToolStripMenuItem
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.tsBtnDel_Click);
 			// 
 			// tsSepForCms
 			// 
 			this.tsSepForCms.Name = "tsSepForCms";
-			this.tsSepForCms.Size = new System.Drawing.Size(127, 6);
+			this.tsSepForCms.Size = new System.Drawing.Size(144, 6);
 			// 
 			// refreshToolStripMenuItem
 			// 
 			this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.refreshToolStripMenuItem.Text = "Refresh";
 			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.tsBtnRefresh_Click);
 			// 
@@ -528,6 +528,7 @@
 			this.tssBtnMore.Name = "tssBtnMore";
 			this.tssBtnMore.Size = new System.Drawing.Size(32, 22);
 			this.tssBtnMore.Text = "More";
+			this.tssBtnMore.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tssBtnMoreDropDownItemClicked);
 			// 
 			// tsMenItmFormat
 			// 
@@ -546,8 +547,8 @@
 			// tsMore
 			// 
 			this.tsMore.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsDropDnBtnGroup,
-            this.tsDropDnBtnOverlay,
+            this.tsBtnGroup,
+            this.tsBtnOverlay,
             this.tsSepForSwitch,
             this.cboFilter,
             this.tbFilter});
@@ -557,25 +558,27 @@
 			this.tsMore.TabIndex = 0;
 			this.tsMore.Text = "tsMore";
 			// 
-			// tsDropDnBtnGroup
+			// tsBtnGroup
 			// 
-			this.tsDropDnBtnGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsDropDnBtnGroup.Image = ((System.Drawing.Image)(resources.GetObject("tsDropDnBtnGroup.Image")));
-			this.tsDropDnBtnGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsDropDnBtnGroup.Name = "tsDropDnBtnGroup";
-			this.tsDropDnBtnGroup.Size = new System.Drawing.Size(29, 22);
-			this.tsDropDnBtnGroup.Text = "Group";
-			this.tsDropDnBtnGroup.Click += new System.EventHandler(this.cbGroups_CheckedChanged);
+			this.tsBtnGroup.CheckOnClick = true;
+			this.tsBtnGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnGroup.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnGroup.Image")));
+			this.tsBtnGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnGroup.Name = "tsBtnGroup";
+			this.tsBtnGroup.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnGroup.Text = "Group";
+			this.tsBtnGroup.Click += new System.EventHandler(this.tsBtnGroupClick);
 			// 
-			// tsDropDnBtnOverlay
+			// tsBtnOverlay
 			// 
-			this.tsDropDnBtnOverlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsDropDnBtnOverlay.Image = ((System.Drawing.Image)(resources.GetObject("tsDropDnBtnOverlay.Image")));
-			this.tsDropDnBtnOverlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsDropDnBtnOverlay.Name = "tsDropDnBtnOverlay";
-			this.tsDropDnBtnOverlay.Size = new System.Drawing.Size(29, 22);
-			this.tsDropDnBtnOverlay.Text = "Overlay";
-			this.tsDropDnBtnOverlay.Click += new System.EventHandler(this.tsDropDnBtnOverlay_Click);
+			this.tsBtnOverlay.CheckOnClick = true;
+			this.tsBtnOverlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnOverlay.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnOverlay.Image")));
+			this.tsBtnOverlay.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnOverlay.Name = "tsBtnOverlay";
+			this.tsBtnOverlay.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnOverlay.Text = "Overlay";
+			this.tsBtnOverlay.Click += new System.EventHandler(this.tsBtnOverlayClick);
 			// 
 			// tsSepForSwitch
 			// 
@@ -671,14 +674,12 @@
 		private System.Windows.Forms.ToolStripMenuItem tsMenItmFormat;
 		private System.Windows.Forms.ToolStripMenuItem tsMenItmBackup;
 		private System.Windows.Forms.ToolStrip tsMore;
-		private System.Windows.Forms.ToolStripDropDownButton tsDropDnBtnGroup;
 		private System.Windows.Forms.ToolStripSeparator tsSepForSwitch;
 		private System.Windows.Forms.ToolStripComboBox cboFilter;
 		private System.Windows.Forms.ToolStripTextBox tbFilter;
 		private System.Windows.Forms.ToolStripButton tsBtnDuplicate;
 		private System.Windows.Forms.ToolStripButton tsBtnRefresh;
 		private System.Windows.Forms.ToolStripSeparator tsSepForSpecial;
-		private System.Windows.Forms.ToolStripDropDownButton tsDropDnBtnOverlay;
 		private System.Windows.Forms.ContextMenuStrip cmsAnime;
 		private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem modifyToolStripMenuItem;
@@ -686,6 +687,8 @@
 		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator tsSepForCms;
 		private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+		private System.Windows.Forms.ToolStripButton tsBtnGroup;
+		private System.Windows.Forms.ToolStripButton tsBtnOverlay;
 
 	}
 }

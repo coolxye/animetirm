@@ -64,6 +64,13 @@ namespace AnimeTrim
 			this.tsBtnRefresh.Enabled = false;
 
 			this.cboFilter.SelectedIndex = 0;
+
+			this.tssBtnMore.DefaultItem = this.tsMenItmBackup;
+			this.tssBtnMore.Text = this.tsMenItmBackup.Text;
+			this.tssBtnMore.ToolTipText = this.tsMenItmBackup.ToolTipText;
+			// this.tssBtnMore.Image = this.tsMenItmBackup.Image;
+
+			this.tsBtnOverlay.CheckState = CheckState.Checked;
 		}
 
 		// Initalize the path and name of AnimeInfo from a xml
@@ -193,6 +200,8 @@ namespace AnimeTrim
 		{
 			if (ObjectListView.IsVistaOrLater)
 				this.Font = new Font("msyh", 8);
+
+			this.folvAnime.AddDecoration(new EditingCellBorderDecoration(true));
 
 			TypedObjectListView<Anime> tolv = new TypedObjectListView<Anime>(this.folvAnime);
 			tolv.GenerateAspectGetters();
@@ -461,7 +470,7 @@ namespace AnimeTrim
 				this.tsslSelSpace.Text = (a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
 					String.Format("Selected Size: {0:#,##0.#0} MB", a.Size / 1048576D);
 
-				this.rtbAnime.Text = a.Remarks();
+				this.rtbAnime.Text = a.Remark;
 				this.tsBtnModify.Enabled = true;
 				this.tsBtnDuplicate.Enabled = true;
 				this.tsBtnDel.Enabled = true;
@@ -494,15 +503,6 @@ namespace AnimeTrim
 
 				this.rtbAnime.ResetText();
 				this.tsBtnModify.Enabled = false;
-			}
-		}
-
-		private void cbGroups_CheckedChanged(object sender, EventArgs e)
-		{
-			if (FastObjectListView.IsVistaOrLater)
-			{
-				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
-				this.folvAnime.BuildList();
 			}
 		}
 
@@ -817,12 +817,6 @@ namespace AnimeTrim
 			}
 		}
 
-		private void tsDropDnBtnOverlay_Click(object sender, EventArgs e)
-		{
-			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
-			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
-		}
-
 		private void folvAnime_IsHyperlink(object sender, IsHyperlinkEventArgs e)
 		{
 			e.Url = e.Text;
@@ -838,7 +832,7 @@ namespace AnimeTrim
 
 			a.UpdateTime = DateTime.Now;
 
-			this.rtbAnime.Text = a.Remarks();
+			this.rtbAnime.Text = a.Remark;
 			// edit fin
 
 			_ai.IsSaved = false;
@@ -1078,6 +1072,29 @@ namespace AnimeTrim
 				sw.Close();
 			}
 			#endregion
+		}
+
+		private	void tsBtnGroupClick(object sender, EventArgs e)
+		{
+			if (ObjectListView.IsVistaOrLater)
+			{
+				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
+				this.folvAnime.BuildList();
+			}
+		}
+
+		private void tsBtnOverlayClick(object sender, EventArgs e)
+		{
+			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+		}
+
+		private void tssBtnMoreDropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			this.tssBtnMore.DefaultItem = e.ClickedItem;
+			this.tssBtnMore.Text = e.ClickedItem.Text;
+			this.tssBtnMore.ToolTipText = e.ClickedItem.ToolTipText;
+			this.tssBtnMore.Image = e.ClickedItem.Image;
 		}
 
 	}
