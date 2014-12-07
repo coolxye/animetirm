@@ -69,6 +69,8 @@ namespace AnimeTrim
 			this.tssBtnMore.Text = this.tsMenItmBackup.Text;
 			this.tssBtnMore.ToolTipText = this.tsMenItmBackup.ToolTipText;
 			// this.tssBtnMore.Image = this.tsMenItmBackup.Image;
+
+			this.tsBtnOverlay.CheckState = CheckState.Checked;
 		}
 
 		// Initalize the path and name of AnimeInfo from a xml
@@ -199,6 +201,8 @@ namespace AnimeTrim
 			if (ObjectListView.IsVistaOrLater)
 				this.Font = new Font("msyh", 8);
 
+			this.folvAnime.AddDecoration(new EditingCellBorderDecoration(true));
+
 			TypedObjectListView<Anime> tolv = new TypedObjectListView<Anime>(this.folvAnime);
 			tolv.GenerateAspectGetters();
 
@@ -323,8 +327,17 @@ namespace AnimeTrim
 				return otn.ToString().Replace('\u0002', '\u0020');
 			};
 
-			this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
-			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+			RowBorderDecoration rbd = new RowBorderDecoration();
+			rbd.BorderPen = new Pen(Color.SeaGreen, 2);
+			rbd.FillBrush = null;
+			rbd.CornerRounding = 4.0f;
+			HotItemStyle hotItemStyle = new HotItemStyle();
+			hotItemStyle.Decoration = rbd;
+			hotItemStyle.Overlay = new AnimeViewOverlay();
+			this.folvAnime.HotItemStyle = hotItemStyle;
+
+			//this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
+			//this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
 			this.folvAnime.PrimarySortColumn = this.olvColTitle;
 			this.folvAnime.PrimarySortOrder = SortOrder.Ascending;
 		}

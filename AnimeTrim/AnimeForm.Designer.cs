@@ -152,7 +152,6 @@
 			this.folvAnime.FullRowSelect = true;
 			this.folvAnime.GroupWithItemCountSingularFormat = "{0} [{1} items]";
 			this.folvAnime.HideSelection = false;
-			this.folvAnime.HotItemStyle = this.hiStyle;
 			this.folvAnime.Location = new System.Drawing.Point(3, 3);
 			this.folvAnime.Name = "folvAnime";
 			this.folvAnime.OwnerDraw = true;
@@ -272,45 +271,45 @@
             this.tsSepForCms,
             this.refreshToolStripMenuItem});
 			this.cmsAnime.Name = "ctxtMnSpAnime";
-			this.cmsAnime.Size = new System.Drawing.Size(153, 142);
+			this.cmsAnime.Size = new System.Drawing.Size(148, 120);
 			// 
 			// addToolStripMenuItem
 			// 
 			this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-			this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.addToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.addToolStripMenuItem.Text = "Add(+)";
 			this.addToolStripMenuItem.Click += new System.EventHandler(this.tsBtnAdd_Click);
 			// 
 			// modifyToolStripMenuItem
 			// 
 			this.modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
-			this.modifyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.modifyToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.modifyToolStripMenuItem.Text = "Modify(E)";
 			this.modifyToolStripMenuItem.Click += new System.EventHandler(this.tsBtnModify_Click);
 			// 
 			// duplicateToolStripMenuItem
 			// 
 			this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
-			this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.duplicateToolStripMenuItem.Text = "Duplicate(D)";
 			this.duplicateToolStripMenuItem.Click += new System.EventHandler(this.tsBtnDuplicate_Click);
 			// 
 			// deleteToolStripMenuItem
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.tsBtnDel_Click);
 			// 
 			// tsSepForCms
 			// 
 			this.tsSepForCms.Name = "tsSepForCms";
-			this.tsSepForCms.Size = new System.Drawing.Size(127, 6);
+			this.tsSepForCms.Size = new System.Drawing.Size(144, 6);
 			// 
 			// refreshToolStripMenuItem
 			// 
 			this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+			this.refreshToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
 			this.refreshToolStripMenuItem.Text = "Refresh";
 			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.tsBtnRefresh_Click);
 			// 
@@ -547,11 +546,11 @@
 			// tsMore
 			// 
 			this.tsMore.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.tsBtnGroup,
-			this.tsBtnOverlay,
-			this.tsSepForSwitch,
-			this.cboFilter,
-			this.tbFilter});
+            this.tsBtnGroup,
+            this.tsBtnOverlay,
+            this.tsSepForSwitch,
+            this.cboFilter,
+            this.tbFilter});
 			this.tsMore.Location = new System.Drawing.Point(0, 25);
 			this.tsMore.Name = "tsMore";
 			this.tsMore.Size = new System.Drawing.Size(944, 25);
