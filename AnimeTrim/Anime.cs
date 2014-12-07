@@ -135,11 +135,6 @@ namespace AnimeTrim
 			this.ID = id;
 		}
 
-		//public Anime(String title)
-		//{
-		//	this.Title = title;
-		//}
-
 		public Anime(UInt32 id, String title, String name, UInt32 year, String season, MediaType type,
 			MergeFormat format, String subTeam, SubStyles subStyle, String path,
 			Int64 size, Boolean store, Boolean enjoy, Int32 grade, DateTime createTime,
@@ -191,20 +186,21 @@ namespace AnimeTrim
 			this.Note = other.Note;
 		}
 
-		// TODO: Del
-		public void EditCopy(Anime edit)
-		{
-			this.Title = edit.Title;
-			this.Year = edit.Year;
-			this.Season = edit.Season;
-			this.Path = edit.Path;
-			this.Size = edit.Size;
-			this.UpdateTime = edit.UpdateTime;
-			this.Kana = edit.Kana;
-			this.Episode = edit.Episode;
-			this.Inc = edit.Inc;
-			this.Note = edit.Note;
-		}
+		#region unused EditCopy
+		//public void EditCopy(Anime edit)
+		//{
+		//	this.Title = edit.Title;
+		//	this.Year = edit.Year;
+		//	this.Season = edit.Season;
+		//	this.Path = edit.Path;
+		//	this.Size = edit.Size;
+		//	this.UpdateTime = edit.UpdateTime;
+		//	this.Kana = edit.Kana;
+		//	this.Episode = edit.Episode;
+		//	this.Inc = edit.Inc;
+		//	this.Note = edit.Note;
+		//}
+		#endregion
 
 		public static Int64 GetSize(String path)
 		{

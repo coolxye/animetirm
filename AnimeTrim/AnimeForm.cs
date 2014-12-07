@@ -20,13 +20,18 @@ namespace AnimeTrim
 			// edit 13/1/8 for bug3
 			InitAnimeInfo();
 			// edit fin
-			InitBtn();
+			InitForm();
 			InitModel();
 			InitAccessFile();
 		}
 
 		private const String _sout = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}" +
 			"\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}\t{19}";
+
+		// 1G = 1024 * 1024 * 1024 Byte
+		//private const Double _dSizeG = 1073741824D;
+		// 1M = 1024 * 1024 Byte
+		//private const Double _dSizeM = 1048576D;
 
 		private AnimeInfo _ai = new AnimeInfo();
 		// Temporary AnimeInfo for the wrong read
@@ -49,8 +54,8 @@ namespace AnimeTrim
 		}
 		// edit fin
 
-		// Initalize the buttons
-		private void InitBtn()
+		// Initalize the controls
+		private void InitForm()
 		{
 			this.tsBtnSave.Enabled = false;
 			this.tsBtnModify.Enabled = false;
@@ -76,34 +81,29 @@ namespace AnimeTrim
 			XPathNavigator xptnavi = xptdoc.CreateNavigator();
 
 			XPathNavigator xt = xptnavi.SelectSingleNode("//LastAccessName");
-			if (xt != null && xt.Value != "")
+			if (xt != null && !String.IsNullOrEmpty(xt.Value))
 				_aitp.Name = xt.Value;
 			else return;
 
 			xt = xptnavi.SelectSingleNode("//LastAccessPath");
-			if (xt != null && xt.Value != "" && File.Exists(xt.Value))
+			if (xt != null && !String.IsNullOrEmpty(xt.Value) && File.Exists(xt.Value))
 				_aitp.Path = xt.Value;
 			else return;
 
-			if (ReadAnimeDoc())
+			if (ReadXat())
 				BindData();
 		}
 
 		// Read file to initalize the list of Anime
-		private bool ReadAnimeDoc()
+		private bool ReadXat()
 		{
-			Anime ani;
-			string line;
-			string[] info;
 			StreamReader sr = new StreamReader(_aitp.Path);
+			string line = sr.ReadLine();
 
-			//_fs = new FileStream(_aitp.Path, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-			//sr = new StreamReader(_fs);
-
-			if ((line = sr.ReadLine()) == null)
+			if (String.IsNullOrEmpty(line))
 				return false;
 
-			info = line.Split('\t');
+			string[] info = line.Split('\t');
 			if (info.Length != 3)
 				return false;
 
@@ -140,10 +140,11 @@ namespace AnimeTrim
 			}
 			else _aitp.Uid = ut;
 
+			Anime ani;
 			int iErr = 1;
 			try
 			{
-				while ((line = sr.ReadLine()) != null)
+				while (!String.IsNullOrEmpty(line = sr.ReadLine()))
 				{
 					iErr++;
 					info = line.Split('\t');
@@ -192,7 +193,7 @@ namespace AnimeTrim
 			return true;
 		}
 
-		// Initalize the Format of the FastObjectView
+		// Initalize the Format of the ObjectListView
 		private void InitModel()
 		{
 			if (ObjectListView.IsVistaOrLater)
@@ -209,7 +210,6 @@ namespace AnimeTrim
 			tc = new TypedColumn<Anime>(this.olvColSchedule);
 			tc.GroupKeyGetter = delegate(Anime a) { return a.Year; };
 
-			//TODO: add images to Type of Anime
 			// Type of Anime
 			tc = new TypedColumn<Anime>(this.olvColType);
 			tc.AspectPutter = delegate(Anime a, object opt) { a.Type = (MediaType)opt; };
@@ -237,6 +237,7 @@ namespace AnimeTrim
 			};
 
 			// Format of Anime
+			#region
 			//this.olvColFormat.Renderer = new MappedImageRenderer(new object[] {
 			//	MergeFormat.MKV, Properties.Resources.MKV,
 			//	MergeFormat.MP4, Properties.Resources.MP4,
@@ -246,6 +247,7 @@ namespace AnimeTrim
 			//});
 			//tc = new TypedColumn<Anime>(this.olvColFormat);
 			//tc.AspectPutter = delegate(Anime a, object opf) { a.Format = (MergeFormat)opf; };
+			#endregion
 
 			// SubTeam of Anime
 			tc = new TypedColumn<Anime>(this.olvColSubTeam);
@@ -268,6 +270,7 @@ namespace AnimeTrim
 			};
 
 			// SubStyle of Anime
+			#region
 			//this.olvColSubStyle.Renderer = new MappedImageRenderer(new object[] {
 			//	SubStyles.External, Properties.Resources.External,
 			//	SubStyles.Sealed, Properties.Resources.Sealed,
@@ -275,6 +278,7 @@ namespace AnimeTrim
 			//});
 			//tc = new TypedColumn<Anime>(this.olvColSubStyle);
 			//tc.AspectPutter = delegate(Anime a, object ops) { a.SubStyle = (SubStyles)ops; };
+			#endregion
 
 			// Size of Anime
 			this.olvColSize.AspectToStringConverter = delegate(object ots)
@@ -287,7 +291,7 @@ namespace AnimeTrim
 			};
 			this.olvColSize.MakeGroupies(
 				new long[] { 5368709120L, 10737418240L },
-				new string[] { "0~5 GB", "5~10 GB", "10~ GB" }
+				new string[] { "0~5 GB", "5~10 GB", ">10 GB" }
 				);
 
 			// Store of Anime
@@ -325,7 +329,7 @@ namespace AnimeTrim
 			this.folvAnime.PrimarySortOrder = SortOrder.Ascending;
 		}
 
-		// Initalize the model data of Anime to the FastObjectListView
+		// Initalize the model data of Anime to the ObjectListView
 		private void BindData()
 		{
 			_ai = _aitp;
@@ -333,11 +337,6 @@ namespace AnimeTrim
 			// edit 13/1/7 for bug2
 			_latp.Clear();
 			// edit fin
-
-			//if (_sr != null)
-			//	_sr.Close();
-
-			//_sr = new StreamReader(_ai.Path);
 
 			this.folvAnime.SetObjects(_lani);
 
@@ -569,149 +568,6 @@ namespace AnimeTrim
 				ResetAll();
 		}
 
-		#region up data at -> xat
-		// TODO: delete before final
-		//private void btnChange_Click(object sender, EventArgs e)
-		//{
-		//	const string path = @"E:\Documents\AnimeDoc.at";
-
-		//	List<Anime> lani = new List<Anime>();
-
-		//	StreamReader sr = new StreamReader(path);
-		//	int total = Int32.Parse(sr.ReadLine());
-		//	long dspace = (Int64)(Double.Parse(sr.ReadLine()) * 1073741824D + 0.5D);
-
-		//	string title;
-		//	string name;
-		//	int year;
-		//	string season;
-		//	MediaType type;
-		//	MergeFormat format;
-		//	string publisher;
-		//	SubStyles subStyle;
-		//	string storeIndex;
-		//	long space;
-		//	bool gather;
-		//	bool view;
-		//	int rate;
-		//	DateTime createTime;
-		//	DateTime updateTime;
-		//	string kana;
-		//	string episode;
-		//	string note;
-
-		//	string line;
-		//	string[] info;
-		//	string[] date;
-		//	int i = 10;
-
-		//	while ((line = sr.ReadLine()) != null)
-		//	{
-		//		info = line.Split('\t');
-
-		//		title = info[0]; name = info[1];
-		//		date = info[2].Split('.');
-		//		year = Int32.Parse(date[0]);
-		//		season = date[1];
-
-		//		switch (info[3])
-		//		{
-		//			case "BDRip": type = MediaType.BDRip; break;
-		//			case "DVDRip": type = MediaType.DVDRip; break;
-		//			case "BDRAW": type = MediaType.BDRAW; break;
-		//			case "DVDRAW": type = MediaType.DVDRAW; break;
-		//			case "BDMV": type = MediaType.BDMV; break;
-		//			case "TVRip": type = MediaType.TVRip; break;
-		//			default: type = MediaType.DVDRip; break;
-		//		}
-
-		//		switch (info[4])
-		//		{
-		//			case "MKV": format = MergeFormat.MKV; break;
-		//			case "MP4": format = MergeFormat.MP4; break;
-		//			case "M2TS": format = MergeFormat.M2TS; break;
-		//			case "WMV": format = MergeFormat.WMV; break;
-		//			case "AVI": format = MergeFormat.AVI; break;
-		//			default: format = MergeFormat.MKV; break;
-		//		}
-
-		//		publisher = info[5];
-
-		//		switch (info[6])
-		//		{
-		//			case "External": subStyle = SubStyles.External; break;
-		//			case "Sealed": subStyle = SubStyles.Sealed; break;
-		//			case "Embedded": subStyle = SubStyles.Embedded; break;
-		//			default: subStyle = SubStyles.External; break;
-		//		}
-
-		//		storeIndex = info[7];
-
-		//		space = (Int64)(Double.Parse(info[8]) * 1073741824D + 0.5D);
-
-		//		gather = (info[9] == "Fin.") ? true : false;
-
-		//		view = (info[10] == "^-^") ? true : false;
-
-		//		rate = i++;
-
-		//		if (i > 40) i = 10;
-
-		//		createTime = DateTime.Now;
-
-		//		updateTime = DateTime.Now;
-
-		//		kana = info[11];
-
-		//		episode = "12";
-
-		//		note = info[12];
-
-		//		lani.Add(new Anime(title, name, year, season, type, format,
-		//			publisher, subStyle, storeIndex, space, gather, view,
-		//			rate, createTime, updateTime, kana, episode, note));
-		//	}
-
-		//	sr.Close();
-
-		//	StreamWriter sw = new StreamWriter(@"AnimeDoc.txt", false, Encoding.Unicode);
-		//	sw.WriteLine(total); sw.WriteLine(dspace);
-
-		//	foreach (Anime ani in lani)
-		//	{
-		//		sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}",
-		//			ani.Title, ani.Name, ani.Year, ani.Season, ani.Type, ani.Format,
-		//			ani.SubTeam, ani.SubStyle, ani.Path, ani.Size, ani.Store,
-		//			ani.Enjoy, ani.Grade, ani.CreateTime, ani.UpdateTime, ani.Kana,
-		//			ani.Episode, ani.Note);
-		//	}
-
-		//	sw.Close();
-		//}
-		#endregion
-
-		private void btnChange_Click(object sender, EventArgs e)
-		{
-			#region format
-			//StreamWriter sw = new StreamWriter(@"E:\Documents\AnimeDoc_updata.xat", false, Encoding.Unicode);
-
-			//sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Size, _ai.Uid);
-
-			//int i = 1;
-
-			//_lani.ForEach(delegate(Anime a)
-			//{
-			//	sw.WriteLine(_sout,
-			//		i++, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
-			//		a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
-			//		a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
-			//		a.Episode, a.Inc, a.Note);
-			//});
-
-			//sw.Close();
-			#endregion
-		}
-
 		private void tsBtnOpen_Click(object sender, EventArgs e)
 		{
 			// edit 13/1/9 for bug3
@@ -742,7 +598,7 @@ namespace AnimeTrim
 				_aitp.Path = ofd.FileName;
 				_aitp.Name = ofd.SafeFileName;
 
-				if (ReadAnimeDoc())
+				if (ReadXat())
 				{
 					if (!_ai.IsNew)
 						ResetAll();
@@ -785,8 +641,6 @@ namespace AnimeTrim
 		private void tsBtnAdd_Click(object sender, EventArgs e)
 		{
 			AddForm af = new AddForm();
-			af.StartPosition = FormStartPosition.CenterParent;
-			af.MaximizeBox = false;
 
 			if (af.ShowDialog(this) == DialogResult.OK)
 			{
@@ -821,8 +675,6 @@ namespace AnimeTrim
 
 			long ls = a.Size;
 			ModForm mf = new ModForm(ref a);
-			mf.StartPosition = FormStartPosition.CenterParent;
-			mf.MaximizeBox = false;
 
 			if (mf.ShowDialog(this) == DialogResult.OK)
 			{
@@ -866,7 +718,7 @@ namespace AnimeTrim
 		//	this.folvAnime.AddObject(_aCopy);
 		//	this.folvAnime.SelectedObject = _aCopy;
 		//	this.folvAnime.SelectedItem.EnsureVisible();
-		//	// TODO: 需修正工具栏
+
 		//	this.folvAnime.Focus();
 		//	this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 		//	this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Size / 1073741824D);
@@ -1007,8 +859,6 @@ namespace AnimeTrim
 			xWriter.WriteEndElement();
 			xWriter.Flush();
 			xWriter.Close();
-
-			//_fs.Close();
 		}
 
 		private void AnimeForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1032,58 +882,37 @@ namespace AnimeTrim
 
 		private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
 		{
-			//if (e.Control)
-			//{
-			//	switch (e.KeyCode)
-			//	{
-			//		case Keys.N:
-			//			this.tsBtnNew_Click(null, null);
-			//			break;
-			//		case Keys.O:
-			//			this.tsBtnOpen_Click(null, null);
-			//			break;
-			//		case Keys.S:
-			//			this.tsBtnSave_Click(null, null);
-			//			break;
+			if (e.Control)
+			{
+				e.Handled = true;
 
-			//		case Keys.D:
-			//			this.tsBtnAdd_Click(null, null);
-			//			break;
-			//		case Keys.E:
-			//			this.tsBtnModify_Click(null, null);
-			//			break;
-			//		case Keys.C:
-			//			this.tsBtnDuplicate_Click(null, null);
-			//			break;
+				switch (e.KeyCode)
+				{
+					case Keys.S:
+						this.tsBtnSave.PerformClick();
+						break;
+					case Keys.Add:
+						this.tsBtnAdd.PerformClick();
+						break;
+					case Keys.E:
+						this.tsBtnModify.PerformClick();
+						break;
+					case Keys.D:
+						this.tsBtnDuplicate.PerformClick();
+						break;
+					case Keys.F:
+						this.tbFilter.Focus();
+						break;
 
-			//		case Keys.R:
-			//			this.tsBtnRefresh_Click(null, null);
-			//			break;
-
-			//		case Keys.F:
-			//			if (!this.tbFilter.Focused)
-			//				this.tbFilter.Focus();
-			//			break;
-
-			//		default:
-			//			return;
-			//	}
-
-			//	//e.Handled = true;
-			//}
-			//else if (e.KeyCode == Keys.Delete)
-			//{
-			//	this.tsBtnDel_Click(null, null);
-
-			//	//e.Handled = true;
-			//}
+					default:
+						return;
+				}
+			}
 		}
 
 		private void tsMenItmBackup_Click(object sender, EventArgs e)
 		{
-			this.tssBtnMore.Image = this.tsMenItmBackup.Image;
-
-			if (_ai.Path == null || _ai.Name == null)
+			if (String.IsNullOrEmpty(_ai.Path))
 				return;
 
 			StreamWriter sw = new StreamWriter(_ai.Path + ".bak", false, Encoding.Unicode);
@@ -1239,8 +1068,6 @@ namespace AnimeTrim
 				sw.Close();
 			}
 			#endregion
-
-			this.tssBtnMore.Image = this.tsMenItmFormat.Image;
 		}
 
 		private	void tsBtnGroupClick(object sender, EventArgs e)

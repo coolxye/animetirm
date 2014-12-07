@@ -449,7 +449,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(624, 322);
+			this.ClientSize = new System.Drawing.Size(624, 321);
+			this.ControlBox = false;
 			this.Controls.Add(this.tbInc);
 			this.Controls.Add(this.lblInc);
 			this.Controls.Add(this.lblStoreIndexWarning);
@@ -486,7 +487,9 @@
 			this.Controls.Add(this.lblKana);
 			this.Controls.Add(this.lblName);
 			this.Controls.Add(this.lblTitle);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "AddForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Add a Anime";
 			this.gbNote.ResumeLayout(false);
 			this.ResumeLayout(false);
