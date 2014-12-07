@@ -328,7 +328,7 @@ namespace AnimeTrim
 			};
 
 			RowBorderDecoration rbd = new RowBorderDecoration();
-			rbd.BorderPen = new Pen(Color.SeaGreen, 2);
+			rbd.BorderPen = new Pen(Color.Orchid, 2);
 			rbd.FillBrush = null;
 			rbd.CornerRounding = 4.0f;
 			HotItemStyle hotItemStyle = new HotItemStyle();
