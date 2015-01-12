@@ -4,6 +4,7 @@ using BrightIdeasSoftware;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AnimeTrim
 {
@@ -256,6 +257,22 @@ namespace AnimeTrim
 				sb.Append("...");
 
 			return sb.ToString();
+		}
+
+		public static Boolean IsMatchTitle(String title)
+		{
+			return (title != String.Empty);
+		}
+
+		public static Boolean IsMatchYear(String year)
+		{
+			return Regex.IsMatch(year, "^(?!0000)[0-9]{4}$");
+		}
+
+		public static Boolean IsMatchPath(String path)
+		{
+			return (path == String.Empty ||
+				Regex.IsMatch(path, @"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"));
 		}
 	}
 

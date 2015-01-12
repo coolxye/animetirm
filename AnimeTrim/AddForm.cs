@@ -37,6 +37,7 @@ namespace AnimeTrim
 		}
 
 		private Anime _anime = new Anime();
+		private byte btMatch = 0xF8;
 
 		public Anime GetAnime()
 		{
@@ -44,50 +45,95 @@ namespace AnimeTrim
 		}
 
 		// edit 13/1/13 for fun3
-		private bool MatchTitle()
+		private void MatchTitle()
 		{
-			if (this.tbTitle.Text == String.Empty)
+			//if (this.tbTitle.Text == String.Empty)
+			//{
+			//	this.lblTitleWarning.Text = "Title is null";
+			//	btMatch &= 0xFE;
+			//	return false;
+			//}
+			//else
+			//{
+			//	this.lblTitleWarning.Text = String.Empty;
+			//	btMatch |= 0x01;
+			//	return true;
+			//}
+
+			if (Anime.IsMatchTitle(this.tbTitle.Text))
 			{
-				this.lblTitleWarning.Text = "Title is null";
-				return false;
+				this.lblTitleWarning.Text = String.Empty;
+				btMatch |= 0x01;
 			}
 			else
 			{
-				this.lblTitleWarning.Text = String.Empty;
-				return true;
+				this.lblTitleWarning.Text = "Title is null";
+				btMatch &= 0xFE;
 			}
 		}
 
-		private bool MatchYear()
+		private void MatchYear()
 		{
-			if (Regex.IsMatch(this.cboYear.Text, "^(?!0000)[0-9]{4}$"))
+			//if (Regex.IsMatch(this.cboYear.Text, "^(?!0000)[0-9]{4}$"))
+			//{
+			//	this.lblYearWarning.Text = String.Empty;
+			//	btMatch |= 0x02;
+			//	return true;
+			//}
+			//else
+			//{
+			//	this.lblYearWarning.Text = "Year is wrong";
+			//	btMatch &= 0xFD;
+			//	return false;
+			//}
+			if (Anime.IsMatchYear(this.cboYear.Text))
 			{
 				this.lblYearWarning.Text = String.Empty;
-				return true;
+				btMatch |= 0x02;
 			}
 			else
 			{
 				this.lblYearWarning.Text = "Year is wrong";
-				return false;
+				btMatch &= 0xFD;
 			}
 		}
 
-		private bool MatchStoreIndex()
+		private void MatchStoreIndex()
 		{
-			if (this.tbStoreIndex.Text == String.Empty ||
-				Regex.IsMatch(this.tbStoreIndex.Text,
-				@"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"))
+			//if (this.tbStoreIndex.Text == String.Empty ||
+			//	Regex.IsMatch(this.tbStoreIndex.Text,
+			//	@"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"))
+			//{
+			//	this.lblStoreIndexWarning.Text = String.Empty;
+			//	btMatch |= 0x04;
+			//	return true;
+			//}
+			//else
+			//{
+			//	this.lblStoreIndexWarning.Text = "Path isn't match";
+			//	btMatch &= 0xFB;
+			//	return false;
+			//}
+			if (Anime.IsMatchPath(this.tbStoreIndex.Text))
 			{
 				this.lblStoreIndexWarning.Text = String.Empty;
-				return true;
+				btMatch |= 0x04;
 			}
 			else
 			{
 				this.lblStoreIndexWarning.Text = "Path isn't match";
-				return false;
+				btMatch &= 0xFB;
 			}
 		}
 		// edit fin
+
+		private void MatchCase()
+		{
+			if ((btMatch & 0xFF) == 0xFF)
+				this.btnOK.Enabled = true;
+			else
+				this.btnOK.Enabled = false;
+		}
 
 		private void btnBrowser_Click(object sender, EventArgs e)
 		{
@@ -133,29 +179,29 @@ namespace AnimeTrim
 			//    }
 			//}
 
-			bool btitle, byear, bstoreindex;
+			//bool btitle, byear, bstoreindex;
 
-			btitle = MatchTitle();
-			byear = MatchYear();
-			bstoreindex = MatchStoreIndex();
+			//btitle = MatchTitle();
+			//byear = MatchYear();
+			//bstoreindex = MatchStoreIndex();
 
-			if (!btitle)
-			{
-				this.tbTitle.Focus();
-				return;
-			}
-			else if (!byear)
-			{
-				this.cboYear.Text = String.Empty;
-				this.cboYear.Focus();
-				return;
-			}
-			else if (!bstoreindex)
-			{
-				this.tbStoreIndex.Text = String.Empty;
-				this.tbStoreIndex.Focus();
-				return;
-			}
+			//if (!btitle)
+			//{
+			//	this.tbTitle.Focus();
+			//	return;
+			//}
+			//else if (!byear)
+			//{
+			//	this.cboYear.Text = String.Empty;
+			//	this.cboYear.Focus();
+			//	return;
+			//}
+			//else if (!bstoreindex)
+			//{
+			//	this.tbStoreIndex.Text = String.Empty;
+			//	this.tbStoreIndex.Focus();
+			//	return;
+			//}
 			// edit fin
 
 			_anime.Title = this.tbTitle.Text;
@@ -196,16 +242,19 @@ namespace AnimeTrim
 		private void tbTitle_TextChanged(object sender, EventArgs e)
 		{
 			MatchTitle();
+			MatchCase();
 		}
 
 		private void cboYear_TextChanged(object sender, EventArgs e)
 		{
 			MatchYear();
+			MatchCase();
 		}
 
 		private void tbStoreIndex_TextChanged(object sender, EventArgs e)
 		{
 			MatchStoreIndex();
+			MatchCase();
 		}
 		// edit fin
 	}
