@@ -11,6 +11,8 @@ namespace AnimeTrim
 			InitializeComponent();
 
 			InitValue();
+
+			InitMatch();
 		}
 
 		private void InitValue()
@@ -34,6 +36,14 @@ namespace AnimeTrim
 			this.cboGather.SelectedIndex = 0;
 			this.cboView.SelectedIndex = 0;
 			this.cboRate.SelectedIndex = 1;
+		}
+
+		private void InitMatch()
+		{
+			MatchTitle();
+			MatchYear();
+			MatchStoreIndex();
+			MatchCase();
 		}
 
 		private Anime _anime = new Anime();
