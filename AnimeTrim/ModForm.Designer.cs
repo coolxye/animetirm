@@ -311,7 +311,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(624, 270);
-			this.ControlBox = false;
 			this.Controls.Add(this.cboSubStyle);
 			this.Controls.Add(this.lblSubStyle);
 			this.Controls.Add(this.cboFormat);
@@ -337,6 +336,8 @@
 			this.Controls.Add(this.lblKana);
 			this.Controls.Add(this.lblTitle);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "ModForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Modify a Anime";
