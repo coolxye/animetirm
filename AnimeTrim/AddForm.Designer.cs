@@ -223,6 +223,7 @@
 			// 
 			// tbKana
 			// 
+			this.tbKana.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.tbKana.Location = new System.Drawing.Point(342, 12);
 			this.tbKana.Name = "tbKana";
 			this.tbKana.Size = new System.Drawing.Size(220, 21);
@@ -395,9 +396,9 @@
 			// 
 			this.cboRate.FormattingEnabled = true;
 			this.cboRate.Items.AddRange(new object[] {
-            "10",
-            "20",
-            "30"});
+            "1",
+            "2",
+            "3"});
 			this.cboRate.Location = new System.Drawing.Point(528, 118);
 			this.cboRate.Name = "cboRate";
 			this.cboRate.Size = new System.Drawing.Size(50, 20);
