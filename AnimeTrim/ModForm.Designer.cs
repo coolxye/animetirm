@@ -135,6 +135,7 @@
 			// 
 			// tbKana
 			// 
+			this.tbKana.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.tbKana.Location = new System.Drawing.Point(342, 12);
 			this.tbKana.Name = "tbKana";
 			this.tbKana.Size = new System.Drawing.Size(220, 21);
@@ -310,7 +311,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(624, 270);
-			this.ControlBox = false;
 			this.Controls.Add(this.cboSubStyle);
 			this.Controls.Add(this.lblSubStyle);
 			this.Controls.Add(this.cboFormat);
@@ -336,6 +336,8 @@
 			this.Controls.Add(this.lblKana);
 			this.Controls.Add(this.lblTitle);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "ModForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Modify a Anime";

@@ -390,16 +390,19 @@ namespace AnimeTrim
 			fmt.Alignment = StringAlignment.Near;
 
 			// Draw the other infos
-			using (Font ft = new Font("Tahoma", 8))
+			using (Font ft = new Font("Meiryo UI", 8, FontStyle.Regular))
 			{
 				txt = "Kana: " + av.Kana;
 				SizeF sf = g.MeasureString(txt, ft, rText.Width, fmt);
 				rText.Height = (int)sf.Height;
 				g.DrawString(txt, ft, this.TextBrush, rText, fmt);
+			}
 
+			using (Font ft = new Font("Tahoma", 8))
+			{
 				rText.Y += rText.Height;
 				txt = "Episode: " + av.Episode;
-				sf = g.MeasureString(txt, ft, rText.Width, fmt);
+				SizeF sf = g.MeasureString(txt, ft, rText.Width, fmt);
 				rText.Height = (int)sf.Height;
 				g.DrawString(txt, ft, this.TextBrush, rText, fmt);
 
