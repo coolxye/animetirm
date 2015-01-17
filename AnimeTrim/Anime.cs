@@ -4,6 +4,7 @@ using BrightIdeasSoftware;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AnimeTrim
 {
@@ -111,21 +112,24 @@ namespace AnimeTrim
 		{ get; set; }
 
 		// 作为固定形式时类中适合，以后更新时框架中方法适合
-		private const String _format =
-			"Creation Time: {0}, Update Time: {1}\n\n{2}";
+		//private const String _format =
+		//	"Creation Time: {0}, Update Time: {1}\n\n{2}";
 
-		private const String _picfmt =
-			"Original Name: {0}\nEpisode: {1}\n";
+		//private const String _picfmt =
+		//	"Original Name: {0}\nEpisode: {1}\n";
 
-		public String Remarks()
+		public String Remark
 		{
-			return String.Format(_format, CreateTime, UpdateTime, Note.Replace('\u0002', '\n'));
+			get
+			{
+				return String.Format("Creation Time: {0}, Update Time: {1}\n\n{2}", CreateTime, UpdateTime, Note.Replace('\u0002', '\n'));
+			}
 		}
 
-		public String PicRmks()
-		{
-			return String.Format(_picfmt, Kana, Episode);
-		}
+		//public String PicRmks()
+		//{
+		//	return String.Format(_picfmt, Kana, Episode);
+		//}
 
 		public Anime()
 		{ }
@@ -253,6 +257,22 @@ namespace AnimeTrim
 				sb.Append("...");
 
 			return sb.ToString();
+		}
+
+		public static Boolean IsMatchTitle(String title)
+		{
+			return (title != String.Empty);
+		}
+
+		public static Boolean IsMatchYear(String year)
+		{
+			return Regex.IsMatch(year, "^(?!0000)[0-9]{4}$");
+		}
+
+		public static Boolean IsMatchPath(String path)
+		{
+			return (path == String.Empty ||
+				Regex.IsMatch(path, @"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"));
 		}
 	}
 

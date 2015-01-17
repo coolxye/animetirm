@@ -395,9 +395,9 @@
 			// 
 			this.cboRate.FormattingEnabled = true;
 			this.cboRate.Items.AddRange(new object[] {
-            "10",
-            "20",
-            "30"});
+            "1",
+            "2",
+            "3"});
 			this.cboRate.Location = new System.Drawing.Point(528, 118);
 			this.cboRate.Name = "cboRate";
 			this.cboRate.Size = new System.Drawing.Size(50, 20);

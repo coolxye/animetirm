@@ -12,53 +12,104 @@ namespace AnimeTrim
 			InitializeComponent();
 
 			InitModValue(ref a);
+
+			InitMatch();
 		}
 
-		// edit 13/1/13 for fun3
-		private bool MatchTitle()
+		private void InitMatch()
 		{
-			if (this.tbTitle.Text == String.Empty)
+			MatchTitle();
+			MatchYear();
+			MatchStoreIndex();
+			MatchCase();
+		}
+
+		private byte btMatch = 0xF8;
+
+		// edit 13/1/13 for fun3
+		private void MatchTitle()
+		{
+			//if (this.tbTitle.Text == String.Empty)
+			//{
+			//	this.lblMatchTitle.Text = "Title is null";
+			//	return false;
+			//}
+			//else
+			//{
+			//	this.lblMatchTitle.Text = String.Empty;
+			//	return true;
+			//}
+
+			if (Anime.IsMatchTitle(this.tbTitle.Text))
 			{
-				this.lblMatchTitle.Text = "Title is null";
-				return false;
+				this.lblMatchTitle.Text = String.Empty;
+				btMatch |= 0x01;
 			}
 			else
 			{
-				this.lblMatchTitle.Text = String.Empty;
-				return true;
+				this.lblMatchTitle.Text = "Title is null";
+				btMatch &= 0xFE;
 			}
 		}
 
-		private bool MatchYear()
+		private void MatchYear()
 		{
-			if (Regex.IsMatch(this.cboYear.Text, "^(?!0000)[0-9]{4}$"))
+			//if (Regex.IsMatch(this.cboYear.Text, "^(?!0000)[0-9]{4}$"))
+			//{
+			//	this.lblMatchYear.Text = String.Empty;
+			//	return true;
+			//}
+			//else
+			//{
+			//	this.lblMatchYear.Text = "Year is wrong";
+			//	return false;
+			//}
+			if (Anime.IsMatchYear(this.cboYear.Text))
 			{
 				this.lblMatchYear.Text = String.Empty;
-				return true;
+				btMatch |= 0x02;
 			}
 			else
 			{
 				this.lblMatchYear.Text = "Year is wrong";
-				return false;
+				btMatch &= 0xFD;
 			}
 		}
 
-		private bool MatchStoreIndex()
+		private void MatchStoreIndex()
 		{
-			if (this.tbStoreIndex.Text == String.Empty ||
-				Regex.IsMatch(this.tbStoreIndex.Text,
-				@"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"))
+			//if (this.tbStoreIndex.Text == String.Empty ||
+			//	Regex.IsMatch(this.tbStoreIndex.Text,
+			//	@"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"))
+			//{
+			//	this.lblMatchStoreIndex.Text = String.Empty;
+			//	return true;
+			//}
+			//else
+			//{
+			//	this.lblMatchStoreIndex.Text = "Path isn't match";
+			//	return false;
+			//}
+			if (Anime.IsMatchPath(this.tbStoreIndex.Text))
 			{
 				this.lblMatchStoreIndex.Text = String.Empty;
-				return true;
+				btMatch |= 0x04;
 			}
 			else
 			{
 				this.lblMatchStoreIndex.Text = "Path isn't match";
-				return false;
+				btMatch &= 0xFB;
 			}
 		}
 		// edit fin
+
+		private void MatchCase()
+		{
+			if ((btMatch & 0xFF) == 0xFF)
+				this.btnOK.Enabled = true;
+			else
+				this.btnOK.Enabled = false;
+		}
 
 		private Anime _anime;
 
@@ -134,29 +185,29 @@ namespace AnimeTrim
 			//}
 			//else _anime.Size = 0L;
 
-			bool btitle, byear, bstoreindex;
+			//bool btitle, byear, bstoreindex;
 
-			btitle = MatchTitle();
-			byear = MatchYear();
-			bstoreindex = MatchStoreIndex();
+			//btitle = MatchTitle();
+			//byear = MatchYear();
+			//bstoreindex = MatchStoreIndex();
 
-			if (!btitle)
-			{
-				this.tbTitle.Focus();
-				return;
-			}
-			else if (!byear)
-			{
-				this.cboYear.Text = String.Empty;
-				this.cboYear.Focus();
-				return;
-			}
-			else if (!bstoreindex)
-			{
-				this.tbStoreIndex.Text = String.Empty;
-				this.tbStoreIndex.Focus();
-				return;
-			}
+			//if (!btitle)
+			//{
+			//	this.tbTitle.Focus();
+			//	return;
+			//}
+			//else if (!byear)
+			//{
+			//	this.cboYear.Text = String.Empty;
+			//	this.cboYear.Focus();
+			//	return;
+			//}
+			//else if (!bstoreindex)
+			//{
+			//	this.tbStoreIndex.Text = String.Empty;
+			//	this.tbStoreIndex.Focus();
+			//	return;
+			//}
 
 			if (this.tbStoreIndex.Text == String.Empty)
 				_anime.Size = 0L;
@@ -196,16 +247,19 @@ namespace AnimeTrim
 		private void tbTitle_TextChanged(object sender, EventArgs e)
 		{
 			MatchTitle();
+			MatchCase();
 		}
 
 		private void cboYear_TextChanged(object sender, EventArgs e)
 		{
 			MatchYear();
+			MatchCase();
 		}
 
 		private void tbStoreIndex_TextChanged(object sender, EventArgs e)
 		{
 			MatchStoreIndex();
+			MatchCase();
 		}
 		// edit fin
 	}

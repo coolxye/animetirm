@@ -208,18 +208,18 @@ namespace AnimeTrim
 
 			// Name of Anime
 			TypedColumn<Anime> tc = new TypedColumn<Anime>(this.olvColName);
-			tc.AspectPutter = delegate(Anime a, object opn) { a.Name = opn.ToString(); };
+			tc.AspectPutter = (Anime a, object opn) => { a.Name = opn.ToString(); };
 
 			// Schedule of Anime
 			tc = new TypedColumn<Anime>(this.olvColSchedule);
-			tc.GroupKeyGetter = delegate(Anime a) { return a.Year; };
+			tc.GroupKeyGetter = (Anime a) => a.Year;
 
 			// Type of Anime
 			tc = new TypedColumn<Anime>(this.olvColType);
-			tc.AspectPutter = delegate(Anime a, object opt) { a.Type = (MediaType)opt; };
-			tc.ImageGetter = delegate(Anime a) {
+			tc.AspectPutter = (Anime a, object opt) => { a.Type = (MediaType)opt; };
+			tc.ImageGetter = (Anime a) => {
 				switch (a.Format)
-				{ 
+				{
 					case MergeFormat.MKV:
 						return Properties.Resources.MKV;
 
@@ -255,10 +255,10 @@ namespace AnimeTrim
 
 			// SubTeam of Anime
 			tc = new TypedColumn<Anime>(this.olvColSubTeam);
-			tc.AspectPutter = delegate(Anime a, object opp) { a.SubTeam = opp.ToString(); };
-			tc.ImageGetter = delegate(Anime a) {
+			tc.AspectPutter = (Anime a, object opp) => { a.SubTeam = opp.ToString(); };
+			tc.ImageGetter = (Anime a) => {
 				switch (a.SubStyle)
-				{ 
+				{
 					case SubStyles.External:
 						return Properties.Resources.External;
 					
@@ -285,13 +285,13 @@ namespace AnimeTrim
 			#endregion
 
 			// Size of Anime
-			this.olvColSize.AspectToStringConverter = delegate(object ots)
-			{
+			this.olvColSize.AspectToStringConverter = ots => {
 				long ls = (long)ots;
 
 				if (ls >= 1000000000L)
 					return String.Format("{0:#,##0.#0} G", ls / 1073741824D);
-				else return String.Format("{0:#,##0.#0} M", ls / 1048576D);
+				else
+					return String.Format("{0:#,##0.#0} M", ls / 1048576D);
 			};
 			this.olvColSize.MakeGroupies(
 				new long[] { 5368709120L, 10737418240L },
@@ -300,18 +300,17 @@ namespace AnimeTrim
 
 			// Store of Anime
 			tc = new TypedColumn<Anime>(this.olvColStore);
-			tc.AspectPutter = delegate(Anime a, object opg) { a.Store = (bool)opg; };
+			tc.AspectPutter = (Anime a, object opg) => { a.Store = (bool)opg; };
 			this.olvColStore.Renderer = new MappedImageRenderer(true, Properties.Resources.Yes, false, Properties.Resources.No);
 
 			// Enjoy of Anime
 			tc = new TypedColumn<Anime>(this.olvColEnjoy);
-			tc.AspectPutter = delegate(Anime a, object opv) { a.Enjoy = (bool)opv; };
+			tc.AspectPutter = (Anime a, object opv) => { a.Enjoy = (bool)opv; };
 			this.olvColEnjoy.Renderer = new MappedImageRenderer(true, Properties.Resources.Smile, false, Properties.Resources.Sad);
 
 			// Grade of Anime
 			tc = new TypedColumn<Anime>(this.olvColGrade);
-			tc.AspectPutter = delegate(Anime a, object opr)
-			{
+			tc.AspectPutter = (Anime a, object opr) => {
 				int onr = (int)opr;
 				a.Grade = onr < 1 ? 1 : onr;
 			};
@@ -322,10 +321,7 @@ namespace AnimeTrim
 				);
 
 			// Note of Anime
-			this.olvColNote.AspectToStringConverter = delegate(object otn)
-			{
-				return otn.ToString().Replace('\u0002', '\u0020');
-			};
+			this.olvColNote.AspectToStringConverter = otn => otn.ToString().Replace('\u0002', '\u0020');
 
 			RowBorderDecoration rbd = new RowBorderDecoration();
 			rbd.BorderPen = new Pen(Color.Orchid, 2);
@@ -479,7 +475,7 @@ namespace AnimeTrim
 				this.tsslSelSpace.Text = (a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
 					String.Format("Selected Size: {0:#,##0.#0} MB", a.Size / 1048576D);
 
-				this.rtbAnime.Text = a.Remarks();
+				this.rtbAnime.Text = a.Remark;
 				this.tsBtnModify.Enabled = true;
 				this.tsBtnDuplicate.Enabled = true;
 				this.tsBtnDel.Enabled = true;
@@ -820,9 +816,12 @@ namespace AnimeTrim
 
 			if (lSize != 0L)
 			{
+				_ai.IsSaved = false;
+
 				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+				this.tsBtnSave.Enabled = true;
 			}
 		}
 
@@ -841,7 +840,7 @@ namespace AnimeTrim
 
 			a.UpdateTime = DateTime.Now;
 
-			this.rtbAnime.Text = a.Remarks();
+			this.rtbAnime.Text = a.Remark;
 			// edit fin
 
 			_ai.IsSaved = false;
