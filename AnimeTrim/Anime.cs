@@ -23,6 +23,11 @@ namespace AnimeTrim
 		External, Sealed, Embedded
 	}
 
+	public enum PlaySeason
+	{
+		Winter, Spring, Summer, Fall
+	}
+
 	public class Anime
 	{
 		// 标识，唯一性
@@ -38,7 +43,7 @@ namespace AnimeTrim
 		public UInt32 Year
 		{ get; set; }
 
-		public String Season
+		public PlaySeason Season
 		{ get; set; }
 
 		/// <summary>
@@ -139,7 +144,7 @@ namespace AnimeTrim
 			this.ID = id;
 		}
 
-		public Anime(UInt32 id, String title, String name, UInt32 year, String season, MediaType type,
+		public Anime(UInt32 id, String title, String name, UInt32 year, PlaySeason season, MediaType type,
 			MergeFormat format, String subTeam, SubStyles subStyle, String path,
 			Int64 size, Boolean store, Boolean enjoy, Int32 grade, DateTime createTime,
 			DateTime updateTime, String kana, String episode, String inc, String note)

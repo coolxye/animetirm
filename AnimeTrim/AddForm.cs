@@ -17,21 +17,47 @@ namespace AnimeTrim
 
 		private void InitValue()
 		{
-			this.cboYear.Text = DateTime.Now.Year.ToString();
+			this.cboYear.Text = DateTime.Today.Year.ToString();
 
-			int month = DateTime.Now.Month;
-			if (month < 4)
-				this.cboSeason.SelectedIndex = 0;
-			else if (month < 7)
-				this.cboSeason.SelectedIndex = 1;
-			else if (month < 10)
-				this.cboSeason.SelectedIndex = 2;
-			else this.cboSeason.SelectedIndex = 3;
+			this.cboSeason.DataSource = Enum.GetValues(typeof(PlaySeason));
+			switch (DateTime.Today.Month)
+			{
+				case 1:
+				case 2:
+				case 3:
+				default:
+					this.cboSeason.SelectedItem = PlaySeason.Winter;
+					break;
 
-			this.cboType.SelectedIndex = 0;
-			this.cboFormat.SelectedIndex = 0;
+				case 4:
+				case 5:
+				case 6:
+					this.cboSeason.SelectedItem = PlaySeason.Spring;
+					break;
+
+				case 7:
+				case 8:
+				case 9:
+					this.cboSeason.SelectedItem = PlaySeason.Summer;
+					break;
+
+				case 10:
+				case 11:
+				case 12:
+					this.cboSeason.SelectedItem = PlaySeason.Fall;
+					break;
+			}
+
+			//this.cboType.SelectedIndex = 0;
+			this.cboType.DataSource = Enum.GetValues(typeof(MediaType));
+			this.cboType.SelectedItem = MediaType.BDRip;
+			//this.cboFormat.SelectedIndex = 0;
+			this.cboFormat.DataSource = Enum.GetValues(typeof(MergeFormat));
+			this.cboFormat.SelectedItem = MergeFormat.MKV;
 			this.cboPublisher.SelectedIndex = 0;
-			this.cboSubStyle.SelectedIndex = 0;
+			//this.cboSubStyle.SelectedIndex = 0;
+			this.cboSubStyle.DataSource = Enum.GetValues(typeof(SubStyles));
+			this.cboSubStyle.SelectedItem = SubStyles.External;
 
 			this.cboGather.SelectedIndex = 0;
 			this.cboView.SelectedIndex = 0;
@@ -41,7 +67,7 @@ namespace AnimeTrim
 		private void InitMatch()
 		{
 			MatchTitle();
-			MatchYear();
+			//MatchYear();
 			MatchStoreIndex();
 			MatchCase();
 		}
@@ -217,11 +243,11 @@ namespace AnimeTrim
 			_anime.Title = this.tbTitle.Text;
 			_anime.Name = this.tbName.Text;
 			_anime.Year = UInt32.Parse(this.cboYear.Text);
-			_anime.Season = this.cboSeason.Text;
-			_anime.Type = (MediaType)Enum.Parse(typeof(MediaType), this.cboType.Text);
-			_anime.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), this.cboFormat.Text);
+			_anime.Season = (PlaySeason)this.cboSeason.SelectedItem;
+			_anime.Type = (MediaType)this.cboType.SelectedItem;
+			_anime.Format = (MergeFormat)this.cboFormat.SelectedItem;
 			_anime.SubTeam = this.cboPublisher.Text;
-			_anime.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), this.cboSubStyle.Text);
+			_anime.SubStyle = (SubStyles)this.cboSubStyle.SelectedItem;
 			_anime.Path = this.tbStoreIndex.Text;
 			_anime.Size = Anime.GetSize(_anime.Path);
 			_anime.Store = (this.cboGather.SelectedIndex == 1) ? true : false;

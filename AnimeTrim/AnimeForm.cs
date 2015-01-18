@@ -156,7 +156,7 @@ namespace AnimeTrim
 					ani.Title = info[1];
 					ani.Name = info[2];
 					ani.Year = UInt32.Parse(info[3]);
-					ani.Season = info[4];
+					ani.Season = (PlaySeason)Enum.Parse(typeof(PlaySeason), info[4]);
 					ani.Type = (MediaType)Enum.Parse(typeof(MediaType), info[5]);
 					ani.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), info[6]);
 					ani.SubTeam = info[7];
@@ -993,7 +993,7 @@ namespace AnimeTrim
 
 						date = info[2].Split('.');
 						ani.Year = UInt32.Parse(date[0]);
-						ani.Season = date[1];
+						ani.Season = (PlaySeason)Enum.Parse(typeof(PlaySeason), date[1]);
 
 						switch (info[3])
 						{

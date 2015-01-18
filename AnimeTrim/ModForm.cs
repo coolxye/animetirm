@@ -18,8 +18,8 @@ namespace AnimeTrim
 
 		private void InitMatch()
 		{
-			MatchTitle();
-			MatchYear();
+			//MatchTitle();
+			//MatchYear();
 			MatchStoreIndex();
 			MatchCase();
 		}
@@ -121,10 +121,15 @@ namespace AnimeTrim
 			this.tbInc.Text = a.Inc;
 
 			this.cboYear.Text = a.Year.ToString("0000");
-			this.cboSeason.Text = a.Season;
 
-			this.cboFormat.Text = a.Format.ToString();
-			this.cboSubStyle.Text = a.SubStyle.ToString();
+			this.cboSeason.DataSource = Enum.GetValues(typeof(PlaySeason));
+			this.cboSeason.SelectedItem = a.Season;
+
+			this.cboFormat.DataSource = Enum.GetValues(typeof(MergeFormat));
+			this.cboFormat.SelectedItem = a.Format;
+
+			this.cboSubStyle.DataSource = Enum.GetValues(typeof(SubStyles));
+			this.cboSubStyle.SelectedItem = a.SubStyle;
 
 			this.tbStoreIndex.Text = a.Path;
 			this.rtbNote.Text = a.Note.Replace('\u0002', '\n');
@@ -217,11 +222,11 @@ namespace AnimeTrim
 
 			_anime.Title = this.tbTitle.Text;
 			_anime.Year = UInt32.Parse(this.cboYear.Text);
-			_anime.Season = this.cboSeason.Text;
+			_anime.Season = (PlaySeason)this.cboSeason.SelectedItem;
 			_anime.Path = this.tbStoreIndex.Text;
 
-			_anime.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), this.cboFormat.Text);
-			_anime.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), this.cboSubStyle.Text);
+			_anime.Format = (MergeFormat)this.cboFormat.SelectedItem;
+			_anime.SubStyle = (SubStyles)this.cboSubStyle.SelectedItem;
 
 			_anime.UpdateTime = DateTime.Now;
 			_anime.Kana = this.tbKana.Text;

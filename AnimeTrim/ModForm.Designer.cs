@@ -104,11 +104,6 @@
 			// 
 			this.cboSeason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboSeason.FormattingEnabled = true;
-			this.cboSeason.Items.AddRange(new object[] {
-            "Winter",
-            "Spring",
-            "Summer",
-            "Fall"});
 			this.cboSeason.Location = new System.Drawing.Point(128, 66);
 			this.cboSeason.Name = "cboSeason";
 			this.cboSeason.Size = new System.Drawing.Size(65, 20);
@@ -262,12 +257,6 @@
 			// 
 			this.cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboFormat.FormattingEnabled = true;
-			this.cboFormat.Items.AddRange(new object[] {
-            "MKV",
-            "MP4",
-            "AVI",
-            "WMV",
-            "M2TS"});
 			this.cboFormat.Location = new System.Drawing.Point(301, 66);
 			this.cboFormat.Name = "cboFormat";
 			this.cboFormat.Size = new System.Drawing.Size(65, 20);
@@ -286,10 +275,6 @@
 			// 
 			this.cboSubStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboSubStyle.FormattingEnabled = true;
-			this.cboSubStyle.Items.AddRange(new object[] {
-            "External",
-            "Sealed",
-            "Embedded"});
 			this.cboSubStyle.Location = new System.Drawing.Point(452, 66);
 			this.cboSubStyle.Name = "cboSubStyle";
 			this.cboSubStyle.Size = new System.Drawing.Size(80, 20);

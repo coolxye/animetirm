@@ -233,10 +233,6 @@
 			// 
 			this.cboYear.FormattingEnabled = true;
 			this.cboYear.Items.AddRange(new object[] {
-            "2004",
-            "2005",
-            "2006",
-            "2007",
             "2008",
             "2009",
             "2010",
@@ -255,11 +251,6 @@
 			// 
 			this.cboSeason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboSeason.FormattingEnabled = true;
-			this.cboSeason.Items.AddRange(new object[] {
-            "Winter",
-            "Spring",
-            "Summer",
-            "Fall"});
 			this.cboSeason.Location = new System.Drawing.Point(127, 66);
 			this.cboSeason.Name = "cboSeason";
 			this.cboSeason.Size = new System.Drawing.Size(65, 20);
@@ -269,13 +260,6 @@
 			// 
 			this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboType.FormattingEnabled = true;
-			this.cboType.Items.AddRange(new object[] {
-            "BDRip",
-            "DVDRip",
-            "BDRAW",
-            "DVDRAW",
-            "BDMV",
-            "TVRip"});
 			this.cboType.Location = new System.Drawing.Point(71, 92);
 			this.cboType.Name = "cboType";
 			this.cboType.Size = new System.Drawing.Size(65, 20);
@@ -285,12 +269,6 @@
 			// 
 			this.cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboFormat.FormattingEnabled = true;
-			this.cboFormat.Items.AddRange(new object[] {
-            "MKV",
-            "MP4",
-            "AVI",
-            "WMV",
-            "M2TS"});
 			this.cboFormat.Location = new System.Drawing.Point(253, 92);
 			this.cboFormat.Name = "cboFormat";
 			this.cboFormat.Size = new System.Drawing.Size(65, 20);
@@ -315,10 +293,6 @@
 			// 
 			this.cboSubStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboSubStyle.FormattingEnabled = true;
-			this.cboSubStyle.Items.AddRange(new object[] {
-            "External",
-            "Sealed",
-            "Embedded"});
 			this.cboSubStyle.Location = new System.Drawing.Point(409, 93);
 			this.cboSubStyle.Name = "cboSubStyle";
 			this.cboSubStyle.Size = new System.Drawing.Size(80, 20);
@@ -394,6 +368,7 @@
 			// 
 			// cboRate
 			// 
+			this.cboRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboRate.FormattingEnabled = true;
 			this.cboRate.Items.AddRange(new object[] {
             "1",
