@@ -348,9 +348,11 @@
 			this.btnCancel.TabIndex = 17;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// btnOK
 			// 
+			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.Location = new System.Drawing.Point(456, 287);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
@@ -466,7 +468,6 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AddForm";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Add a Anime";
 			this.gbNote.ResumeLayout(false);
 			this.ResumeLayout(false);

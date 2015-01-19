@@ -65,6 +65,7 @@
 			// 
 			// btnOK
 			// 
+			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.Location = new System.Drawing.Point(456, 235);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
@@ -82,6 +83,7 @@
 			this.btnCancel.TabIndex = 9;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// btnBrowser
 			// 
@@ -324,7 +326,6 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ModForm";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Modify a Anime";
 			this.gbNote.ResumeLayout(false);
 			this.ResumeLayout(false);

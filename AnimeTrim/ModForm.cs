@@ -112,6 +112,7 @@ namespace AnimeTrim
 		}
 
 		private Anime _anime;
+		private long lsize;
 
 		private void InitModValue(ref Anime a)
 		{
@@ -135,11 +136,17 @@ namespace AnimeTrim
 			this.rtbNote.Text = a.Note.Replace('\u0002', '\n');
 
 			_anime = a;
+			lsize = a.Size;
 		}
 
-		public Anime GetAnime()
+		//public Anime GetAnime()
+		//{
+		//	return _anime;
+		//}
+
+		public long GetDiffSize()
 		{
-			return _anime;
+			return lsize;
 		}
 
 		private void btnBrowser_Click(object sender, EventArgs e)
@@ -234,7 +241,8 @@ namespace AnimeTrim
 			_anime.Inc = this.tbInc.Text;
 			_anime.Note = this.rtbNote.Text.Replace('\n', '\u0002');
 
-			this.DialogResult = DialogResult.OK;
+			lsize = _anime.Size - lsize;
+
 			this.Close();
 		}
 
@@ -267,5 +275,10 @@ namespace AnimeTrim
 			MatchCase();
 		}
 		// edit fin
+
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
 	}
 }

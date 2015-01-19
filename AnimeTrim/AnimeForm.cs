@@ -650,8 +650,38 @@ namespace AnimeTrim
 		private void tsBtnAdd_Click(object sender, EventArgs e)
 		{
 			AddForm af = new AddForm();
+			af.FormClosed += new FormClosedEventHandler(this.AddForm_FormClosed);
+			af.Show();
 
-			if (af.ShowDialog(this) == DialogResult.OK)
+			//if (af.ShowDialog(this) == DialogResult.OK)
+			//{
+			//	Anime a = af.GetAnime();
+			//	a.ID = _ai.Uid++;
+			//	_ai.Space += a.Size;
+			//	_ai.Total++;
+			//	_ai.IsSaved = false;
+			//	_lani.Add(a);
+			//	//_lani.Sort(AnimeComparer);
+
+			//	this.folvAnime.AddObject(a);
+			//	//this.folvAnime.Sort(0);
+			//	//this.folvAnime.Unsort();
+
+			//	this.folvAnime.SelectedObject = a;
+			//	this.folvAnime.SelectedItem.EnsureVisible();
+			//	// TODO: 需修正工具栏
+			//	//this.folvAnime.Focus();
+			//	this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			//	this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			//	this.tsBtnSave.Enabled = true;
+			//}
+		}
+
+		private void AddForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			AddForm af = sender as AddForm;
+
+			if (af != null && af.DialogResult == DialogResult.OK)
 			{
 				Anime a = af.GetAnime();
 				a.ID = _ai.Uid++;
@@ -659,16 +689,11 @@ namespace AnimeTrim
 				_ai.Total++;
 				_ai.IsSaved = false;
 				_lani.Add(a);
-				//_lani.Sort(AnimeComparer);
 
 				this.folvAnime.AddObject(a);
-				//this.folvAnime.Sort(0);
-				//this.folvAnime.Unsort();
-
 				this.folvAnime.SelectedObject = a;
 				this.folvAnime.SelectedItem.EnsureVisible();
-				// TODO: 需修正工具栏
-				//this.folvAnime.Focus();
+
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 				this.tsBtnSave.Enabled = true;
@@ -682,20 +707,39 @@ namespace AnimeTrim
 			if (a == null)
 				return;
 
-			long ls = a.Size;
+			//long ls = a.Size;
 			ModForm mf = new ModForm(ref a);
+			mf.FormClosed += new FormClosedEventHandler(this.ModForm_FormClosed);
+			mf.Show();
 
-			if (mf.ShowDialog(this) == DialogResult.OK)
+			//if (mf.ShowDialog(this) == DialogResult.OK)
+			//{
+			//	_ai.Space -= ls;
+			//	//a.EditCopy(mf.GetAnime());
+			//	_ai.Space += a.Size;
+			//	_ai.IsSaved = false;
+
+			//	this.folvAnime_SelectionChanged(null, null);
+			//	this.folvAnime.RefreshItem(this.folvAnime.SelectedItem);
+			//	// TODO: 需修正工具栏
+			//	//this.folvAnime.Focus();
+			//	this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			//	this.tsBtnSave.Enabled = true;
+			//}
+		}
+
+		private void ModForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			ModForm mf = sender as ModForm;
+
+			if (mf != null && mf.DialogResult == DialogResult.OK)
 			{
-				_ai.Space -= ls;
-				//a.EditCopy(mf.GetAnime());
-				_ai.Space += a.Size;
+				_ai.Space += mf.GetDiffSize();
 				_ai.IsSaved = false;
 
 				this.folvAnime_SelectionChanged(null, null);
 				this.folvAnime.RefreshItem(this.folvAnime.SelectedItem);
-				// TODO: 需修正工具栏
-				//this.folvAnime.Focus();
+
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 				this.tsBtnSave.Enabled = true;
 			}
