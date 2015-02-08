@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace AnimeTrim
 {
@@ -281,7 +282,31 @@ namespace AnimeTrim
 		}
 	}
 
-	public struct AnimeInfo
+	//public struct AnimeInfo
+	//{
+	//	public String Path
+	//	{ get; set; }
+
+	//	public String Name
+	//	{ get; set; }
+
+	//	public Int32 Total
+	//	{ get; set; }
+
+	//	public Int64 Space
+	//	{ get; set; }
+
+	//	public UInt32 Uid
+	//	{ get; set; }
+
+	//	public Boolean IsNew
+	//	{ get; set; }
+
+	//	public Boolean IsSaved
+	//	{ get; set; }
+	//}
+
+	public class AnimeInfo
 	{
 		public String Path
 		{ get; set; }
@@ -298,11 +323,97 @@ namespace AnimeTrim
 		public UInt32 Uid
 		{ get; set; }
 
+		private String lastPath;
+		private String lastName;
+		private Int32 lastTotal;
+		private Int64 lastSpace;
+		private UInt32 lastUid;
+
+		public event EventHandler<PropertyChangedEventArgs> NewStatusChanged;
+
+		private Boolean _isNew;
+
 		public Boolean IsNew
-		{ get; set; }
+		{
+			get
+			{
+				return _isNew;
+			}
+			set
+			{
+				if (value != _isNew)
+				{
+					_isNew = value;
+
+					PropertyChangedEventArgs e = new PropertyChangedEventArgs("IsNew");
+					OnPropertyChanged(NewStatusChanged, e);
+				}
+			}
+		}
+
+		public event EventHandler<PropertyChangedEventArgs> SaveStatusChanged;
+
+		private Boolean _isSaved;
 
 		public Boolean IsSaved
-		{ get; set; }
+		{
+			get
+			{
+				return _isSaved;
+			}
+			set
+			{
+				if (value != _isSaved)
+				{
+					_isSaved = value;
+
+					PropertyChangedEventArgs e = new PropertyChangedEventArgs("IsSaved");
+					OnPropertyChanged(SaveStatusChanged, e);
+				}
+			}
+		}
+
+		protected virtual void OnPropertyChanged(EventHandler<PropertyChangedEventArgs> handler, PropertyChangedEventArgs e)
+		{
+			if (handler != null)
+				handler(this, e);
+		}
+
+		public AnimeInfo()
+		{
+			this.Path = null;
+			this.Name = null;
+			this.Total = 0;
+			this.Space = 0L;
+			this.Uid = 0U;
+
+			this._isNew = true;
+			this._isSaved = true;
+
+			this.lastPath = null;
+			this.lastName = null;
+			this.lastTotal = 0;
+			this.lastSpace = 0L;
+			this.lastUid = 0U;
+		}
+
+		public void LastRevert()
+		{
+			this.Path = this.lastPath;
+			this.Name = this.lastName;
+			this.Total = this.lastTotal;
+			this.Space = this.lastSpace;
+			this.Uid = this.lastUid;
+		}
+
+		public void Update()
+		{
+			this.lastPath = this.Path;
+			this.lastName = this.Name;
+			this.lastTotal = this.Total;
+			this.lastSpace = this.Space;
+			this.lastUid = this.Uid;
+		}
 	}
 
 	public class AnimeViewOverlay : AbstractOverlay
