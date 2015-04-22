@@ -35,25 +35,13 @@ namespace AnimeTrim
 		//private const Double _dSizeM = 1048576D;
 
 		private AnimeInfo _ai = new AnimeInfo();
-		// Temporary AnimeInfo for the wrong read
-		//private AnimeInfo _aitp = new AnimeInfo();
 		private List<Anime> _lani = new List<Anime>();
-		// Temporary Anime lists for the wrong read
-		//private List<Anime> _latp = new List<Anime>();
 
 		// edit 13/1/8 for bug3
 		// Initalize the anime datas
 		private void InitAnimeInfo()
 		{
 			_ai.SaveStatusChanged += AnimeInfo_SaveStatusChanged;
-
-			//_ai.Path = null;
-			//_ai.Name = null;
-			//_ai.Total = 0;
-			//_ai.Space = 0L;
-			//_ai.Uid = 0U;
-			//_ai.IsNew = true;
-			//_ai.IsSaved = true;
 		}
 		// edit fin
 
@@ -91,19 +79,25 @@ namespace AnimeTrim
 			XPathNavigator xptnavi = xptdoc.CreateNavigator();
 
 			XPathNavigator xt = xptnavi.SelectSingleNode("//LastAccessName");
-			if (xt != null && !String.IsNullOrEmpty(xt.Value))
-				_ai.Name = xt.Value;
-			else return;
+			if (xt == null || String.IsNullOrEmpty(xt.Value))
+				return;
+
+			_ai.Name = xt.Value;
 
 			xt = xptnavi.SelectSingleNode("//LastAccessPath");
-			if (xt != null && !String.IsNullOrEmpty(xt.Value) && File.Exists(xt.Value))
-				_ai.Path = xt.Value;
-			else return;
+			if (xt == null || String.IsNullOrEmpty(xt.Value) || !File.Exists(xt.Value))
+			{
+				_ai.Name = null;
+
+				return;
+			}
+
+			_ai.Path = xt.Value;
 
 			if (ReadXat())
 				BindData();
 			else
-				_ai.LastRevert();
+				_ai.Restore();
 		}
 
 		// Read file to initalize the list of Anime
@@ -185,7 +179,6 @@ namespace AnimeTrim
 					ani.Inc = info[18];
 					ani.Note = info[19];
 
-					//_latp.Add(ani);
 					_lani.Add(ani);
 				}
 
@@ -195,7 +188,7 @@ namespace AnimeTrim
 			{
 				MessageBox.Show(this, String.Format("The line {0} is wrong.", iErr + 1), "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				//_latp.Clear();
+
 				_lani.RemoveRange(lasttotal, iErr - 1);
 
 				return false;
@@ -204,9 +197,6 @@ namespace AnimeTrim
 			{
 				sr.Close();
 			}
-
-			//_aitp.IsNew = false;
-			//_aitp.IsSaved = true;
 
 			return true;
 		}
@@ -357,14 +347,9 @@ namespace AnimeTrim
 		// Initalize the model data of Anime to the ObjectListView
 		private void BindData()
 		{
-			//_ai = _aitp;
 			_ai.IsNew = false;
 			_ai.IsSaved = true;
-			_ai.Update();
-			//_latp.ForEach(delegate(Anime a) { _lani.Add(a); });
-			// edit 13/1/7 for bug2
-			//_latp.Clear();
-			// edit fin
+			_ai.Backup();
 
 			this.folvAnime.SetObjects(_lani);
 
@@ -377,7 +362,6 @@ namespace AnimeTrim
 		private void UpdateAnimeDoc()
 		{
 			StreamWriter sw = new StreamWriter(_ai.Path, false, Encoding.Unicode);
-			//StreamWriter sw = new StreamWriter(_fs, Encoding.Unicode);
 
 			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
@@ -395,18 +379,6 @@ namespace AnimeTrim
 
 		private void ResetAll()
 		{
-			// AnimeInfo reset
-			//_ai.Path = null;
-			//_ai.Name = null;
-			//_ai.Total = 0;
-			//_ai.Space = 0L;
-			//_ai.Uid = 0U;
-			//_ai.IsNew = true;
-			//_ai.IsSaved = true;
-
-			// List<Anime> reset
-			//_lani.Clear();
-
 			// Tab reset
 			switch (this.tctlAnime.SelectedIndex)
 			{
@@ -414,12 +386,11 @@ namespace AnimeTrim
 				case 1: this.tpMusic.Text = "Music"; break;
 			}
 
-			// FastObjectListView & RichTextBox reset
+			// FastObjectListView & RichTextBox clear
 			this.folvAnime.ClearObjects();
-			this.rtbAnime.ResetText();
+			this.rtbAnime.Clear();
 
 			// Button reset
-			//this.tsBtnSave.Enabled = false;
 			this.tsBtnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
 			this.tsBtnDel.Enabled = false;
@@ -456,7 +427,6 @@ namespace AnimeTrim
 			{
 				UpdateAnimeDoc();
 				_ai.IsSaved = true;
-				//this.tsBtnSave.Enabled = false;
 
 				return true;
 			}
@@ -473,7 +443,6 @@ namespace AnimeTrim
 				_ai.IsSaved = true;
 
 				UpdateAnimeDoc();
-				//this.tsBtnSave.Enabled = false;
 
 				return true;
 			}
@@ -594,14 +563,9 @@ namespace AnimeTrim
 
 			if (!_ai.IsNew)
 			{
-				_ai.Path = null;
-				_ai.Name = null;
-				_ai.Total = 0;
-				_ai.Space = 0L;
-				_ai.Uid = 0U;
 				_ai.IsNew = true;
 				_ai.IsSaved = true;
-				_ai.Update();
+				_ai.Clear();
 
 				ResetAll();
 			}
@@ -644,7 +608,7 @@ namespace AnimeTrim
 
 					BindData();
 				}
-				else _ai.LastRevert();
+				else _ai.Restore();
 			}
 		}
 
@@ -690,7 +654,6 @@ namespace AnimeTrim
 				_ai.Total++;
 				_ai.IsSaved = false;
 				_lani.Add(a);
-				//_lani.Sort(AnimeComparer);
 
 				this.folvAnime.AddObject(a);
 				//this.folvAnime.Sort(0);
@@ -698,11 +661,9 @@ namespace AnimeTrim
 
 				this.folvAnime.SelectedObject = a;
 				this.folvAnime.SelectedItem.EnsureVisible();
-				// TODO: 需修正工具栏
-				//this.folvAnime.Focus();
+
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				//this.tsBtnSave.Enabled = true;
 			}
 		}
 
@@ -725,10 +686,8 @@ namespace AnimeTrim
 
 				this.folvAnime_SelectionChanged(null, null);
 				this.folvAnime.RefreshItem(this.folvAnime.SelectedItem);
-				// TODO: 需修正工具栏
-				//this.folvAnime.Focus();
+
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				//this.tsBtnSave.Enabled = true;
 			}
 		}
 
@@ -786,7 +745,6 @@ namespace AnimeTrim
 
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				//this.tsBtnSave.Enabled = true;
 			}
 		}
 
@@ -819,7 +777,6 @@ namespace AnimeTrim
 			//this.folvAnime.Focus();
 			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-			//this.tsBtnSave.Enabled = true;
 		}
 
 		private void tsBtnRefresh_Click(object sender, EventArgs e)
@@ -852,7 +809,6 @@ namespace AnimeTrim
 				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				//this.tsBtnSave.Enabled = true;
 			}
 		}
 
@@ -875,7 +831,6 @@ namespace AnimeTrim
 			// edit fin
 
 			_ai.IsSaved = false;
-			//this.tsBtnSave.Enabled = true;
 		}
 
 		private void folvAnime_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)

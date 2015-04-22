@@ -381,23 +381,13 @@ namespace AnimeTrim
 
 		public AnimeInfo()
 		{
-			this.Path = null;
-			this.Name = null;
-			this.Total = 0;
-			this.Space = 0L;
-			this.Uid = 0U;
-
 			this._isNew = true;
 			this._isSaved = true;
 
-			this.lastPath = null;
-			this.lastName = null;
-			this.lastTotal = 0;
-			this.lastSpace = 0L;
-			this.lastUid = 0U;
+			this.Clear();
 		}
 
-		public void LastRevert()
+		public void Restore()
 		{
 			this.Path = this.lastPath;
 			this.Name = this.lastName;
@@ -406,13 +396,27 @@ namespace AnimeTrim
 			this.Uid = this.lastUid;
 		}
 
-		public void Update()
+		public void Backup()
 		{
 			this.lastPath = this.Path;
 			this.lastName = this.Name;
 			this.lastTotal = this.Total;
 			this.lastSpace = this.Space;
 			this.lastUid = this.Uid;
+		}
+
+		public void Clear()
+		{
+			this.Path = null;
+			this.Name = null;
+			this.Total = 0;
+			this.Space = 0L;
+			this.Uid = 0U;
+			this.lastPath = null;
+			this.lastName = null;
+			this.lastTotal = 0;
+			this.lastSpace = 0L;
+			this.lastUid = 0U;
 		}
 	}
 
