@@ -418,6 +418,23 @@ namespace AnimeTrim
 			this.lastSpace = 0L;
 			this.lastUid = 0U;
 		}
+
+		public static Boolean IsStorageReady()
+		{
+			bool br = false;
+			DriveInfo[] allDrives = DriveInfo.GetDrives();
+
+			foreach (DriveInfo dr in allDrives)
+				if (dr.IsReady)
+					if (dr.VolumeLabel == "Anime" &&
+						(dr.DriveType == DriveType.Fixed || dr.DriveType == DriveType.Removable))
+					{
+						br = true;
+						break;
+					}
+
+			return br;
+		}
 	}
 
 	public class AnimeViewOverlay : AbstractOverlay

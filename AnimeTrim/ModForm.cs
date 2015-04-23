@@ -220,12 +220,12 @@ namespace AnimeTrim
 			//	this.tbStoreIndex.Focus();
 			//	return;
 			//}
-
-			if (this.tbStoreIndex.Text == String.Empty)
-				_anime.Size = 0L;
-			else if (Directory.Exists(this.tbStoreIndex.Text))
-				_anime.Size = Anime.GetSize(this.tbStoreIndex.Text);
 			// edit fin
+
+			if (this.tbStoreIndex.Text.Length == 0)
+				_anime.Size = 0L;
+			else if (AnimeInfo.IsStorageReady())
+				_anime.Size = Anime.GetSize(this.tbStoreIndex.Text);
 
 			_anime.Title = this.tbTitle.Text;
 			_anime.Year = UInt32.Parse(this.cboYear.Text);

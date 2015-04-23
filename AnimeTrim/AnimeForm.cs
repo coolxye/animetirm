@@ -828,31 +828,36 @@ namespace AnimeTrim
 
 		private void tsBtnRefresh_Click(object sender, EventArgs e)
 		{
+			if (!AnimeInfo.IsStorageReady())
+				return;
+
 			long lSize = 0L;
 			long lSelSize = 0L;
+			long lSpace = _ai.Space;
+			bool bCheck = false;
 
 			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
-				if (a.Path.Length == 0 || !Directory.Exists(a.Path))
-				{
-					lSelSize += a.Size;
+				if (a.Path.Length == 0)
 					continue;
-				}
-				
+
 				lSize = Anime.GetSize(a.Path);
 				if (a.Size != lSize)
 				{
-					_ai.Space = _ai.Space - a.Size + lSize;
+					bCheck = true;
+
+					lSpace += lSize - a.Size;
 					a.Size = lSize;
 					this.folvAnime.RefreshItem(this.folvAnime.ModelToItem(a));
 				}
 				lSelSize += a.Size;
 			}
 
-			if (lSize != 0L)
-			{
+			if (bCheck)
 				_ai.IsSaved = false;
 
+			if (lSpace != _ai.Space)
+			{
 				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
