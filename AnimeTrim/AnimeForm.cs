@@ -35,7 +35,7 @@ namespace AnimeTrim
 		//private const Double _dSizeM = 1048576D;
 
 		private AnimeInfo _ai = new AnimeInfo();
-		private List<Anime> _lani = new List<Anime>();
+		//private List<Anime> _lani = new List<Anime>();
 
 		// edit 13/1/8 for bug3
 		// Initalize the anime datas
@@ -94,9 +94,9 @@ namespace AnimeTrim
 
 			_ai.Path = xt.Value;
 
-			if (ReadXat())
-				BindData();
-			else
+			if (!ReadXat())
+				//BindData();
+			//else
 				_ai.Restore();
 		}
 
@@ -113,7 +113,7 @@ namespace AnimeTrim
 			if (info.Length != 3)
 				return false;
 
-			int lasttotal = _ai.Total;
+			//int lasttotal = _ai.Total;
 
 			int it;
 			if (!Int32.TryParse(info[0], out it))
@@ -148,7 +148,7 @@ namespace AnimeTrim
 			}
 			else _ai.Uid = ut;
 
-			Anime ani;
+			List<Anime> lstAnime = new List<Anime>();
 			int iErr = 0;
 			try
 			{
@@ -157,7 +157,7 @@ namespace AnimeTrim
 					iErr++;
 					info = line.Split('\t');
 
-					ani = new Anime();
+					Anime ani = new Anime();
 					ani.ID = UInt32.Parse(info[0]);
 					ani.Title = info[1];
 					ani.Name = info[2];
@@ -179,17 +179,19 @@ namespace AnimeTrim
 					ani.Inc = info[18];
 					ani.Note = info[19];
 
-					_lani.Add(ani);
+					//_lani.Add(ani);
+					lstAnime.Add(ani);
 				}
 
-				_lani.RemoveRange(0, lasttotal);
+				//_lani.RemoveRange(0, lasttotal);
 			}
 			catch (Exception)
 			{
 				MessageBox.Show(this, String.Format("The line {0} is wrong.", iErr + 1), "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-				_lani.RemoveRange(lasttotal, iErr - 1);
+				//_lani.RemoveRange(lasttotal, iErr - 1);
+				lstAnime.Clear();
 
 				return false;
 			}
@@ -197,6 +199,22 @@ namespace AnimeTrim
 			{
 				sr.Close();
 			}
+
+			if (!_ai.IsNew)
+			{
+				ResetAll();
+			}
+
+			_ai.IsNew = false;
+			_ai.IsSaved = true;
+			_ai.Backup();
+
+			this.folvAnime.SetObjects(lstAnime);
+
+			this.tctlAnime.SelectedTab.Text = _ai.Name;
+			this.tctlAnime.SelectedTab.ToolTipText = _ai.Path;
+			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 
 			return true;
 		}
@@ -347,16 +365,16 @@ namespace AnimeTrim
 		// Initalize the model data of Anime to the ObjectListView
 		private void BindData()
 		{
-			_ai.IsNew = false;
-			_ai.IsSaved = true;
-			_ai.Backup();
+			//_ai.IsNew = false;
+			//_ai.IsSaved = true;
+			//_ai.Backup();
 
-			this.folvAnime.SetObjects(_lani);
+			//this.folvAnime.SetObjects(_lani);
 
-			this.tctlAnime.SelectedTab.Text = _ai.Name;
-			this.tctlAnime.SelectedTab.ToolTipText = _ai.Path;
-			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			//this.tctlAnime.SelectedTab.Text = _ai.Name;
+			//this.tctlAnime.SelectedTab.ToolTipText = _ai.Path;
+			//this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			//this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 		}
 
 		private void UpdateAnimeDoc()
@@ -365,14 +383,20 @@ namespace AnimeTrim
 
 			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
-			_lani.ForEach(delegate(Anime a)
-			{
+			//_lani.ForEach(delegate(Anime a)
+			//{
+			//    sw.WriteLine(_sout,
+			//        a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+			//        a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+			//        a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
+			//        a.Episode, a.Inc, a.Note);
+			//});
+			foreach (Anime a in this.folvAnime.Objects)
 				sw.WriteLine(_sout,
 					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
 					a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
 					a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
 					a.Episode, a.Inc, a.Note);
-			});
 
 			sw.Close();
 		}
@@ -601,14 +625,15 @@ namespace AnimeTrim
 				_ai.Path = ofd.FileName;
 				_ai.Name = ofd.SafeFileName;
 
-				if (ReadXat())
-				{
-					if (!_ai.IsNew)
-						ResetAll();
+				if (!ReadXat())
+					//{
+					//    if (!_ai.IsNew)
+					//        ResetAll();
 
-					BindData();
-				}
-				else _ai.Restore();
+					//    BindData();
+					//}
+					//else _ai.Restore();
+					_ai.Restore();
 			}
 		}
 
@@ -683,7 +708,7 @@ namespace AnimeTrim
 				_ai.Space += a.Size;
 				_ai.Total++;
 				_ai.IsSaved = false;
-				_lani.Add(a);
+				//_lani.Add(a);
 
 				this.folvAnime.AddObject(a);
 				this.folvAnime.SelectedObject = a;
@@ -781,7 +806,7 @@ namespace AnimeTrim
 				aCopy = new Anime(a, _ai.Uid++);
 				_ai.Space += aCopy.Size;
 				_ai.Total++;
-				_lani.Add(aCopy);
+				//_lani.Add(aCopy);
 
 				this.folvAnime.AddObject(aCopy);
 			}
@@ -810,7 +835,7 @@ namespace AnimeTrim
 				_ai.Space -= a.Size;
 				_ai.Total--;
 
-				_lani.Remove(a);
+				//_lani.Remove(a);
 			}
 
 			this.folvAnime.RemoveObjects(this.folvAnime.SelectedObjects);
@@ -969,14 +994,20 @@ namespace AnimeTrim
 
 			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
-			_lani.ForEach(delegate(Anime a)
-			{
+			//_lani.ForEach(delegate(Anime a)
+			//{
+			//    sw.WriteLine(_sout,
+			//        a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+			//        a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+			//        a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
+			//        a.Episode, a.Inc, a.Note);
+			//});
+			foreach (Anime a in this.folvAnime.Objects)
 				sw.WriteLine(_sout,
 					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
 					a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
 					a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
 					a.Episode, a.Inc, a.Note);
-			});
 
 			sw.Close();
 		}
