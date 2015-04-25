@@ -37,6 +37,8 @@ namespace AnimeTrim
 		private AnimeInfo _ai = new AnimeInfo();
 		//private List<Anime> _lani = new List<Anime>();
 
+		private FindForm findfm;
+
 		// edit 13/1/8 for bug3
 		// Initalize the anime datas
 		private void InitAnimeInfo()
@@ -976,13 +978,27 @@ namespace AnimeTrim
 						this.tsBtnDuplicate.PerformClick();
 						break;
 					case Keys.F:
-						this.tbFilter.Focus();
+						//this.tbFilter.Focus();
+						if (findfm == null)
+						{
+							findfm = new FindForm(this.folvAnime);
+							findfm.FormClosed += FindForm_FormClosed;
+							findfm.Show(this);
+						}
+						else
+							findfm.Focus();
 						break;
 
 					default:
 						return;
 				}
 			}
+		}
+
+		private void FindForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			findfm.FormClosed -= FindForm_FormClosed;
+			findfm = null;
 		}
 
 		private void tsMenItmBackup_Click(object sender, EventArgs e)

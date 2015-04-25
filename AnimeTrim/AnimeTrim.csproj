@@ -71,6 +71,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -89,6 +90,12 @@
     <Compile Include="AnimeForm.Designer.cs">
       <DependentUpon>AnimeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindForm.Designer.cs">
+      <DependentUpon>FindForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AnimeForm.resx">
       <DependentUpon>AnimeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindForm.resx">
+      <DependentUpon>FindForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModForm.resx">
       <DependentUpon>ModForm.cs</DependentUpon>

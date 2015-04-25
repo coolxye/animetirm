@@ -51,8 +51,8 @@
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsSepForCms = new System.Windows.Forms.ToolStripSeparator();
 			this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.tpMusic = new System.Windows.Forms.TabPage();
+			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.rtbAnime = new System.Windows.Forms.RichTextBox();
 			this.scAnime = new System.Windows.Forms.SplitContainer();
 			this.ssAnime = new System.Windows.Forms.StatusStrip();
@@ -314,11 +314,6 @@
 			this.refreshToolStripMenuItem.Text = "Refresh";
 			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.tsBtnRefresh_Click);
 			// 
-			// hiStyle
-			// 
-			this.hiStyle.BackColor = System.Drawing.Color.PeachPuff;
-			this.hiStyle.ForeColor = System.Drawing.Color.MediumBlue;
-			// 
 			// tpMusic
 			// 
 			this.tpMusic.Location = new System.Drawing.Point(4, 22);
@@ -328,6 +323,11 @@
 			this.tpMusic.TabIndex = 1;
 			this.tpMusic.Text = "Music";
 			this.tpMusic.UseVisualStyleBackColor = true;
+			// 
+			// hiStyle
+			// 
+			this.hiStyle.BackColor = System.Drawing.Color.PeachPuff;
+			this.hiStyle.ForeColor = System.Drawing.Color.MediumBlue;
 			// 
 			// rtbAnime
 			// 
