@@ -51,8 +51,8 @@
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsSepForCms = new System.Windows.Forms.ToolStripSeparator();
 			this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.tpMusic = new System.Windows.Forms.TabPage();
+			this.hiStyle = new BrightIdeasSoftware.HotItemStyle();
 			this.rtbAnime = new System.Windows.Forms.RichTextBox();
 			this.scAnime = new System.Windows.Forms.SplitContainer();
 			this.ssAnime = new System.Windows.Forms.StatusStrip();
@@ -75,6 +75,7 @@
 			this.tssBtnMore = new System.Windows.Forms.ToolStripSplitButton();
 			this.tsMenItmFormat = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsMenItmBackup = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsBtnUndo = new System.Windows.Forms.ToolStripButton();
 			this.tsMore = new System.Windows.Forms.ToolStrip();
 			this.tsBtnGroup = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnOverlay = new System.Windows.Forms.ToolStripButton();
@@ -314,11 +315,6 @@
 			this.refreshToolStripMenuItem.Text = "Refresh";
 			this.refreshToolStripMenuItem.Click += new System.EventHandler(this.tsBtnRefresh_Click);
 			// 
-			// hiStyle
-			// 
-			this.hiStyle.BackColor = System.Drawing.Color.PeachPuff;
-			this.hiStyle.ForeColor = System.Drawing.Color.MediumBlue;
-			// 
 			// tpMusic
 			// 
 			this.tpMusic.Location = new System.Drawing.Point(4, 22);
@@ -328,6 +324,11 @@
 			this.tpMusic.TabIndex = 1;
 			this.tpMusic.Text = "Music";
 			this.tpMusic.UseVisualStyleBackColor = true;
+			// 
+			// hiStyle
+			// 
+			this.hiStyle.BackColor = System.Drawing.Color.PeachPuff;
+			this.hiStyle.ForeColor = System.Drawing.Color.MediumBlue;
 			// 
 			// rtbAnime
 			// 
@@ -412,6 +413,7 @@
             this.tsBtnModify,
             this.tsBtnDuplicate,
             this.tsBtnDel,
+            this.tsBtnUndo,
             this.tsSepForEdit,
             this.tsBtnRefresh,
             this.tsSepForSpecial,
@@ -543,6 +545,16 @@
 			this.tsMenItmBackup.Size = new System.Drawing.Size(119, 22);
 			this.tsMenItmBackup.Text = "Backup";
 			this.tsMenItmBackup.Click += new System.EventHandler(this.tsMenItmBackup_Click);
+			// 
+			// tsBtnUndo
+			// 
+			this.tsBtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnUndo.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnUndo.Image")));
+			this.tsBtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnUndo.Name = "tsBtnUndo";
+			this.tsBtnUndo.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnUndo.Text = "Undo";
+			this.tsBtnUndo.Click += new System.EventHandler(this.tsBtnUndo_Click);
 			// 
 			// tsMore
 			// 
@@ -689,6 +701,7 @@
 		private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton tsBtnGroup;
 		private System.Windows.Forms.ToolStripButton tsBtnOverlay;
+		private System.Windows.Forms.ToolStripButton tsBtnUndo;
 
 	}
 }
