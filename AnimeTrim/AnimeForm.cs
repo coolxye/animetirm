@@ -731,7 +731,7 @@ namespace AnimeTrim
 				return;
 
 			//long ls = a.Size;
-			ModForm mf = new ModForm(ref a);
+			ModForm mf = new ModForm(a);
 			mf.FormClosed += new FormClosedEventHandler(this.ModForm_FormClosed);
 			mf.Show();
 
