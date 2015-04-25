@@ -502,23 +502,26 @@ namespace AnimeTrim
 					this.tsBtnDuplicate.Enabled = false;
 					this.tsBtnDel.Enabled = false;
 					this.tsBtnRefresh.Enabled = false;
+
+					this.tsslSelected.Text = "Selected: ";
+					this.tsslSelSpace.Text = "Selected Size: ";
 				}
 				else
 				{
 					this.tsBtnDuplicate.Enabled = true;
 					this.tsBtnDel.Enabled = true;
 					this.tsBtnRefresh.Enabled = true;
-				}
 
-				this.tsslSelected.Text = String.Format("Selected: {0}", iSel);
+					this.tsslSelected.Text = String.Format("Selected: {0}", iSel);
 
-				long ls = 0L;
-				foreach (Anime at in this.folvAnime.SelectedObjects)
-				{
-					ls += at.Size;
+					long ls = 0L;
+					foreach (Anime at in this.folvAnime.SelectedObjects)
+					{
+						ls += at.Size;
+					}
+					this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
+						String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 				}
-				this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
-					String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 
 				this.rtbAnime.ResetText();
 				this.tsBtnModify.Enabled = false;

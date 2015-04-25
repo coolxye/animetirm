@@ -199,9 +199,9 @@
 			// olvColType
 			// 
 			this.olvColType.AspectName = "Type";
-			this.olvColType.MinimumWidth = 65;
+			this.olvColType.MinimumWidth = 72;
 			this.olvColType.Text = "Type";
-			this.olvColType.Width = 65;
+			this.olvColType.Width = 72;
 			// 
 			// olvColSubTeam
 			// 
