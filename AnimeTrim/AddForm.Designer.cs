@@ -31,15 +31,15 @@
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.lblName = new System.Windows.Forms.Label();
 			this.lblKana = new System.Windows.Forms.Label();
-			this.lblReleaseDate = new System.Windows.Forms.Label();
+			this.lblSchedule = new System.Windows.Forms.Label();
 			this.lblMediaType = new System.Windows.Forms.Label();
 			this.lblMergeFormat = new System.Windows.Forms.Label();
-			this.lblPublisher = new System.Windows.Forms.Label();
+			this.lblSubTeam = new System.Windows.Forms.Label();
 			this.lblSubStyle = new System.Windows.Forms.Label();
-			this.lblGather = new System.Windows.Forms.Label();
-			this.lblView = new System.Windows.Forms.Label();
-			this.lblRate = new System.Windows.Forms.Label();
-			this.lblStoreIndex = new System.Windows.Forms.Label();
+			this.lblStore = new System.Windows.Forms.Label();
+			this.lblEnjoy = new System.Windows.Forms.Label();
+			this.lblGrade = new System.Windows.Forms.Label();
+			this.lblPath = new System.Windows.Forms.Label();
 			this.lblEpisode = new System.Windows.Forms.Label();
 			this.gbNote = new System.Windows.Forms.GroupBox();
 			this.rtbNote = new System.Windows.Forms.RichTextBox();
@@ -60,9 +60,6 @@
 			this.btnOK = new System.Windows.Forms.Button();
 			this.tbEpisode = new System.Windows.Forms.TextBox();
 			this.cboRate = new System.Windows.Forms.ComboBox();
-			this.lblTitleWarning = new System.Windows.Forms.Label();
-			this.lblYearWarning = new System.Windows.Forms.Label();
-			this.lblStoreIndexWarning = new System.Windows.Forms.Label();
 			this.tbInc = new System.Windows.Forms.TextBox();
 			this.lblInc = new System.Windows.Forms.Label();
 			this.gbNote.SuspendLayout();
@@ -95,14 +92,14 @@
 			this.lblKana.TabIndex = 20;
 			this.lblKana.Text = "Kana";
 			// 
-			// lblReleaseDate
+			// lblSchedule
 			// 
-			this.lblReleaseDate.AutoSize = true;
-			this.lblReleaseDate.Location = new System.Drawing.Point(12, 69);
-			this.lblReleaseDate.Name = "lblReleaseDate";
-			this.lblReleaseDate.Size = new System.Drawing.Size(53, 12);
-			this.lblReleaseDate.TabIndex = 22;
-			this.lblReleaseDate.Text = "Schedule";
+			this.lblSchedule.AutoSize = true;
+			this.lblSchedule.Location = new System.Drawing.Point(12, 69);
+			this.lblSchedule.Name = "lblSchedule";
+			this.lblSchedule.Size = new System.Drawing.Size(53, 12);
+			this.lblSchedule.TabIndex = 22;
+			this.lblSchedule.Text = "Schedule";
 			// 
 			// lblMediaType
 			// 
@@ -122,14 +119,14 @@
 			this.lblMergeFormat.TabIndex = 24;
 			this.lblMergeFormat.Text = "MergeFormat";
 			// 
-			// lblPublisher
+			// lblSubTeam
 			// 
-			this.lblPublisher.AutoSize = true;
-			this.lblPublisher.Location = new System.Drawing.Point(12, 121);
-			this.lblPublisher.Name = "lblPublisher";
-			this.lblPublisher.Size = new System.Drawing.Size(47, 12);
-			this.lblPublisher.TabIndex = 25;
-			this.lblPublisher.Text = "SubTeam";
+			this.lblSubTeam.AutoSize = true;
+			this.lblSubTeam.Location = new System.Drawing.Point(12, 121);
+			this.lblSubTeam.Name = "lblSubTeam";
+			this.lblSubTeam.Size = new System.Drawing.Size(47, 12);
+			this.lblSubTeam.TabIndex = 25;
+			this.lblSubTeam.Text = "SubTeam";
 			// 
 			// lblSubStyle
 			// 
@@ -140,41 +137,41 @@
 			this.lblSubStyle.TabIndex = 26;
 			this.lblSubStyle.Text = "SubStyle";
 			// 
-			// lblGather
+			// lblStore
 			// 
-			this.lblGather.AutoSize = true;
-			this.lblGather.Location = new System.Drawing.Point(212, 121);
-			this.lblGather.Name = "lblGather";
-			this.lblGather.Size = new System.Drawing.Size(35, 12);
-			this.lblGather.TabIndex = 27;
-			this.lblGather.Text = "Store";
+			this.lblStore.AutoSize = true;
+			this.lblStore.Location = new System.Drawing.Point(212, 121);
+			this.lblStore.Name = "lblStore";
+			this.lblStore.Size = new System.Drawing.Size(35, 12);
+			this.lblStore.TabIndex = 27;
+			this.lblStore.Text = "Store";
 			// 
-			// lblView
+			// lblEnjoy
 			// 
-			this.lblView.AutoSize = true;
-			this.lblView.Location = new System.Drawing.Point(350, 121);
-			this.lblView.Name = "lblView";
-			this.lblView.Size = new System.Drawing.Size(35, 12);
-			this.lblView.TabIndex = 28;
-			this.lblView.Text = "Enjoy";
+			this.lblEnjoy.AutoSize = true;
+			this.lblEnjoy.Location = new System.Drawing.Point(350, 121);
+			this.lblEnjoy.Name = "lblEnjoy";
+			this.lblEnjoy.Size = new System.Drawing.Size(35, 12);
+			this.lblEnjoy.TabIndex = 28;
+			this.lblEnjoy.Text = "Enjoy";
 			// 
-			// lblRate
+			// lblGrade
 			// 
-			this.lblRate.AutoSize = true;
-			this.lblRate.Location = new System.Drawing.Point(487, 121);
-			this.lblRate.Name = "lblRate";
-			this.lblRate.Size = new System.Drawing.Size(35, 12);
-			this.lblRate.TabIndex = 29;
-			this.lblRate.Text = "Grade";
+			this.lblGrade.AutoSize = true;
+			this.lblGrade.Location = new System.Drawing.Point(487, 121);
+			this.lblGrade.Name = "lblGrade";
+			this.lblGrade.Size = new System.Drawing.Size(35, 12);
+			this.lblGrade.TabIndex = 29;
+			this.lblGrade.Text = "Grade";
 			// 
-			// lblStoreIndex
+			// lblPath
 			// 
-			this.lblStoreIndex.AutoSize = true;
-			this.lblStoreIndex.Location = new System.Drawing.Point(13, 147);
-			this.lblStoreIndex.Name = "lblStoreIndex";
-			this.lblStoreIndex.Size = new System.Drawing.Size(29, 12);
-			this.lblStoreIndex.TabIndex = 30;
-			this.lblStoreIndex.Text = "Path";
+			this.lblPath.AutoSize = true;
+			this.lblPath.Location = new System.Drawing.Point(13, 147);
+			this.lblPath.Name = "lblPath";
+			this.lblPath.Size = new System.Drawing.Size(29, 12);
+			this.lblPath.TabIndex = 30;
+			this.lblPath.Text = "Path";
 			// 
 			// lblEpisode
 			// 
@@ -381,30 +378,6 @@
 			this.cboRate.Size = new System.Drawing.Size(50, 20);
 			this.cboRate.TabIndex = 12;
 			// 
-			// lblTitleWarning
-			// 
-			this.lblTitleWarning.AutoSize = true;
-			this.lblTitleWarning.Location = new System.Drawing.Point(495, 140);
-			this.lblTitleWarning.Name = "lblTitleWarning";
-			this.lblTitleWarning.Size = new System.Drawing.Size(0, 12);
-			this.lblTitleWarning.TabIndex = 31;
-			// 
-			// lblYearWarning
-			// 
-			this.lblYearWarning.AutoSize = true;
-			this.lblYearWarning.Location = new System.Drawing.Point(495, 167);
-			this.lblYearWarning.Name = "lblYearWarning";
-			this.lblYearWarning.Size = new System.Drawing.Size(0, 12);
-			this.lblYearWarning.TabIndex = 32;
-			// 
-			// lblStoreIndexWarning
-			// 
-			this.lblStoreIndexWarning.AutoSize = true;
-			this.lblStoreIndexWarning.Location = new System.Drawing.Point(488, 194);
-			this.lblStoreIndexWarning.Name = "lblStoreIndexWarning";
-			this.lblStoreIndexWarning.Size = new System.Drawing.Size(0, 12);
-			this.lblStoreIndexWarning.TabIndex = 33;
-			// 
 			// tbInc
 			// 
 			this.tbInc.Location = new System.Drawing.Point(342, 66);
@@ -430,9 +403,6 @@
 			this.ClientSize = new System.Drawing.Size(624, 321);
 			this.Controls.Add(this.tbInc);
 			this.Controls.Add(this.lblInc);
-			this.Controls.Add(this.lblStoreIndexWarning);
-			this.Controls.Add(this.lblYearWarning);
-			this.Controls.Add(this.lblTitleWarning);
 			this.Controls.Add(this.cboRate);
 			this.Controls.Add(this.tbEpisode);
 			this.Controls.Add(this.btnOK);
@@ -452,15 +422,15 @@
 			this.Controls.Add(this.tbTitle);
 			this.Controls.Add(this.gbNote);
 			this.Controls.Add(this.lblEpisode);
-			this.Controls.Add(this.lblStoreIndex);
-			this.Controls.Add(this.lblRate);
-			this.Controls.Add(this.lblView);
-			this.Controls.Add(this.lblGather);
+			this.Controls.Add(this.lblPath);
+			this.Controls.Add(this.lblGrade);
+			this.Controls.Add(this.lblEnjoy);
+			this.Controls.Add(this.lblStore);
 			this.Controls.Add(this.lblSubStyle);
-			this.Controls.Add(this.lblPublisher);
+			this.Controls.Add(this.lblSubTeam);
 			this.Controls.Add(this.lblMergeFormat);
 			this.Controls.Add(this.lblMediaType);
-			this.Controls.Add(this.lblReleaseDate);
+			this.Controls.Add(this.lblSchedule);
 			this.Controls.Add(this.lblKana);
 			this.Controls.Add(this.lblName);
 			this.Controls.Add(this.lblTitle);
@@ -480,15 +450,15 @@
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.Label lblName;
 		private System.Windows.Forms.Label lblKana;
-		private System.Windows.Forms.Label lblReleaseDate;
+		private System.Windows.Forms.Label lblSchedule;
 		private System.Windows.Forms.Label lblMediaType;
 		private System.Windows.Forms.Label lblMergeFormat;
-		private System.Windows.Forms.Label lblPublisher;
+		private System.Windows.Forms.Label lblSubTeam;
 		private System.Windows.Forms.Label lblSubStyle;
-		private System.Windows.Forms.Label lblGather;
-		private System.Windows.Forms.Label lblView;
-		private System.Windows.Forms.Label lblRate;
-		private System.Windows.Forms.Label lblStoreIndex;
+		private System.Windows.Forms.Label lblStore;
+		private System.Windows.Forms.Label lblEnjoy;
+		private System.Windows.Forms.Label lblGrade;
+		private System.Windows.Forms.Label lblPath;
 		private System.Windows.Forms.Label lblEpisode;
 		private System.Windows.Forms.GroupBox gbNote;
 		private System.Windows.Forms.TextBox tbTitle;
@@ -509,9 +479,6 @@
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.TextBox tbEpisode;
 		private System.Windows.Forms.ComboBox cboRate;
-		private System.Windows.Forms.Label lblTitleWarning;
-		private System.Windows.Forms.Label lblYearWarning;
-		private System.Windows.Forms.Label lblStoreIndexWarning;
 		private System.Windows.Forms.TextBox tbInc;
 		private System.Windows.Forms.Label lblInc;
 	}

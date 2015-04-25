@@ -39,14 +39,11 @@
 			this.tbTitle = new System.Windows.Forms.TextBox();
 			this.gbNote = new System.Windows.Forms.GroupBox();
 			this.rtbNote = new System.Windows.Forms.RichTextBox();
-			this.lblStoreIndex = new System.Windows.Forms.Label();
-			this.lblReleaseDate = new System.Windows.Forms.Label();
+			this.lblPath = new System.Windows.Forms.Label();
+			this.lblSchedule = new System.Windows.Forms.Label();
 			this.lblKana = new System.Windows.Forms.Label();
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.lblEpisode = new System.Windows.Forms.Label();
-			this.lblMatchTitle = new System.Windows.Forms.Label();
-			this.lblMatchYear = new System.Windows.Forms.Label();
-			this.lblMatchStoreIndex = new System.Windows.Forms.Label();
 			this.tbInc = new System.Windows.Forms.TextBox();
 			this.lblInc = new System.Windows.Forms.Label();
 			this.cboFormat = new System.Windows.Forms.ComboBox();
@@ -167,23 +164,23 @@
 			this.rtbNote.Enter += new System.EventHandler(this.rtbNote_Enter);
 			this.rtbNote.Leave += new System.EventHandler(this.rtbNote_Leave);
 			// 
-			// lblStoreIndex
+			// lblPath
 			// 
-			this.lblStoreIndex.AutoSize = true;
-			this.lblStoreIndex.Location = new System.Drawing.Point(13, 95);
-			this.lblStoreIndex.Name = "lblStoreIndex";
-			this.lblStoreIndex.Size = new System.Drawing.Size(29, 12);
-			this.lblStoreIndex.TabIndex = 14;
-			this.lblStoreIndex.Text = "Path";
+			this.lblPath.AutoSize = true;
+			this.lblPath.Location = new System.Drawing.Point(13, 95);
+			this.lblPath.Name = "lblPath";
+			this.lblPath.Size = new System.Drawing.Size(29, 12);
+			this.lblPath.TabIndex = 14;
+			this.lblPath.Text = "Path";
 			// 
-			// lblReleaseDate
+			// lblSchedule
 			// 
-			this.lblReleaseDate.AutoSize = true;
-			this.lblReleaseDate.Location = new System.Drawing.Point(13, 69);
-			this.lblReleaseDate.Name = "lblReleaseDate";
-			this.lblReleaseDate.Size = new System.Drawing.Size(53, 12);
-			this.lblReleaseDate.TabIndex = 12;
-			this.lblReleaseDate.Text = "Schedule";
+			this.lblSchedule.AutoSize = true;
+			this.lblSchedule.Location = new System.Drawing.Point(13, 69);
+			this.lblSchedule.Name = "lblSchedule";
+			this.lblSchedule.Size = new System.Drawing.Size(53, 12);
+			this.lblSchedule.TabIndex = 12;
+			this.lblSchedule.Text = "Schedule";
 			// 
 			// lblKana
 			// 
@@ -211,33 +208,6 @@
 			this.lblEpisode.Size = new System.Drawing.Size(47, 12);
 			this.lblEpisode.TabIndex = 13;
 			this.lblEpisode.Text = "Episode";
-			// 
-			// lblMatchTitle
-			// 
-			this.lblMatchTitle.AutoSize = true;
-			this.lblMatchTitle.Location = new System.Drawing.Point(538, 66);
-			this.lblMatchTitle.Name = "lblMatchTitle";
-			this.lblMatchTitle.Size = new System.Drawing.Size(41, 12);
-			this.lblMatchTitle.TabIndex = 15;
-			this.lblMatchTitle.Text = "label1";
-			// 
-			// lblMatchYear
-			// 
-			this.lblMatchYear.AutoSize = true;
-			this.lblMatchYear.Location = new System.Drawing.Point(538, 82);
-			this.lblMatchYear.Name = "lblMatchYear";
-			this.lblMatchYear.Size = new System.Drawing.Size(41, 12);
-			this.lblMatchYear.TabIndex = 16;
-			this.lblMatchYear.Text = "label2";
-			// 
-			// lblMatchStoreIndex
-			// 
-			this.lblMatchStoreIndex.AutoSize = true;
-			this.lblMatchStoreIndex.Location = new System.Drawing.Point(538, 98);
-			this.lblMatchStoreIndex.Name = "lblMatchStoreIndex";
-			this.lblMatchStoreIndex.Size = new System.Drawing.Size(41, 12);
-			this.lblMatchStoreIndex.TabIndex = 17;
-			this.lblMatchStoreIndex.Text = "label3";
 			// 
 			// tbInc
 			// 
@@ -304,9 +274,6 @@
 			this.Controls.Add(this.lblMergeFormat);
 			this.Controls.Add(this.tbInc);
 			this.Controls.Add(this.lblInc);
-			this.Controls.Add(this.lblMatchStoreIndex);
-			this.Controls.Add(this.lblMatchYear);
-			this.Controls.Add(this.lblMatchTitle);
 			this.Controls.Add(this.lblEpisode);
 			this.Controls.Add(this.tbEpisode);
 			this.Controls.Add(this.btnOK);
@@ -318,8 +285,8 @@
 			this.Controls.Add(this.tbKana);
 			this.Controls.Add(this.tbTitle);
 			this.Controls.Add(this.gbNote);
-			this.Controls.Add(this.lblStoreIndex);
-			this.Controls.Add(this.lblReleaseDate);
+			this.Controls.Add(this.lblPath);
+			this.Controls.Add(this.lblSchedule);
 			this.Controls.Add(this.lblKana);
 			this.Controls.Add(this.lblTitle);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -346,14 +313,11 @@
 		private System.Windows.Forms.TextBox tbTitle;
 		private System.Windows.Forms.GroupBox gbNote;
 		private System.Windows.Forms.RichTextBox rtbNote;
-		private System.Windows.Forms.Label lblStoreIndex;
-		private System.Windows.Forms.Label lblReleaseDate;
+		private System.Windows.Forms.Label lblPath;
+		private System.Windows.Forms.Label lblSchedule;
 		private System.Windows.Forms.Label lblKana;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.Label lblEpisode;
-		private System.Windows.Forms.Label lblMatchTitle;
-		private System.Windows.Forms.Label lblMatchYear;
-		private System.Windows.Forms.Label lblMatchStoreIndex;
 		private System.Windows.Forms.TextBox tbInc;
 		private System.Windows.Forms.Label lblInc;
 		private System.Windows.Forms.ComboBox cboFormat;

@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Drawing;
 
 namespace AnimeTrim
 {
@@ -42,12 +43,14 @@ namespace AnimeTrim
 
 			if (Anime.IsMatchTitle(this.tbTitle.Text))
 			{
-				this.lblMatchTitle.Text = String.Empty;
+				//this.lblMatchTitle.Text = String.Empty;
+				this.lblTitle.ForeColor = SystemColors.ControlText;
 				btMatch |= 0x01;
 			}
 			else
 			{
-				this.lblMatchTitle.Text = "Title is null";
+				//this.lblMatchTitle.Text = "Title is null";
+				this.lblTitle.ForeColor = Color.Red;
 				btMatch &= 0xFE;
 			}
 		}
@@ -66,12 +69,14 @@ namespace AnimeTrim
 			//}
 			if (Anime.IsMatchYear(this.cboYear.Text))
 			{
-				this.lblMatchYear.Text = String.Empty;
+				//this.lblMatchYear.Text = String.Empty;
+				this.lblSchedule.ForeColor = SystemColors.ControlText;
 				btMatch |= 0x02;
 			}
 			else
 			{
-				this.lblMatchYear.Text = "Year is wrong";
+				//this.lblMatchYear.Text = "Year is wrong";
+				this.lblSchedule.ForeColor = Color.Red;
 				btMatch &= 0xFD;
 			}
 		}
@@ -92,12 +97,14 @@ namespace AnimeTrim
 			//}
 			if (Anime.IsMatchPath(this.tbStoreIndex.Text))
 			{
-				this.lblMatchStoreIndex.Text = String.Empty;
+				//this.lblMatchStoreIndex.Text = String.Empty;
+				this.lblPath.ForeColor = SystemColors.ControlText;
 				btMatch |= 0x04;
 			}
 			else
 			{
-				this.lblMatchStoreIndex.Text = "Path isn't match";
+				//this.lblMatchStoreIndex.Text = "Path isn't match";
+				this.lblPath.ForeColor = Color.Red;
 				btMatch &= 0xFB;
 			}
 		}
