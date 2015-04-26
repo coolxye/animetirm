@@ -1,4 +1,10 @@
-﻿using BrightIdeasSoftware;
+﻿/*
+ * Designed from AnimeTrim2
+ * User: XianYe
+ * Date: 2010/8/10
+ * Time: 9:23
+*/
+using BrightIdeasSoftware;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,7 +72,7 @@ namespace AnimeTrim
 			this.tssBtnMore.DefaultItem = this.tsMenItmBackup;
 			this.tssBtnMore.Text = this.tsMenItmBackup.Text;
 			this.tssBtnMore.ToolTipText = this.tsMenItmBackup.ToolTipText;
-			// this.tssBtnMore.Image = this.tsMenItmBackup.Image;
+			this.tssBtnMore.Image = this.tsMenItmBackup.Image;
 
 			this.tsBtnOverlay.CheckState = CheckState.Checked;
 		}

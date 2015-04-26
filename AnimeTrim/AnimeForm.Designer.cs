@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimeForm));
 			this.tctlAnime = new System.Windows.Forms.TabControl();
 			this.tpAnime = new System.Windows.Forms.TabPage();
 			this.folvAnime = new BrightIdeasSoftware.ObjectListView();
@@ -425,7 +424,7 @@
 			// tsBtnNew
 			// 
 			this.tsBtnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnNew.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnNew.Image")));
+			this.tsBtnNew.Image = global::AnimeTrim.Properties.Resources.file_new;
 			this.tsBtnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnNew.Name = "tsBtnNew";
 			this.tsBtnNew.Size = new System.Drawing.Size(23, 22);
@@ -435,7 +434,7 @@
 			// tsBtnOpen
 			// 
 			this.tsBtnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnOpen.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnOpen.Image")));
+			this.tsBtnOpen.Image = global::AnimeTrim.Properties.Resources.open;
 			this.tsBtnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnOpen.Name = "tsBtnOpen";
 			this.tsBtnOpen.Size = new System.Drawing.Size(23, 22);
@@ -445,7 +444,7 @@
 			// tsBtnSave
 			// 
 			this.tsBtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnSave.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnSave.Image")));
+			this.tsBtnSave.Image = global::AnimeTrim.Properties.Resources.save;
 			this.tsBtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnSave.Name = "tsBtnSave";
 			this.tsBtnSave.Size = new System.Drawing.Size(23, 22);
@@ -460,7 +459,7 @@
 			// tsBtnAdd
 			// 
 			this.tsBtnAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnAdd.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnAdd.Image")));
+			this.tsBtnAdd.Image = global::AnimeTrim.Properties.Resources.add;
 			this.tsBtnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnAdd.Name = "tsBtnAdd";
 			this.tsBtnAdd.Size = new System.Drawing.Size(23, 22);
@@ -470,7 +469,7 @@
 			// tsBtnModify
 			// 
 			this.tsBtnModify.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnModify.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnModify.Image")));
+			this.tsBtnModify.Image = global::AnimeTrim.Properties.Resources.edit;
 			this.tsBtnModify.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnModify.Name = "tsBtnModify";
 			this.tsBtnModify.Size = new System.Drawing.Size(23, 22);
@@ -480,7 +479,7 @@
 			// tsBtnDuplicate
 			// 
 			this.tsBtnDuplicate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnDuplicate.Image")));
+			this.tsBtnDuplicate.Image = global::AnimeTrim.Properties.Resources.duplicate;
 			this.tsBtnDuplicate.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnDuplicate.Name = "tsBtnDuplicate";
 			this.tsBtnDuplicate.Size = new System.Drawing.Size(23, 22);
@@ -490,7 +489,7 @@
 			// tsBtnDel
 			// 
 			this.tsBtnDel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnDel.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnDel.Image")));
+			this.tsBtnDel.Image = global::AnimeTrim.Properties.Resources.del;
 			this.tsBtnDel.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnDel.Name = "tsBtnDel";
 			this.tsBtnDel.Size = new System.Drawing.Size(23, 22);
@@ -505,7 +504,7 @@
 			// tsBtnRefresh
 			// 
 			this.tsBtnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnRefresh.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnRefresh.Image")));
+			this.tsBtnRefresh.Image = global::AnimeTrim.Properties.Resources.refresh;
 			this.tsBtnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnRefresh.Name = "tsBtnRefresh";
 			this.tsBtnRefresh.Size = new System.Drawing.Size(23, 22);
@@ -523,24 +522,25 @@
 			this.tssBtnMore.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsMenItmFormat,
             this.tsMenItmBackup});
-			this.tssBtnMore.Image = ((System.Drawing.Image)(resources.GetObject("tssBtnMore.Image")));
 			this.tssBtnMore.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tssBtnMore.Name = "tssBtnMore";
-			this.tssBtnMore.Size = new System.Drawing.Size(32, 22);
+			this.tssBtnMore.Size = new System.Drawing.Size(16, 22);
 			this.tssBtnMore.Text = "More";
 			this.tssBtnMore.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tssBtnMoreDropDownItemClicked);
 			// 
 			// tsMenItmFormat
 			// 
+			this.tsMenItmFormat.Image = global::AnimeTrim.Properties.Resources.format;
 			this.tsMenItmFormat.Name = "tsMenItmFormat";
-			this.tsMenItmFormat.Size = new System.Drawing.Size(119, 22);
+			this.tsMenItmFormat.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmFormat.Text = "Format";
 			this.tsMenItmFormat.Click += new System.EventHandler(this.tsMenItmFormat_Click);
 			// 
 			// tsMenItmBackup
 			// 
+			this.tsMenItmBackup.Image = global::AnimeTrim.Properties.Resources.backup;
 			this.tsMenItmBackup.Name = "tsMenItmBackup";
-			this.tsMenItmBackup.Size = new System.Drawing.Size(119, 22);
+			this.tsMenItmBackup.Size = new System.Drawing.Size(152, 22);
 			this.tsMenItmBackup.Text = "Backup";
 			this.tsMenItmBackup.Click += new System.EventHandler(this.tsMenItmBackup_Click);
 			// 
@@ -562,7 +562,7 @@
 			// 
 			this.tsBtnGroup.CheckOnClick = true;
 			this.tsBtnGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnGroup.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnGroup.Image")));
+			this.tsBtnGroup.Image = global::AnimeTrim.Properties.Resources.group;
 			this.tsBtnGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnGroup.Name = "tsBtnGroup";
 			this.tsBtnGroup.Size = new System.Drawing.Size(23, 22);
@@ -573,7 +573,7 @@
 			// 
 			this.tsBtnOverlay.CheckOnClick = true;
 			this.tsBtnOverlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnOverlay.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnOverlay.Image")));
+			this.tsBtnOverlay.Image = global::AnimeTrim.Properties.Resources.overlay;
 			this.tsBtnOverlay.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnOverlay.Name = "tsBtnOverlay";
 			this.tsBtnOverlay.Size = new System.Drawing.Size(23, 22);
