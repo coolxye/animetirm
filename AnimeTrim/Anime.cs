@@ -453,11 +453,16 @@ namespace AnimeTrim
 			if (a == null)
 				return;
 
-			Rectangle rView;
-			if (olv.HotRowIndex - olv.TopItemIndex < 9)
-				rView = new Rectangle(r.Right - iw - iSpacing, r.Bottom - ih - iSpacing, iw, ih);
-			else
-				rView = new Rectangle(r.Right - iw - iSpacing, r.Top + iSpacing + 10, iw, ih);
+			Rectangle rhrow = olv.GetItem(olv.HotRowIndex).Bounds;
+			Rectangle rView = rhrow.Bottom + iSpacing * 2 + ih > r.Bottom ?
+				new Rectangle(r.Right - iw - iSpacing, rhrow.Top - ih - iSpacing, iw, ih) :
+				new Rectangle(r.Right - iw - iSpacing, rhrow.Bottom + iSpacing, iw, ih);
+
+			//Rectangle rView;
+			//if (olv.HotRowIndex - olv.TopItemIndex < 9)
+			//	rView = new Rectangle(r.Right - iw - iSpacing, r.Bottom - ih - iSpacing, iw, ih);
+			//else
+			//	rView = new Rectangle(r.Right - iw - iSpacing, r.Top + iSpacing + 10, iw, ih);
 
 			this.DrawAnimeView(g, rView, a);
 		}
@@ -470,7 +475,7 @@ namespace AnimeTrim
 
 		private const int iw = 240;
 		private const int ih = 120;
-		private const int iSpacing = 18;
+		private const int iSpacing = 8;
 		private const int iPicW = 80;
 
 		private void DrawAnimeView(Graphics g, Rectangle r, Anime av)
