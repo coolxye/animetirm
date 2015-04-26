@@ -453,7 +453,13 @@ namespace AnimeTrim
 			if (a == null)
 				return;
 
-			this.DrawAnimeView(g, r, a);
+			Rectangle rView;
+			if (olv.HotRowIndex - olv.TopItemIndex < 9)
+				rView = new Rectangle(r.Right - iw - iSpacing, r.Bottom - ih - iSpacing, iw, ih);
+			else
+				rView = new Rectangle(r.Right - iw - iSpacing, r.Top + iSpacing + 10, iw, ih);
+
+			this.DrawAnimeView(g, rView, a);
 		}
 
 		private Pen BorderPen = Pens.DarkSalmon;
@@ -469,7 +475,8 @@ namespace AnimeTrim
 
 		private void DrawAnimeView(Graphics g, Rectangle r, Anime av)
 		{
-			Rectangle rView = new Rectangle(r.Right - iw - iSpacing, r.Bottom - ih - iSpacing, iw, ih);
+			//Rectangle rView = new Rectangle(r.Right - iw - iSpacing, r.Bottom - ih - iSpacing, iw, ih);
+			Rectangle rView = r;
 
 			// Allow a border around the card
 			rView.Inflate(-1, -1);
