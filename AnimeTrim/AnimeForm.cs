@@ -67,7 +67,7 @@ namespace AnimeTrim
 			this.tsBtnDel.Enabled = false;
 			this.tsBtnRefresh.Enabled = false;
 
-			this.cboFilter.SelectedIndex = 0;
+			//this.cboFilter.SelectedIndex = 0;
 
 			this.tssBtnMore.DefaultItem = this.tsMenItmBackup;
 			this.tssBtnMore.Text = this.tsMenItmBackup.Text;
@@ -355,17 +355,19 @@ namespace AnimeTrim
 			// Note of Anime
 			this.olvColNote.AspectToStringConverter = otn => otn.ToString().Replace('\u0002', '\u0020');
 
-			RowBorderDecoration rbd = new RowBorderDecoration();
-			rbd.BorderPen = new Pen(Color.Orchid, 2);
-			rbd.FillBrush = null;
-			rbd.CornerRounding = 4.0f;
-			HotItemStyle hotItemStyle = new HotItemStyle();
-			hotItemStyle.Decoration = rbd;
-			hotItemStyle.Overlay = new AnimeViewOverlay();
-			this.folvAnime.HotItemStyle = hotItemStyle;
+			//RowBorderDecoration rbd = new RowBorderDecoration();
+			//rbd.BorderPen = new Pen(Color.Orchid, 1);
+			//rbd.FillBrush = null;
+			//rbd.CornerRounding = 4.0f;
+			//HotItemStyle hotItemStyle = new HotItemStyle();
+			//hotItemStyle.Decoration = rbd;
+			//hotItemStyle.Overlay = new AnimeViewOverlay();
+			//this.folvAnime.HotItemStyle = hotItemStyle;
 
-			//this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
-			//this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+			this.folvAnime.UseTranslucentHotItem = true;
+			this.folvAnime.UseTranslucentSelection = true;
+			this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
 			this.folvAnime.PrimarySortColumn = this.olvColTitle;
 			this.folvAnime.PrimarySortOrder = SortOrder.Ascending;
 		}
@@ -534,51 +536,53 @@ namespace AnimeTrim
 			}
 		}
 
-		private void TimedFilter(ObjectListView folv, string txt, int matchKind)
-		{
-			TextMatchFilter filter = null;
-			if (!String.IsNullOrEmpty(txt))
-			{
-				switch (matchKind)
-				{
-					case 0:
-					default:
-						filter = TextMatchFilter.Prefix(folv, txt);
-						break;
-					case 1:
-						filter = TextMatchFilter.Contains(folv, txt);
-						break;
-					case 2:
-						filter = TextMatchFilter.Regex(folv, txt);
-						break;
-				}
-			}
-			// Setup a default renderer to draw the filter matches
-			if (filter == null)
-				folv.DefaultRenderer = null;
-			else
-				folv.DefaultRenderer = new HighlightTextRenderer(filter);
+		#region Move
+		//private void TimedFilter(ObjectListView folv, string txt, int matchKind)
+		//{
+		//	TextMatchFilter filter = null;
+		//	if (!String.IsNullOrEmpty(txt))
+		//	{
+		//		switch (matchKind)
+		//		{
+		//			case 0:
+		//			default:
+		//				filter = TextMatchFilter.Prefix(folv, txt);
+		//				break;
+		//			case 1:
+		//				filter = TextMatchFilter.Contains(folv, txt);
+		//				break;
+		//			case 2:
+		//				filter = TextMatchFilter.Regex(folv, txt);
+		//				break;
+		//		}
+		//	}
+		//	// Setup a default renderer to draw the filter matches
+		//	if (filter == null)
+		//		folv.DefaultRenderer = null;
+		//	else
+		//		folv.DefaultRenderer = new HighlightTextRenderer(filter);
 
-			// Some lists have renderers already installed
-			HighlightTextRenderer highlightingRenderer = folv.GetColumn(0).Renderer as HighlightTextRenderer;
-			if (highlightingRenderer != null)
-				highlightingRenderer.Filter = filter;
+		//	// Some lists have renderers already installed
+		//	HighlightTextRenderer highlightingRenderer = folv.GetColumn(0).Renderer as HighlightTextRenderer;
+		//	if (highlightingRenderer != null)
+		//		highlightingRenderer.Filter = filter;
 
-			Stopwatch stopWatch = new Stopwatch();
-			stopWatch.Start();
-			folv.ModelFilter = filter;
-			stopWatch.Stop();
-		}
+		//	Stopwatch stopWatch = new Stopwatch();
+		//	stopWatch.Start();
+		//	folv.ModelFilter = filter;
+		//	stopWatch.Stop();
+		//}
 
-		private void tbFilter_TextChanged(object sender, EventArgs e)
-		{
-			this.TimedFilter(this.folvAnime, this.tbFilter.Text, this.cboFilter.SelectedIndex);
-		}
+		//private void tbFilter_TextChanged(object sender, EventArgs e)
+		//{
+		//	this.TimedFilter(this.folvAnime, this.tbFilter.Text, this.cboFilter.SelectedIndex);
+		//}
 
-		private void cboFilter_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			this.tbFilter_TextChanged(null, null);
-		}
+		//private void cboFilter_SelectedIndexChanged(object sender, EventArgs e)
+		//{
+		//	this.tbFilter_TextChanged(null, null);
+		//}
+		#endregion
 
 		private void tsBtnNew_Click(object sender, EventArgs e)
 		{
@@ -988,14 +992,7 @@ namespace AnimeTrim
 						break;
 					case Keys.F:
 						//this.tbFilter.Focus();
-						if (findfm == null)
-						{
-							findfm = new FindForm(this.folvAnime);
-							findfm.FormClosed += FindForm_FormClosed;
-							findfm.Show(this);
-						}
-						else
-							findfm.Focus();
+						this.tsBtnSearch.PerformClick();
 						break;
 
 					default:
@@ -1176,20 +1173,20 @@ namespace AnimeTrim
 			#endregion
 		}
 
-		private	void tsBtnGroupClick(object sender, EventArgs e)
-		{
-			if (ObjectListView.IsVistaOrLater)
-			{
-				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
-				this.folvAnime.BuildList();
-			}
-		}
+		//private void tsBtnGroupClick(object sender, EventArgs e)
+		//{
+		//	if (ObjectListView.IsVistaOrLater)
+		//	{
+		//		this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
+		//		this.folvAnime.BuildList();
+		//	}
+		//}
 
-		private void tsBtnOverlayClick(object sender, EventArgs e)
-		{
-			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
-			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
-		}
+		//private void tsBtnOverlayClick(object sender, EventArgs e)
+		//{
+		//	this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+		//	this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+		//}
 
 		private void tssBtnMoreDropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
@@ -1199,5 +1196,31 @@ namespace AnimeTrim
 			this.tssBtnMore.Image = e.ClickedItem.Image;
 		}
 
+		private void tsBtnGroup_Click(object sender, EventArgs e)
+		{
+			if (ObjectListView.IsVistaOrLater)
+			{
+				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
+				this.folvAnime.BuildList();
+			}
+		}
+
+		private void tsBtnOverlay_Click(object sender, EventArgs e)
+		{
+			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+		}
+
+		private void tsBtnSearch_Click(object sender, EventArgs e)
+		{
+			if (findfm != null)
+				findfm.Focus();
+			else
+			{
+				findfm = new FindForm(this.folvAnime);
+				findfm.FormClosed += FindForm_FormClosed;
+				findfm.Show(this);
+			}
+		}
 	}
 }
