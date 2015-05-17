@@ -896,6 +896,8 @@ namespace AnimeTrim
 
 			if (lSpace != _ai.Space)
 			{
+				_ai.Space = lSpace;
+
 				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
