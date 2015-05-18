@@ -119,6 +119,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Find Animes";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindForm_FormClosing);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindForm_KeyDown);
 			this.gbFilter.ResumeLayout(false);
 			this.gbFilter.PerformLayout();

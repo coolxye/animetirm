@@ -25,7 +25,12 @@ namespace AnimeTrim
 		private void FindForm_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
+			{
+				if (this.tbFilter.Text.Length != 0)
+					this.TimedFilter(this.folv, "", this.ikind);
+
 				this.Close();
+			}
 		}
 
 		private void TimedFilter(ObjectListView folv, string txt, int matchKind)
@@ -94,6 +99,12 @@ namespace AnimeTrim
 				ikind = 2;
 				this.TimedFilter(this.folv, this.tbFilter.Text, this.ikind);
 			}
+		}
+
+		private void FindForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (this.tbFilter.Text.Length != 0)
+				this.TimedFilter(this.folv, "", this.ikind);
 		}
 	}
 }
