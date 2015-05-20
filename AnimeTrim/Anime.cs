@@ -426,7 +426,7 @@ namespace AnimeTrim
 
 			foreach (DriveInfo dr in allDrives)
 				if (dr.IsReady)
-					if (dr.VolumeLabel == "Anime" &&
+					if ((dr.VolumeLabel == "Anime" || dr.VolumeLabel == "Favs") &&
 						(dr.DriveType == DriveType.Fixed || dr.DriveType == DriveType.Removable))
 					{
 						br = true;

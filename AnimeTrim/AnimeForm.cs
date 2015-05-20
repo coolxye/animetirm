@@ -42,6 +42,9 @@ namespace AnimeTrim
 
 		private AnimeInfo _ai = new AnimeInfo();
 		//private List<Anime> _lani = new List<Anime>();
+		// stack for restore duplicated or deleted
+		private int reists = -1;
+		private List<Anime> relani = new List<Anime>();
 
 		private FindForm findfm;
 
@@ -66,6 +69,7 @@ namespace AnimeTrim
 			this.tsBtnDuplicate.Enabled = false;
 			this.tsBtnDel.Enabled = false;
 			this.tsBtnRefresh.Enabled = false;
+			this.tsBtnUndo.Enabled = false;
 
 			//this.cboFilter.SelectedIndex = 0;
 
@@ -742,7 +746,7 @@ namespace AnimeTrim
 				return;
 
 			//long ls = a.Size;
-			ModForm mf = new ModForm(ref a);
+			ModForm mf = new ModForm(a);
 			mf.FormClosed += new FormClosedEventHandler(this.ModForm_FormClosed);
 			mf.Show();
 
@@ -814,36 +818,43 @@ namespace AnimeTrim
 
 		private void tsBtnDuplicate_Click(object sender, EventArgs e)
 		{
-			Anime aCopy = null;
+			if (this.folvAnime.SelectedIndices.Count == 0)
+				return;
+
+			if (relani.Count != 0)
+				relani.Clear();
+
+			reists = 0;
 
 			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
-				aCopy = new Anime(a, _ai.Uid++);
+				Anime aCopy = new Anime(a, _ai.Uid++);
 				_ai.Space += aCopy.Size;
 				_ai.Total++;
 				//_lani.Add(aCopy);
+				relani.Add(aCopy);
 
 				this.folvAnime.AddObject(aCopy);
 			}
 
-			if (aCopy != null)
-			{
-				_ai.IsSaved = false;
+			_ai.IsSaved = false;
 
-				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-			}
+			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			this.tsBtnUndo.Enabled = true;
 		}
 
 		private void tsBtnDel_Click(object sender, EventArgs e)
 		{
-			int isel;
+			if (this.folvAnime.SelectedIndices.Count == 0)
+				return;
 
-			if (this.folvAnime.SelectedIndices.Count != 0)
-				isel = this.folvAnime.SelectedIndices[0];
-			else return;
+			int isel = this.folvAnime.SelectedIndices[0];
 
-			_ai.IsSaved = false;
+			if (relani.Count != 0)
+				relani.Clear();
+
+			reists = 1;
 
 			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
@@ -851,19 +862,21 @@ namespace AnimeTrim
 				_ai.Total--;
 
 				//_lani.Remove(a);
+				relani.Add(a);
 			}
 
 			this.folvAnime.RemoveObjects(this.folvAnime.SelectedObjects);
 
-			if (isel < this.folvAnime.Items.Count)
-				this.folvAnime.SelectedIndex = isel;
-			else this.folvAnime.SelectedIndex = isel - 1;
-
+			this.folvAnime.SelectedIndex = isel < this.folvAnime.Items.Count ? isel : isel - 1;
 			this.folvAnime.SelectedItem.EnsureVisible();
+
+			_ai.IsSaved = false;
+
 			// TODO: 需修正工具栏
 			//this.folvAnime.Focus();
 			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			this.tsBtnUndo.Enabled = true;
 		}
 
 		private void tsBtnRefresh_Click(object sender, EventArgs e)
@@ -898,6 +911,8 @@ namespace AnimeTrim
 
 			if (lSpace != _ai.Space)
 			{
+				_ai.Space = lSpace;
+
 				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
@@ -1194,6 +1209,46 @@ namespace AnimeTrim
 			this.tssBtnMore.Text = e.ClickedItem.Text;
 			this.tssBtnMore.ToolTipText = e.ClickedItem.ToolTipText;
 			this.tssBtnMore.Image = e.ClickedItem.Image;
+		}
+
+		private void tsBtnUndo_Click(object sender, EventArgs e)
+		{
+			if (reists == -1 || relani.Count == 0)
+				return;
+
+			// restore duplicated
+			if (reists == 0)
+			{
+				foreach (Anime a in relani)
+				{
+					_ai.Space -= a.Size;
+					_ai.Total--;
+				}
+
+				this.folvAnime.RemoveObjects(relani);
+			}
+			else if (reists == 1)
+			{
+				foreach (Anime a in relani)
+				{
+					_ai.Space += a.Size;
+					_ai.Total++;
+				}
+
+				this.folvAnime.AddObjects(relani);
+
+				this.folvAnime.SelectedObject = relani[0];
+				this.folvAnime.SelectedItem.EnsureVisible();
+				this.folvAnime.SelectedObjects = relani;
+			}
+
+			_ai.IsSaved = false;
+			reists = -1;
+			relani.Clear();
+
+			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			this.tsBtnUndo.Enabled = false;
 		}
 
 		private void tsBtnGroup_Click(object sender, EventArgs e)

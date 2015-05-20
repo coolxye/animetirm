@@ -8,11 +8,11 @@ namespace AnimeTrim
 {
 	public partial class ModForm : Form
 	{
-		public ModForm(ref Anime a)
+		public ModForm(Anime a)
 		{
 			InitializeComponent();
 
-			InitModValue(ref a);
+			InitModValue(a);
 
 			InitMatch();
 		}
@@ -121,7 +121,7 @@ namespace AnimeTrim
 		private Anime _anime;
 		private long lsize;
 
-		private void InitModValue(ref Anime a)
+		private void InitModValue(Anime a)
 		{
 			this.tbTitle.Text = a.Title;
 			this.tbKana.Text = a.Kana;

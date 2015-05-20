@@ -72,6 +72,7 @@
 			this.tsBtnRefresh = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForSpecial = new System.Windows.Forms.ToolStripSeparator();
 			this.tsBtnSearch = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnUndo = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnGroup = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnOverlay = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForSwitch = new System.Windows.Forms.ToolStripSeparator();
@@ -408,6 +409,7 @@
             this.tsBtnModify,
             this.tsBtnDuplicate,
             this.tsBtnDel,
+            this.tsBtnUndo,
             this.tsSepForEdit,
             this.tsBtnRefresh,
             this.tsSepForSpecial,
@@ -526,6 +528,16 @@
 			this.tsBtnSearch.Size = new System.Drawing.Size(23, 22);
 			this.tsBtnSearch.Text = "Search";
 			this.tsBtnSearch.Click += new System.EventHandler(this.tsBtnSearch_Click);
+			// 
+			// tsBtnUndo
+			// 
+			this.tsBtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnUndo.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnUndo.Image")));
+			this.tsBtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnUndo.Name = "tsBtnUndo";
+			this.tsBtnUndo.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnUndo.Text = "Undo";
+			this.tsBtnUndo.Click += new System.EventHandler(this.tsBtnUndo_Click);
 			// 
 			// tsBtnGroup
 			// 
@@ -664,6 +676,7 @@
 		private System.Windows.Forms.ToolStripButton tsBtnGroup;
 		private System.Windows.Forms.ToolStripButton tsBtnOverlay;
 		private System.Windows.Forms.ToolStripSeparator tsSepForSwitch;
+		private System.Windows.Forms.ToolStripButton tsBtnUndo;
 
 	}
 }
