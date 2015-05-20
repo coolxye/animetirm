@@ -31,9 +31,9 @@
 			this.lblFilter = new System.Windows.Forms.Label();
 			this.tbFilter = new System.Windows.Forms.TextBox();
 			this.gbFilter = new System.Windows.Forms.GroupBox();
-			this.rbtnPrefix = new System.Windows.Forms.RadioButton();
-			this.rbtnAnyText = new System.Windows.Forms.RadioButton();
 			this.rbtnRegex = new System.Windows.Forms.RadioButton();
+			this.rbtnAnyText = new System.Windows.Forms.RadioButton();
+			this.rbtnPrefix = new System.Windows.Forms.RadioButton();
 			this.gbFilter.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -66,18 +66,17 @@
 			this.gbFilter.TabStop = false;
 			this.gbFilter.Text = "Find options";
 			// 
-			// rbtnPrefix
+			// rbtnRegex
 			// 
-			this.rbtnPrefix.AutoSize = true;
-			this.rbtnPrefix.Checked = true;
-			this.rbtnPrefix.Location = new System.Drawing.Point(7, 21);
-			this.rbtnPrefix.Name = "rbtnPrefix";
-			this.rbtnPrefix.Size = new System.Drawing.Size(59, 16);
-			this.rbtnPrefix.TabIndex = 0;
-			this.rbtnPrefix.TabStop = true;
-			this.rbtnPrefix.Text = "Prefix";
-			this.rbtnPrefix.UseVisualStyleBackColor = true;
-			this.rbtnPrefix.CheckedChanged += new System.EventHandler(this.rbtnPrefix_CheckedChanged);
+			this.rbtnRegex.AutoSize = true;
+			this.rbtnRegex.Location = new System.Drawing.Point(7, 65);
+			this.rbtnRegex.Name = "rbtnRegex";
+			this.rbtnRegex.Size = new System.Drawing.Size(53, 16);
+			this.rbtnRegex.TabIndex = 2;
+			this.rbtnRegex.TabStop = true;
+			this.rbtnRegex.Text = "Regex";
+			this.rbtnRegex.UseVisualStyleBackColor = true;
+			this.rbtnRegex.CheckedChanged += new System.EventHandler(this.rbtnRegex_CheckedChanged);
 			// 
 			// rbtnAnyText
 			// 
@@ -91,17 +90,18 @@
 			this.rbtnAnyText.UseVisualStyleBackColor = true;
 			this.rbtnAnyText.CheckedChanged += new System.EventHandler(this.rbtnAnyText_CheckedChanged);
 			// 
-			// rbtnRegex
+			// rbtnPrefix
 			// 
-			this.rbtnRegex.AutoSize = true;
-			this.rbtnRegex.Location = new System.Drawing.Point(7, 65);
-			this.rbtnRegex.Name = "rbtnRegex";
-			this.rbtnRegex.Size = new System.Drawing.Size(53, 16);
-			this.rbtnRegex.TabIndex = 2;
-			this.rbtnRegex.TabStop = true;
-			this.rbtnRegex.Text = "Regex";
-			this.rbtnRegex.UseVisualStyleBackColor = true;
-			this.rbtnRegex.CheckedChanged += new System.EventHandler(this.rbtnRegex_CheckedChanged);
+			this.rbtnPrefix.AutoSize = true;
+			this.rbtnPrefix.Checked = true;
+			this.rbtnPrefix.Location = new System.Drawing.Point(7, 21);
+			this.rbtnPrefix.Name = "rbtnPrefix";
+			this.rbtnPrefix.Size = new System.Drawing.Size(59, 16);
+			this.rbtnPrefix.TabIndex = 0;
+			this.rbtnPrefix.TabStop = true;
+			this.rbtnPrefix.Text = "Prefix";
+			this.rbtnPrefix.UseVisualStyleBackColor = true;
+			this.rbtnPrefix.CheckedChanged += new System.EventHandler(this.rbtnPrefix_CheckedChanged);
 			// 
 			// FindForm
 			// 

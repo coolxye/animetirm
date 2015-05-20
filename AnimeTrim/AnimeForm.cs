@@ -8,7 +8,6 @@ using BrightIdeasSoftware;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -324,7 +323,9 @@ namespace AnimeTrim
 			this.olvColSize.AspectToStringConverter = ots => {
 				long ls = (long)ots;
 
-				if (ls >= 1000000000L)
+				if (ls == 0L)
+					return "-";
+				else if (ls >= 1000000000L)
 					return String.Format("{0:#,##0.#0} G", ls / 1073741824D);
 				else
 					return String.Format("{0:#,##0.#0} M", ls / 1048576D);
@@ -498,7 +499,8 @@ namespace AnimeTrim
 				Anime a = this.folvAnime.SelectedObject as Anime;
 
 				this.tsslSelected.Text = String.Format("Selected: {0}", a.Name);
-				this.tsslSelSpace.Text = (a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
+				this.tsslSelSpace.Text = (a.Size == 0L) ? "Selected Size: -" :
+					(a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
 					String.Format("Selected Size: {0:#,##0.#0} MB", a.Size / 1048576D);
 
 				this.rtbAnime.Text = a.Remark;
@@ -531,7 +533,8 @@ namespace AnimeTrim
 					{
 						ls += at.Size;
 					}
-					this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
+					this.tsslSelSpace.Text = (ls == 0L) ? "Selected Size: -" :
+						(ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 				}
 
