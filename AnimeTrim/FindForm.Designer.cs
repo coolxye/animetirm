@@ -112,7 +112,6 @@
 			this.Controls.Add(this.tbFilter);
 			this.Controls.Add(this.lblFilter);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FindForm";
@@ -120,7 +119,6 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Find Animes";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindForm_FormClosing);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindForm_KeyDown);
 			this.gbFilter.ResumeLayout(false);
 			this.gbFilter.PerformLayout();
 			this.ResumeLayout(false);

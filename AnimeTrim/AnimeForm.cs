@@ -988,34 +988,65 @@ namespace AnimeTrim
 			// edit fin
 		}
 
-		private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
+		#region key event
+		//private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
+		//{
+		//	if (e.Control)
+		//	{
+		//		e.Handled = true;
+
+		//		switch (e.KeyCode)
+		//		{
+		//			case Keys.S:
+		//				this.tsBtnSave.PerformClick();
+		//				break;
+		//			case Keys.Add:
+		//				this.tsBtnAdd.PerformClick();
+		//				break;
+		//			case Keys.E:
+		//				this.tsBtnModify.PerformClick();
+		//				break;
+		//			case Keys.D:
+		//				this.tsBtnDuplicate.PerformClick();
+		//				break;
+		//			case Keys.F:
+		//				//this.tbFilter.Focus();
+		//				this.tsBtnSearch.PerformClick();
+		//				break;
+
+		//			default:
+		//				return;
+		//		}
+		//	}
+		//}
+		#endregion
+
+		protected override bool ProcessDialogKey(Keys keyData)
 		{
-			if (e.Control)
+			switch (keyData)
 			{
-				e.Handled = true;
+				case (Keys.S | Keys.Control):
+					this.tsBtnSave_Click(null, null);
+					return true;
 
-				switch (e.KeyCode)
-				{
-					case Keys.S:
-						this.tsBtnSave.PerformClick();
-						break;
-					case Keys.Add:
-						this.tsBtnAdd.PerformClick();
-						break;
-					case Keys.E:
-						this.tsBtnModify.PerformClick();
-						break;
-					case Keys.D:
-						this.tsBtnDuplicate.PerformClick();
-						break;
-					case Keys.F:
-						//this.tbFilter.Focus();
-						this.tsBtnSearch.PerformClick();
-						break;
+				case (Keys.I | Keys.Control):
+					this.tsBtnAdd_Click(null, null);
+					return true;
 
-					default:
-						return;
-				}
+				case (Keys.E | Keys.Control):
+					this.tsBtnModify_Click(null, null);
+					return true;
+
+				case (Keys.D | Keys.Control):
+					this.tsBtnDuplicate_Click(null, null);
+					return true;
+
+				case (Keys.F | Keys.Control):
+					this.tsBtnSearch_Click(null, null);
+					return true;
+
+				default:
+					return base.ProcessDialogKey(keyData);
 			}
 		}
 

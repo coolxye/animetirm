@@ -466,7 +466,7 @@
 			this.tsBtnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnAdd.Name = "tsBtnAdd";
 			this.tsBtnAdd.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnAdd.Text = "Add(+)";
+			this.tsBtnAdd.Text = "Add(I)";
 			this.tsBtnAdd.Click += new System.EventHandler(this.tsBtnAdd_Click);
 			// 
 			// tsBtnModify
@@ -602,12 +602,10 @@
 			this.Controls.Add(this.tsMain);
 			this.Controls.Add(this.ssAnime);
 			this.Controls.Add(this.scAnime);
-			this.KeyPreview = true;
 			this.Name = "AnimeForm";
 			this.Text = "AnimeTrim";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AnimeForm_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AnimeForm_FormClosed);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnimeForm_KeyDown);
 			this.tctlAnime.ResumeLayout(false);
 			this.tpAnime.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).EndInit();
