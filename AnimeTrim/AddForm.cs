@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace AnimeTrim
 {
@@ -11,32 +12,69 @@ namespace AnimeTrim
 			InitializeComponent();
 
 			InitValue();
+
+			InitMatch();
 		}
 
 		private void InitValue()
 		{
-			this.cboYear.Text = DateTime.Now.Year.ToString();
+			this.cboYear.Text = DateTime.Today.Year.ToString();
 
-			int month = DateTime.Now.Month;
-			if (month < 4)
-				this.cboSeason.SelectedIndex = 0;
-			else if (month < 7)
-				this.cboSeason.SelectedIndex = 1;
-			else if (month < 10)
-				this.cboSeason.SelectedIndex = 2;
-			else this.cboSeason.SelectedIndex = 3;
+			this.cboSeason.DataSource = Enum.GetValues(typeof(PlaySeason));
+			switch (DateTime.Today.Month)
+			{
+				case 1:
+				case 2:
+				case 3:
+				default:
+					this.cboSeason.SelectedItem = PlaySeason.Winter;
+					break;
 
-			this.cboType.SelectedIndex = 0;
-			this.cboFormat.SelectedIndex = 0;
+				case 4:
+				case 5:
+				case 6:
+					this.cboSeason.SelectedItem = PlaySeason.Spring;
+					break;
+
+				case 7:
+				case 8:
+				case 9:
+					this.cboSeason.SelectedItem = PlaySeason.Summer;
+					break;
+
+				case 10:
+				case 11:
+				case 12:
+					this.cboSeason.SelectedItem = PlaySeason.Fall;
+					break;
+			}
+
+			//this.cboType.SelectedIndex = 0;
+			this.cboType.DataSource = Enum.GetValues(typeof(MediaType));
+			this.cboType.SelectedItem = MediaType.BDRip;
+			//this.cboFormat.SelectedIndex = 0;
+			this.cboFormat.DataSource = Enum.GetValues(typeof(MergeFormat));
+			this.cboFormat.SelectedItem = MergeFormat.MKV;
 			this.cboPublisher.SelectedIndex = 0;
-			this.cboSubStyle.SelectedIndex = 0;
+			//this.cboSubStyle.SelectedIndex = 0;
+			this.cboSubStyle.DataSource = Enum.GetValues(typeof(SubStyles));
+			this.cboSubStyle.SelectedItem = SubStyles.External;
 
 			this.cboGather.SelectedIndex = 0;
 			this.cboView.SelectedIndex = 0;
 			this.cboRate.SelectedIndex = 1;
 		}
 
+		private void InitMatch()
+		{
+			MatchTitle();
+			//MatchYear();
+			MatchStoreIndex();
+			MatchCase();
+		}
+
 		private Anime _anime = new Anime();
+		private byte btMatch = 0xF8;
 
 		public Anime GetAnime()
 		{
@@ -44,50 +82,101 @@ namespace AnimeTrim
 		}
 
 		// edit 13/1/13 for fun3
-		private bool MatchTitle()
+		private void MatchTitle()
 		{
-			if (this.tbTitle.Text == String.Empty)
+			//if (this.tbTitle.Text == String.Empty)
+			//{
+			//	this.lblTitleWarning.Text = "Title is null";
+			//	btMatch &= 0xFE;
+			//	return false;
+			//}
+			//else
+			//{
+			//	this.lblTitleWarning.Text = String.Empty;
+			//	btMatch |= 0x01;
+			//	return true;
+			//}
+
+			if (Anime.IsMatchTitle(this.tbTitle.Text))
 			{
-				this.lblTitleWarning.Text = "Title is null";
-				return false;
+				//this.lblTitleWarning.Text = String.Empty;
+				this.lblTitle.ForeColor = SystemColors.ControlText;
+				btMatch |= 0x01;
 			}
 			else
 			{
-				this.lblTitleWarning.Text = String.Empty;
-				return true;
+				//this.lblTitleWarning.Text = "Title is null";
+				this.lblTitle.ForeColor = Color.Red;
+				btMatch &= 0xFE;
 			}
 		}
 
-		private bool MatchYear()
+		private void MatchYear()
 		{
-			if (Regex.IsMatch(this.cboYear.Text, "^(?!0000)[0-9]{4}$"))
+			//if (Regex.IsMatch(this.cboYear.Text, "^(?!0000)[0-9]{4}$"))
+			//{
+			//	this.lblYearWarning.Text = String.Empty;
+			//	btMatch |= 0x02;
+			//	return true;
+			//}
+			//else
+			//{
+			//	this.lblYearWarning.Text = "Year is wrong";
+			//	btMatch &= 0xFD;
+			//	return false;
+			//}
+			if (Anime.IsMatchYear(this.cboYear.Text))
 			{
-				this.lblYearWarning.Text = String.Empty;
-				return true;
+				//this.lblYearWarning.Text = String.Empty;
+				this.lblSchedule.ForeColor = SystemColors.ControlText;
+				btMatch |= 0x02;
 			}
 			else
 			{
-				this.lblYearWarning.Text = "Year is wrong";
-				return false;
+				//this.lblYearWarning.Text = "Year is wrong";
+				this.lblSchedule.ForeColor = Color.Red;
+				btMatch &= 0xFD;
 			}
 		}
 
-		private bool MatchStoreIndex()
+		private void MatchStoreIndex()
 		{
-			if (this.tbStoreIndex.Text == String.Empty ||
-				Regex.IsMatch(this.tbStoreIndex.Text,
-				@"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"))
+			//if (this.tbStoreIndex.Text == String.Empty ||
+			//	Regex.IsMatch(this.tbStoreIndex.Text,
+			//	@"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"))
+			//{
+			//	this.lblStoreIndexWarning.Text = String.Empty;
+			//	btMatch |= 0x04;
+			//	return true;
+			//}
+			//else
+			//{
+			//	this.lblStoreIndexWarning.Text = "Path isn't match";
+			//	btMatch &= 0xFB;
+			//	return false;
+			//}
+			if (Anime.IsMatchPath(this.tbStoreIndex.Text))
 			{
-				this.lblStoreIndexWarning.Text = String.Empty;
-				return true;
+				//this.lblStoreIndexWarning.Text = String.Empty;
+				this.lblPath.ForeColor = SystemColors.ControlText;
+				btMatch |= 0x04;
 			}
 			else
 			{
-				this.lblStoreIndexWarning.Text = "Path isn't match";
-				return false;
+				//this.lblStoreIndexWarning.Text = "Path isn't match";
+				this.lblPath.ForeColor = Color.Red;
+				btMatch &= 0xFB;
 			}
 		}
 		// edit fin
+
+		private void MatchCase()
+		{
+			if ((btMatch & 0xFF) == 0xFF)
+				this.btnOK.Enabled = true;
+			else
+				this.btnOK.Enabled = false;
+		}
 
 		private void btnBrowser_Click(object sender, EventArgs e)
 		{
@@ -133,39 +222,39 @@ namespace AnimeTrim
 			//    }
 			//}
 
-			bool btitle, byear, bstoreindex;
+			//bool btitle, byear, bstoreindex;
 
-			btitle = MatchTitle();
-			byear = MatchYear();
-			bstoreindex = MatchStoreIndex();
+			//btitle = MatchTitle();
+			//byear = MatchYear();
+			//bstoreindex = MatchStoreIndex();
 
-			if (!btitle)
-			{
-				this.tbTitle.Focus();
-				return;
-			}
-			else if (!byear)
-			{
-				this.cboYear.Text = String.Empty;
-				this.cboYear.Focus();
-				return;
-			}
-			else if (!bstoreindex)
-			{
-				this.tbStoreIndex.Text = String.Empty;
-				this.tbStoreIndex.Focus();
-				return;
-			}
+			//if (!btitle)
+			//{
+			//	this.tbTitle.Focus();
+			//	return;
+			//}
+			//else if (!byear)
+			//{
+			//	this.cboYear.Text = String.Empty;
+			//	this.cboYear.Focus();
+			//	return;
+			//}
+			//else if (!bstoreindex)
+			//{
+			//	this.tbStoreIndex.Text = String.Empty;
+			//	this.tbStoreIndex.Focus();
+			//	return;
+			//}
 			// edit fin
 
 			_anime.Title = this.tbTitle.Text;
 			_anime.Name = this.tbName.Text;
 			_anime.Year = UInt32.Parse(this.cboYear.Text);
-			_anime.Season = this.cboSeason.Text;
-			_anime.Type = (MediaType)Enum.Parse(typeof(MediaType), this.cboType.Text);
-			_anime.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), this.cboFormat.Text);
+			_anime.Season = (PlaySeason)this.cboSeason.SelectedItem;
+			_anime.Type = (MediaType)this.cboType.SelectedItem;
+			_anime.Format = (MergeFormat)this.cboFormat.SelectedItem;
 			_anime.SubTeam = this.cboPublisher.Text;
-			_anime.SubStyle = (SubStyles)Enum.Parse(typeof(SubStyles), this.cboSubStyle.Text);
+			_anime.SubStyle = (SubStyles)this.cboSubStyle.SelectedItem;
 			_anime.Path = this.tbStoreIndex.Text;
 			_anime.Size = Anime.GetSize(_anime.Path);
 			_anime.Store = (this.cboGather.SelectedIndex == 1) ? true : false;
@@ -196,17 +285,25 @@ namespace AnimeTrim
 		private void tbTitle_TextChanged(object sender, EventArgs e)
 		{
 			MatchTitle();
+			MatchCase();
 		}
 
 		private void cboYear_TextChanged(object sender, EventArgs e)
 		{
 			MatchYear();
+			MatchCase();
 		}
 
 		private void tbStoreIndex_TextChanged(object sender, EventArgs e)
 		{
 			MatchStoreIndex();
+			MatchCase();
 		}
 		// edit fin
+
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
 	}
 }

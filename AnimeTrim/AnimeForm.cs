@@ -1,12 +1,20 @@
-﻿using System;
+﻿/*
+ * Designed from AnimeTrim2
+ * User: XianYe
+ * Date: 2010/8/10
+ * Time: 9:23
+*/
+using BrightIdeasSoftware;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
 using System.Xml;
 using System.Xml.XPath;
-using BrightIdeasSoftware;
-using System.Diagnostics;
 
 namespace AnimeTrim
 {
@@ -16,13 +24,10 @@ namespace AnimeTrim
 		{
 			InitializeComponent();
 
-			//if (FastObjectListView.IsVistaOrLater)
-			//    this.Font = new Font("Segoe UI", 8);
-
 			// edit 13/1/8 for bug3
-			InitAnimeData();
+			InitAnimeInfo();
 			// edit fin
-			InitBtn();
+			InitForm();
 			InitModel();
 			InitAccessFile();
 		}
@@ -30,48 +35,46 @@ namespace AnimeTrim
 		private const String _sout = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}" +
 			"\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}\t{18}\t{19}";
 
-		// FileStream for the Anime Doc
-		//private FileStream _fs = null;
+		// 1G = 1024 * 1024 * 1024 Byte
+		//private const Double _dSizeG = 1073741824D;
+		// 1M = 1024 * 1024 Byte
+		//private const Double _dSizeM = 1048576D;
+
 		private AnimeInfo _ai = new AnimeInfo();
-		// Temporary AnimeInfo for the wrong read
-		private AnimeInfo _aitp = new AnimeInfo();
-		private List<Anime> _lani = new List<Anime>();
-		// Temporary Anime lists for the wrong read
-		private List<Anime> _latp = new List<Anime>();
+		//private List<Anime> _lani = new List<Anime>();
 
-		// Sort the list
-		private static int AnimeComparer(Anime x, Anime y)
-		{
-			// edit 13/1/10 for fun2 Stop
-			//if (x.Title == y.Title)
-			//    return String.Compare(x.Path, y.Path, StringComparison.InvariantCultureIgnoreCase);
-			// edit fin
-
-			return String.Compare(x.Title, y.Title, StringComparison.InvariantCultureIgnoreCase);
-		}
+		private FindForm findfm;
 
 		// edit 13/1/8 for bug3
 		// Initalize the anime datas
-		private void InitAnimeData()
+		private void InitAnimeInfo()
 		{
-			_ai.Path = null;
-			_ai.Name = null;
-			_ai.Total = 0;
-			_ai.Space = 0L;
-			_ai.Uid = 0U;
-			_ai.IsNew = true;
-			_ai.IsSaved = true;
+			_ai.SaveStatusChanged += AnimeInfo_SaveStatusChanged;
 		}
 		// edit fin
 
-		// Initalize the buttons
-		private void InitBtn()
+		private void AnimeInfo_SaveStatusChanged(object sender, PropertyChangedEventArgs e)
 		{
-			this.btnSave.Enabled = false;
-			this.btnModify.Enabled = false;
+			this.tsBtnSave.Enabled = !_ai.IsSaved;
+		}
+
+		// Initalize the controls
+		private void InitForm()
+		{
+			this.tsBtnSave.Enabled = false;
+			this.tsBtnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
-			this.btnDel.Enabled = false;
+			this.tsBtnDel.Enabled = false;
 			this.tsBtnRefresh.Enabled = false;
+
+			this.cboFilter.SelectedIndex = 0;
+
+			this.tssBtnMore.DefaultItem = this.tsMenItmBackup;
+			this.tssBtnMore.Text = this.tsMenItmBackup.Text;
+			this.tssBtnMore.ToolTipText = this.tsMenItmBackup.ToolTipText;
+			this.tssBtnMore.Image = this.tsMenItmBackup.Image;
+
+			this.tsBtnOverlay.CheckState = CheckState.Checked;
 		}
 
 		// Initalize the path and name of AnimeInfo from a xml
@@ -84,36 +87,41 @@ namespace AnimeTrim
 			XPathNavigator xptnavi = xptdoc.CreateNavigator();
 
 			XPathNavigator xt = xptnavi.SelectSingleNode("//LastAccessName");
-			if (xt != null && xt.Value != "")
-				_aitp.Name = xt.Value;
-			else return;
+			if (xt == null || String.IsNullOrEmpty(xt.Value))
+				return;
+
+			_ai.Name = xt.Value;
 
 			xt = xptnavi.SelectSingleNode("//LastAccessPath");
-			if (xt != null && xt.Value != "" && File.Exists(xt.Value))
-				_aitp.Path = xt.Value;
-			else return;
+			if (xt == null || String.IsNullOrEmpty(xt.Value) || !File.Exists(xt.Value))
+			{
+				_ai.Name = null;
 
-			if (ReadAnimeDoc())
-				BindData();
+				return;
+			}
+
+			_ai.Path = xt.Value;
+
+			if (!ReadXat())
+				//BindData();
+			//else
+				_ai.Restore();
 		}
 
 		// Read file to initalize the list of Anime
-		private bool ReadAnimeDoc()
+		private bool ReadXat()
 		{
-			Anime ani;
-			string line;
-			string[] info;
-			StreamReader sr = new StreamReader(_aitp.Path);
+			StreamReader sr = new StreamReader(_ai.Path);
+			string line = sr.ReadLine();
 
-			//_fs = new FileStream(_aitp.Path, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-			//sr = new StreamReader(_fs);
-
-			if ((line = sr.ReadLine()) == null)
+			if (String.IsNullOrEmpty(line))
 				return false;
 
-			info = line.Split('\t');
+			string[] info = line.Split('\t');
 			if (info.Length != 3)
 				return false;
+
+			//int lasttotal = _ai.Total;
 
 			int it;
 			if (!Int32.TryParse(info[0], out it))
@@ -124,7 +132,7 @@ namespace AnimeTrim
 
 				return false;
 			}
-			else _aitp.Total = it;
+			else _ai.Total = it;
 
 			long lt;
 			if (!Int64.TryParse(info[1], out lt))
@@ -135,7 +143,7 @@ namespace AnimeTrim
 
 				return false;
 			}
-			else _aitp.Space = lt;
+			else _ai.Space = lt;
 
 			uint ut;
 			if (!UInt32.TryParse(info[2], out ut))
@@ -146,22 +154,23 @@ namespace AnimeTrim
 
 				return false;
 			}
-			else _aitp.Uid = ut;
+			else _ai.Uid = ut;
 
-			int iErr = 1;
+			List<Anime> lstAnime = new List<Anime>();
+			int iErr = 0;
 			try
 			{
-				while ((line = sr.ReadLine()) != null)
+				while (!String.IsNullOrEmpty(line = sr.ReadLine()))
 				{
 					iErr++;
 					info = line.Split('\t');
 
-					ani = new Anime();
+					Anime ani = new Anime();
 					ani.ID = UInt32.Parse(info[0]);
 					ani.Title = info[1];
 					ani.Name = info[2];
 					ani.Year = UInt32.Parse(info[3]);
-					ani.Season = info[4];
+					ani.Season = (PlaySeason)Enum.Parse(typeof(PlaySeason), info[4]);
 					ani.Type = (MediaType)Enum.Parse(typeof(MediaType), info[5]);
 					ani.Format = (MergeFormat)Enum.Parse(typeof(MergeFormat), info[6]);
 					ani.SubTeam = info[7];
@@ -178,14 +187,19 @@ namespace AnimeTrim
 					ani.Inc = info[18];
 					ani.Note = info[19];
 
-					_latp.Add(ani);
+					//_lani.Add(ani);
+					lstAnime.Add(ani);
 				}
+
+				//_lani.RemoveRange(0, lasttotal);
 			}
 			catch (Exception)
 			{
-				MessageBox.Show(this, String.Format("The line {0} is wrong.", iErr), "Read error",
+				MessageBox.Show(this, String.Format("The line {0} is wrong.", iErr + 1), "Read error",
 					MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				_latp.Clear();
+
+				//_lani.RemoveRange(lasttotal, iErr - 1);
+				lstAnime.Clear();
 
 				return false;
 			}
@@ -194,33 +208,50 @@ namespace AnimeTrim
 				sr.Close();
 			}
 
-			_aitp.IsNew = false;
-			_aitp.IsSaved = true;
+			if (!_ai.IsNew)
+			{
+				ResetAll();
+			}
+
+			_ai.IsNew = false;
+			_ai.IsSaved = true;
+			_ai.Backup();
+
+			this.folvAnime.SetObjects(lstAnime);
+
+			this.tctlAnime.SelectedTab.Text = _ai.Name;
+			this.tctlAnime.SelectedTab.ToolTipText = _ai.Path;
+			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 
 			return true;
 		}
 
-		// Initalize the Format of the FastObjectView
+		// Initalize the Format of the ObjectListView
 		private void InitModel()
 		{
+			if (ObjectListView.IsVistaOrLater)
+				this.Font = new Font("msyh", 8);
+
+			this.folvAnime.AddDecoration(new EditingCellBorderDecoration(true));
+
 			TypedObjectListView<Anime> tolv = new TypedObjectListView<Anime>(this.folvAnime);
 			tolv.GenerateAspectGetters();
 
 			// Name of Anime
 			TypedColumn<Anime> tc = new TypedColumn<Anime>(this.olvColName);
-			tc.AspectPutter = delegate(Anime a, object opn) { a.Name = opn.ToString(); };
+			tc.AspectPutter = (Anime a, object opn) => { a.Name = opn.ToString(); };
 
 			// Schedule of Anime
 			tc = new TypedColumn<Anime>(this.olvColSchedule);
-			tc.GroupKeyGetter = delegate(Anime a) { return a.Year; };
+			tc.GroupKeyGetter = (Anime a) => a.Year;
 
-			//TODO: add images to Type of Anime
 			// Type of Anime
 			tc = new TypedColumn<Anime>(this.olvColType);
-			tc.AspectPutter = delegate(Anime a, object opt) { a.Type = (MediaType)opt; };
-			tc.ImageGetter = delegate(Anime a) {
+			tc.AspectPutter = (Anime a, object opt) => { a.Type = (MediaType)opt; };
+			tc.ImageGetter = (Anime a) => {
 				switch (a.Format)
-				{ 
+				{
 					case MergeFormat.MKV:
 						return Properties.Resources.MKV;
 
@@ -242,6 +273,7 @@ namespace AnimeTrim
 			};
 
 			// Format of Anime
+			#region
 			//this.olvColFormat.Renderer = new MappedImageRenderer(new object[] {
 			//	MergeFormat.MKV, Properties.Resources.MKV,
 			//	MergeFormat.MP4, Properties.Resources.MP4,
@@ -251,13 +283,14 @@ namespace AnimeTrim
 			//});
 			//tc = new TypedColumn<Anime>(this.olvColFormat);
 			//tc.AspectPutter = delegate(Anime a, object opf) { a.Format = (MergeFormat)opf; };
+			#endregion
 
 			// SubTeam of Anime
 			tc = new TypedColumn<Anime>(this.olvColSubTeam);
-			tc.AspectPutter = delegate(Anime a, object opp) { a.SubTeam = opp.ToString(); };
-			tc.ImageGetter = delegate(Anime a) {
+			tc.AspectPutter = (Anime a, object opp) => { a.SubTeam = opp.ToString(); };
+			tc.ImageGetter = (Anime a) => {
 				switch (a.SubStyle)
-				{ 
+				{
 					case SubStyles.External:
 						return Properties.Resources.External;
 					
@@ -273,6 +306,7 @@ namespace AnimeTrim
 			};
 
 			// SubStyle of Anime
+			#region
 			//this.olvColSubStyle.Renderer = new MappedImageRenderer(new object[] {
 			//	SubStyles.External, Properties.Resources.External,
 			//	SubStyles.Sealed, Properties.Resources.Sealed,
@@ -280,35 +314,35 @@ namespace AnimeTrim
 			//});
 			//tc = new TypedColumn<Anime>(this.olvColSubStyle);
 			//tc.AspectPutter = delegate(Anime a, object ops) { a.SubStyle = (SubStyles)ops; };
+			#endregion
 
 			// Size of Anime
-			this.olvColSize.AspectToStringConverter = delegate(object ots)
-			{
+			this.olvColSize.AspectToStringConverter = ots => {
 				long ls = (long)ots;
 
 				if (ls >= 1000000000L)
 					return String.Format("{0:#,##0.#0} G", ls / 1073741824D);
-				else return String.Format("{0:#,##0.#0} M", ls / 1048576D);
+				else
+					return String.Format("{0:#,##0.#0} M", ls / 1048576D);
 			};
 			this.olvColSize.MakeGroupies(
 				new long[] { 5368709120L, 10737418240L },
-				new string[] { "0~5 GB", "5~10 GB", "10~ GB" }
+				new string[] { "0~5 GB", "5~10 GB", ">10 GB" }
 				);
 
 			// Store of Anime
 			tc = new TypedColumn<Anime>(this.olvColStore);
-			tc.AspectPutter = delegate(Anime a, object opg) { a.Store = (bool)opg; };
+			tc.AspectPutter = (Anime a, object opg) => { a.Store = (bool)opg; };
 			this.olvColStore.Renderer = new MappedImageRenderer(true, Properties.Resources.Yes, false, Properties.Resources.No);
 
 			// Enjoy of Anime
 			tc = new TypedColumn<Anime>(this.olvColEnjoy);
-			tc.AspectPutter = delegate(Anime a, object opv) { a.Enjoy = (bool)opv; };
+			tc.AspectPutter = (Anime a, object opv) => { a.Enjoy = (bool)opv; };
 			this.olvColEnjoy.Renderer = new MappedImageRenderer(true, Properties.Resources.Smile, false, Properties.Resources.Sad);
 
 			// Grade of Anime
 			tc = new TypedColumn<Anime>(this.olvColGrade);
-			tc.AspectPutter = delegate(Anime a, object opr)
-			{
+			tc.AspectPutter = (Anime a, object opr) => {
 				int onr = (int)opr;
 				a.Grade = onr < 1 ? 1 : onr;
 			};
@@ -319,72 +353,64 @@ namespace AnimeTrim
 				);
 
 			// Note of Anime
-			this.olvColNote.AspectToStringConverter = delegate(object otn)
-			{
-				return otn.ToString().Replace('\u0002', '\u0020');
-			};
+			this.olvColNote.AspectToStringConverter = otn => otn.ToString().Replace('\u0002', '\u0020');
 
-			this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
-			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+			RowBorderDecoration rbd = new RowBorderDecoration();
+			rbd.BorderPen = new Pen(Color.Orchid, 2);
+			rbd.FillBrush = null;
+			rbd.CornerRounding = 4.0f;
+			HotItemStyle hotItemStyle = new HotItemStyle();
+			hotItemStyle.Decoration = rbd;
+			hotItemStyle.Overlay = new AnimeViewOverlay();
+			this.folvAnime.HotItemStyle = hotItemStyle;
+
+			//this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
+			//this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
 			this.folvAnime.PrimarySortColumn = this.olvColTitle;
 			this.folvAnime.PrimarySortOrder = SortOrder.Ascending;
 		}
 
-		// Initalize the model data of Anime to the FastObjectListView
+		// Initalize the model data of Anime to the ObjectListView
 		private void BindData()
 		{
-			_ai = _aitp;
-			_latp.ForEach(delegate(Anime a) { _lani.Add(a); });
-			// edit 13/1/7 for bug2
-			_latp.Clear();
-			// edit fin
+			//_ai.IsNew = false;
+			//_ai.IsSaved = true;
+			//_ai.Backup();
 
-			//if (_sr != null)
-			//	_sr.Close();
+			//this.folvAnime.SetObjects(_lani);
 
-			//_sr = new StreamReader(_ai.Path);
-
-			this.folvAnime.SetObjects(_lani);
-
-			this.tctlAnime.SelectedTab.Text = _ai.Name;
-			this.tctlAnime.SelectedTab.ToolTipText = _ai.Path;
-			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			//this.tctlAnime.SelectedTab.Text = _ai.Name;
+			//this.tctlAnime.SelectedTab.ToolTipText = _ai.Path;
+			//this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			//this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 		}
 
 		private void UpdateAnimeDoc()
 		{
 			StreamWriter sw = new StreamWriter(_ai.Path, false, Encoding.Unicode);
-			//StreamWriter sw = new StreamWriter(_fs, Encoding.Unicode);
 
 			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
 
-			_lani.ForEach(delegate(Anime a)
-			{
+			//_lani.ForEach(delegate(Anime a)
+			//{
+			//    sw.WriteLine(_sout,
+			//        a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+			//        a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+			//        a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
+			//        a.Episode, a.Inc, a.Note);
+			//});
+			foreach (Anime a in this.folvAnime.Objects)
 				sw.WriteLine(_sout,
 					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
 					a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
 					a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
 					a.Episode, a.Inc, a.Note);
-			});
 
 			sw.Close();
 		}
 
 		private void ResetAll()
 		{
-			// AnimeInfo reset
-			_ai.Path = null;
-			_ai.Name = null;
-			_ai.Total = 0;
-			_ai.Space = 0L;
-			_ai.Uid = 0U;
-			_ai.IsNew = true;
-			_ai.IsSaved = true;
-
-			// List<Anime> reset
-			_lani.Clear();
-
 			// Tab reset
 			switch (this.tctlAnime.SelectedIndex)
 			{
@@ -392,15 +418,14 @@ namespace AnimeTrim
 				case 1: this.tpMusic.Text = "Music"; break;
 			}
 
-			// FastObjectListView & RichTextBox reset
+			// FastObjectListView & RichTextBox clear
 			this.folvAnime.ClearObjects();
-			this.rtbAnime.ResetText();
+			this.rtbAnime.Clear();
 
 			// Button reset
-			this.btnSave.Enabled = false;
-			this.btnModify.Enabled = false;
+			this.tsBtnModify.Enabled = false;
 			this.tsBtnDuplicate.Enabled = false;
-			this.btnDel.Enabled = false;
+			this.tsBtnDel.Enabled = false;
 			this.tsBtnRefresh.Enabled = false;
 
 			// StatusStrip reset
@@ -434,7 +459,6 @@ namespace AnimeTrim
 			{
 				UpdateAnimeDoc();
 				_ai.IsSaved = true;
-				this.btnSave.Enabled = false;
 
 				return true;
 			}
@@ -451,7 +475,6 @@ namespace AnimeTrim
 				_ai.IsSaved = true;
 
 				UpdateAnimeDoc();
-				this.btnSave.Enabled = false;
 
 				return true;
 			}
@@ -472,10 +495,10 @@ namespace AnimeTrim
 				this.tsslSelSpace.Text = (a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
 					String.Format("Selected Size: {0:#,##0.#0} MB", a.Size / 1048576D);
 
-				this.rtbAnime.Text = a.Remarks();
-				this.btnModify.Enabled = true;
+				this.rtbAnime.Text = a.Remark;
+				this.tsBtnModify.Enabled = true;
 				this.tsBtnDuplicate.Enabled = true;
-				this.btnDel.Enabled = true;
+				this.tsBtnDel.Enabled = true;
 				this.tsBtnRefresh.Enabled = true;
 			}
 			else
@@ -483,37 +506,31 @@ namespace AnimeTrim
 				if (iSel == 0)
 				{
 					this.tsBtnDuplicate.Enabled = false;
-					this.btnDel.Enabled = false;
+					this.tsBtnDel.Enabled = false;
 					this.tsBtnRefresh.Enabled = false;
+
+					this.tsslSelected.Text = "Selected: ";
+					this.tsslSelSpace.Text = "Selected Size: ";
 				}
 				else
 				{
 					this.tsBtnDuplicate.Enabled = true;
-					this.btnDel.Enabled = true;
+					this.tsBtnDel.Enabled = true;
 					this.tsBtnRefresh.Enabled = true;
-				}
 
-				this.tsslSelected.Text = String.Format("Selected: {0}", iSel);
+					this.tsslSelected.Text = String.Format("Selected: {0}", iSel);
 
-				long ls = 0L;
-				foreach (Anime at in this.folvAnime.SelectedObjects)
-				{
-					ls += at.Size;
+					long ls = 0L;
+					foreach (Anime at in this.folvAnime.SelectedObjects)
+					{
+						ls += at.Size;
+					}
+					this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
+						String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 				}
-				this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
-					String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 
 				this.rtbAnime.ResetText();
-				this.btnModify.Enabled = false;
-			}
-		}
-
-		private void cbGroups_CheckedChanged(object sender, EventArgs e)
-		{
-			if (FastObjectListView.IsVistaOrLater)
-			{
-				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
-				this.folvAnime.BuildList();
+				this.tsBtnModify.Enabled = false;
 			}
 		}
 
@@ -563,7 +580,7 @@ namespace AnimeTrim
 			this.tbFilter_TextChanged(null, null);
 		}
 
-		private void btnNew_Click(object sender, EventArgs e)
+		private void tsBtnNew_Click(object sender, EventArgs e)
 		{
 			// edit 13/1/9 for bug3
 			//if (!_ai.IsSaved)
@@ -573,160 +590,23 @@ namespace AnimeTrim
 			//        MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
 			//    if (dr == DialogResult.Yes)
-			//        btnSave_Click(null, null);
+			//        tsBtnSave_Click(null, null);
 			//}
 			if (!SaveCheck())
 				return;
 			// edit fin
 
 			if (!_ai.IsNew)
+			{
+				_ai.IsNew = true;
+				_ai.IsSaved = true;
+				_ai.Clear();
+
 				ResetAll();
+			}
 		}
 
-		#region up data at -> xat
-		// TODO: delete before final
-		//private void btnChange_Click(object sender, EventArgs e)
-		//{
-		//	const string path = @"E:\Documents\AnimeDoc.at";
-
-		//	List<Anime> lani = new List<Anime>();
-
-		//	StreamReader sr = new StreamReader(path);
-		//	int total = Int32.Parse(sr.ReadLine());
-		//	long dspace = (Int64)(Double.Parse(sr.ReadLine()) * 1073741824D + 0.5D);
-
-		//	string title;
-		//	string name;
-		//	int year;
-		//	string season;
-		//	MediaType type;
-		//	MergeFormat format;
-		//	string publisher;
-		//	SubStyles subStyle;
-		//	string storeIndex;
-		//	long space;
-		//	bool gather;
-		//	bool view;
-		//	int rate;
-		//	DateTime createTime;
-		//	DateTime updateTime;
-		//	string kana;
-		//	string episode;
-		//	string note;
-
-		//	string line;
-		//	string[] info;
-		//	string[] date;
-		//	int i = 10;
-
-		//	while ((line = sr.ReadLine()) != null)
-		//	{
-		//		info = line.Split('\t');
-
-		//		title = info[0]; name = info[1];
-		//		date = info[2].Split('.');
-		//		year = Int32.Parse(date[0]);
-		//		season = date[1];
-
-		//		switch (info[3])
-		//		{
-		//			case "BDRip": type = MediaType.BDRip; break;
-		//			case "DVDRip": type = MediaType.DVDRip; break;
-		//			case "BDRAW": type = MediaType.BDRAW; break;
-		//			case "DVDRAW": type = MediaType.DVDRAW; break;
-		//			case "BDMV": type = MediaType.BDMV; break;
-		//			case "TVRip": type = MediaType.TVRip; break;
-		//			default: type = MediaType.DVDRip; break;
-		//		}
-
-		//		switch (info[4])
-		//		{
-		//			case "MKV": format = MergeFormat.MKV; break;
-		//			case "MP4": format = MergeFormat.MP4; break;
-		//			case "M2TS": format = MergeFormat.M2TS; break;
-		//			case "WMV": format = MergeFormat.WMV; break;
-		//			case "AVI": format = MergeFormat.AVI; break;
-		//			default: format = MergeFormat.MKV; break;
-		//		}
-
-		//		publisher = info[5];
-
-		//		switch (info[6])
-		//		{
-		//			case "External": subStyle = SubStyles.External; break;
-		//			case "Sealed": subStyle = SubStyles.Sealed; break;
-		//			case "Embedded": subStyle = SubStyles.Embedded; break;
-		//			default: subStyle = SubStyles.External; break;
-		//		}
-
-		//		storeIndex = info[7];
-
-		//		space = (Int64)(Double.Parse(info[8]) * 1073741824D + 0.5D);
-
-		//		gather = (info[9] == "Fin.") ? true : false;
-
-		//		view = (info[10] == "^-^") ? true : false;
-
-		//		rate = i++;
-
-		//		if (i > 40) i = 10;
-
-		//		createTime = DateTime.Now;
-
-		//		updateTime = DateTime.Now;
-
-		//		kana = info[11];
-
-		//		episode = "12";
-
-		//		note = info[12];
-
-		//		lani.Add(new Anime(title, name, year, season, type, format,
-		//			publisher, subStyle, storeIndex, space, gather, view,
-		//			rate, createTime, updateTime, kana, episode, note));
-		//	}
-
-		//	sr.Close();
-
-		//	StreamWriter sw = new StreamWriter(@"AnimeDoc.txt", false, Encoding.Unicode);
-		//	sw.WriteLine(total); sw.WriteLine(dspace);
-
-		//	foreach (Anime ani in lani)
-		//	{
-		//		sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}\t{13}\t{14}\t{15}\t{16}\t{17}",
-		//			ani.Title, ani.Name, ani.Year, ani.Season, ani.Type, ani.Format,
-		//			ani.SubTeam, ani.SubStyle, ani.Path, ani.Size, ani.Store,
-		//			ani.Enjoy, ani.Grade, ani.CreateTime, ani.UpdateTime, ani.Kana,
-		//			ani.Episode, ani.Note);
-		//	}
-
-		//	sw.Close();
-		//}
-		#endregion
-
-		private void btnChange_Click(object sender, EventArgs e)
-		{
-			#region format
-			//StreamWriter sw = new StreamWriter(@"E:\Documents\AnimeDoc_updata.xat", false, Encoding.Unicode);
-
-			//sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Size, _ai.Uid);
-
-			//int i = 1;
-
-			//_lani.ForEach(delegate(Anime a)
-			//{
-			//	sw.WriteLine(_sout,
-			//		i++, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
-			//		a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
-			//		a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
-			//		a.Episode, a.Inc, a.Note);
-			//});
-
-			//sw.Close();
-			#endregion
-		}
-
-		private void btnOpen_Click(object sender, EventArgs e)
+		private void tsBtnOpen_Click(object sender, EventArgs e)
 		{
 			// edit 13/1/9 for bug3
 			//if (!_ai.IsSaved)
@@ -736,7 +616,7 @@ namespace AnimeTrim
 			//        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
 
 			//    if (dr == DialogResult.Yes)
-			//        btnSave_Click(null, null);
+			//        tsBtnSave_Click(null, null);
 			//    else if (dr == DialogResult.Cancel)
 			//        return;
 			//}
@@ -753,27 +633,29 @@ namespace AnimeTrim
 				if (_ai.Path == ofd.FileName)
 					return;
 
-				_aitp.Path = ofd.FileName;
-				_aitp.Name = ofd.SafeFileName;
+				_ai.Path = ofd.FileName;
+				_ai.Name = ofd.SafeFileName;
 
-				if (ReadAnimeDoc())
-				{
-					if (!_ai.IsNew)
-						ResetAll();
+				if (!ReadXat())
+					//{
+					//    if (!_ai.IsNew)
+					//        ResetAll();
 
-					BindData();
-				}
+					//    BindData();
+					//}
+					//else _ai.Restore();
+					_ai.Restore();
 			}
 		}
 
-		private void btnSave_Click(object sender, EventArgs e)
+		private void tsBtnSave_Click(object sender, EventArgs e)
 		{
 			// edit 13/1/9 for bug3
 			//if (!_ai.IsNew)
 			//{
 			//    UpdateAnimeDoc();
 			//    _ai.IsSaved = true;
-			//    this.btnSave.Enabled = false;
+			//    this.tsBtnSave.Enabled = false;
 
 			//    return;
 			//}
@@ -790,67 +672,105 @@ namespace AnimeTrim
 			//    _ai.IsSaved = true;
 
 			//    UpdateAnimeDoc();
-			//    this.btnSave.Enabled = false;
+			//    this.tsBtnSave.Enabled = false;
 			//}
 			SaveData();
 			// edit fin
 		}
 
-		private void btnAdd_Click(object sender, EventArgs e)
+		private void tsBtnAdd_Click(object sender, EventArgs e)
 		{
 			AddForm af = new AddForm();
-			af.StartPosition = FormStartPosition.CenterParent;
-			af.MaximizeBox = false;
+			af.FormClosed += new FormClosedEventHandler(this.AddForm_FormClosed);
+			af.Show();
 
-			if (af.ShowDialog(this) == DialogResult.OK)
+			//if (af.ShowDialog(this) == DialogResult.OK)
+			//{
+			//	Anime a = af.GetAnime();
+			//	a.ID = _ai.Uid++;
+			//	_ai.Space += a.Size;
+			//	_ai.Total++;
+			//	_ai.IsSaved = false;
+			//	_lani.Add(a);
+			//	//_lani.Sort(AnimeComparer);
+
+			//	this.folvAnime.AddObject(a);
+			//	//this.folvAnime.Sort(0);
+			//	//this.folvAnime.Unsort();
+
+			//	this.folvAnime.SelectedObject = a;
+			//	this.folvAnime.SelectedItem.EnsureVisible();
+			//	// TODO: 需修正工具栏
+			//	//this.folvAnime.Focus();
+			//	this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			//	this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			//	this.tsBtnSave.Enabled = true;
+			//}
+		}
+
+		private void AddForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			AddForm af = sender as AddForm;
+
+			if (af != null && af.DialogResult == DialogResult.OK)
 			{
 				Anime a = af.GetAnime();
 				a.ID = _ai.Uid++;
 				_ai.Space += a.Size;
 				_ai.Total++;
 				_ai.IsSaved = false;
-				_lani.Add(a);
-				//_lani.Sort(AnimeComparer);
+				//_lani.Add(a);
 
 				this.folvAnime.AddObject(a);
-				//this.folvAnime.Sort(0);
-				//this.folvAnime.Unsort();
-
 				this.folvAnime.SelectedObject = a;
 				this.folvAnime.SelectedItem.EnsureVisible();
-				// TODO: 需修正工具栏
-				//this.folvAnime.Focus();
+
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				this.btnSave.Enabled = true;
 			}
 		}
 
-		private void btnModify_Click(object sender, EventArgs e)
+		private void tsBtnModify_Click(object sender, EventArgs e)
 		{
 			Anime a = this.folvAnime.SelectedObject as Anime;
 
 			if (a == null)
 				return;
 
-			long ls = a.Size;
+			//long ls = a.Size;
 			ModForm mf = new ModForm(ref a);
-			mf.StartPosition = FormStartPosition.CenterParent;
-			mf.MaximizeBox = false;
+			mf.FormClosed += new FormClosedEventHandler(this.ModForm_FormClosed);
+			mf.Show();
 
-			if (mf.ShowDialog(this) == DialogResult.OK)
+			//if (mf.ShowDialog(this) == DialogResult.OK)
+			//{
+			//	_ai.Space -= ls;
+			//	//a.EditCopy(mf.GetAnime());
+			//	_ai.Space += a.Size;
+			//	_ai.IsSaved = false;
+
+			//	this.folvAnime_SelectionChanged(null, null);
+			//	this.folvAnime.RefreshItem(this.folvAnime.SelectedItem);
+			//	// TODO: 需修正工具栏
+			//	//this.folvAnime.Focus();
+			//	this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			//	this.tsBtnSave.Enabled = true;
+			//}
+		}
+
+		private void ModForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			ModForm mf = sender as ModForm;
+
+			if (mf != null && mf.DialogResult == DialogResult.OK)
 			{
-				_ai.Space -= ls;
-				//a.EditCopy(mf.GetAnime());
-				_ai.Space += a.Size;
+				_ai.Space += mf.GetDiffSize();
 				_ai.IsSaved = false;
 
 				this.folvAnime_SelectionChanged(null, null);
 				this.folvAnime.RefreshItem(this.folvAnime.SelectedItem);
-				// TODO: 需修正工具栏
-				//this.folvAnime.Focus();
+
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				this.btnSave.Enabled = true;
 			}
 		}
 
@@ -880,11 +800,11 @@ namespace AnimeTrim
 		//	this.folvAnime.AddObject(_aCopy);
 		//	this.folvAnime.SelectedObject = _aCopy;
 		//	this.folvAnime.SelectedItem.EnsureVisible();
-		//	// TODO: 需修正工具栏
+
 		//	this.folvAnime.Focus();
 		//	this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 		//	this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Size / 1073741824D);
-		//	this.btnSave.Enabled = true;
+		//	this.tsBtnSave.Enabled = true;
 		//}
 		#endregion
 
@@ -897,7 +817,7 @@ namespace AnimeTrim
 				aCopy = new Anime(a, _ai.Uid++);
 				_ai.Space += aCopy.Size;
 				_ai.Total++;
-				_lani.Add(aCopy);
+				//_lani.Add(aCopy);
 
 				this.folvAnime.AddObject(aCopy);
 			}
@@ -908,11 +828,10 @@ namespace AnimeTrim
 
 				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-				this.btnSave.Enabled = true;
 			}
 		}
 
-		private void btnRemove_Click(object sender, EventArgs e)
+		private void tsBtnDel_Click(object sender, EventArgs e)
 		{
 			int isel;
 
@@ -927,7 +846,7 @@ namespace AnimeTrim
 				_ai.Space -= a.Size;
 				_ai.Total--;
 
-				_lani.Remove(a);
+				//_lani.Remove(a);
 			}
 
 			this.folvAnime.RemoveObjects(this.folvAnime.SelectedObjects);
@@ -941,44 +860,44 @@ namespace AnimeTrim
 			//this.folvAnime.Focus();
 			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-			this.btnSave.Enabled = true;
 		}
 
 		private void tsBtnRefresh_Click(object sender, EventArgs e)
 		{
+			if (!AnimeInfo.IsStorageReady())
+				return;
+
 			long lSize = 0L;
 			long lSelSize = 0L;
+			long lSpace = _ai.Space;
+			bool bCheck = false;
 
 			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
-				if (a.Path.Length == 0 || !Directory.Exists(a.Path))
-				{
-					lSelSize += a.Size;
+				if (a.Path.Length == 0)
 					continue;
-				}
-				
+
 				lSize = Anime.GetSize(a.Path);
 				if (a.Size != lSize)
 				{
-					_ai.Space = _ai.Space - a.Size + lSize;
+					bCheck = true;
+
+					lSpace += lSize - a.Size;
 					a.Size = lSize;
 					this.folvAnime.RefreshItem(this.folvAnime.ModelToItem(a));
 				}
 				lSelSize += a.Size;
 			}
 
-			if (lSize != 0L)
+			if (bCheck)
+				_ai.IsSaved = false;
+
+			if (lSpace != _ai.Space)
 			{
 				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 			}
-		}
-
-		private void tsDropDnBtnOverlay_Click(object sender, EventArgs e)
-		{
-			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
-			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
 		}
 
 		private void folvAnime_IsHyperlink(object sender, IsHyperlinkEventArgs e)
@@ -996,10 +915,10 @@ namespace AnimeTrim
 
 			a.UpdateTime = DateTime.Now;
 
-			this.rtbAnime.Text = a.Remarks();
+			this.rtbAnime.Text = a.Remark;
 			// edit fin
 
-			this.btnSave.Enabled = true;
+			_ai.IsSaved = false;
 		}
 
 		private void folvAnime_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)
@@ -1026,8 +945,6 @@ namespace AnimeTrim
 			xWriter.WriteEndElement();
 			xWriter.Flush();
 			xWriter.Close();
-
-			//_fs.Close();
 		}
 
 		private void AnimeForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1040,13 +957,246 @@ namespace AnimeTrim
 			//        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
 
 			//    if (dr == DialogResult.Yes)
-			//        btnSave_Click(null, null);
+			//        tsBtnSave_Click(null, null);
 			//    else if (dr == DialogResult.Cancel)
 			//        e.Cancel = true;
 			//}
 			if (!SaveCheck())
 				e.Cancel = true;
 			// edit fin
+		}
+
+		private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control)
+			{
+				e.Handled = true;
+
+				switch (e.KeyCode)
+				{
+					case Keys.S:
+						this.tsBtnSave.PerformClick();
+						break;
+					case Keys.Add:
+						this.tsBtnAdd.PerformClick();
+						break;
+					case Keys.E:
+						this.tsBtnModify.PerformClick();
+						break;
+					case Keys.D:
+						this.tsBtnDuplicate.PerformClick();
+						break;
+					case Keys.F:
+						//this.tbFilter.Focus();
+						if (findfm == null)
+						{
+							findfm = new FindForm(this.folvAnime);
+							findfm.FormClosed += FindForm_FormClosed;
+							findfm.Show(this);
+						}
+						else
+							findfm.Focus();
+						break;
+
+					default:
+						return;
+				}
+			}
+		}
+
+		private void FindForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			findfm.FormClosed -= FindForm_FormClosed;
+			findfm = null;
+		}
+
+		private void tsMenItmBackup_Click(object sender, EventArgs e)
+		{
+			if (String.IsNullOrEmpty(_ai.Path))
+				return;
+
+			StreamWriter sw = new StreamWriter(_ai.Path + ".bak", false, Encoding.Unicode);
+
+			sw.WriteLine("{0}\t{1}\t{2}", _ai.Total, _ai.Space, _ai.Uid);
+
+			//_lani.ForEach(delegate(Anime a)
+			//{
+			//    sw.WriteLine(_sout,
+			//        a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+			//        a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+			//        a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
+			//        a.Episode, a.Inc, a.Note);
+			//});
+			foreach (Anime a in this.folvAnime.Objects)
+				sw.WriteLine(_sout,
+					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+					a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+					a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
+					a.Episode, a.Inc, a.Note);
+
+			sw.Close();
+		}
+
+		private void tsMenItmFormat_Click(object sender, EventArgs e)
+		{
+			const string strFilter = "AnimeTrim Files|*.at";
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Filter = strFilter;
+
+			#region format
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				StreamReader sr = new StreamReader(ofd.FileName);
+
+				int iTotal;
+				if (!Int32.TryParse(sr.ReadLine(), out iTotal))
+				{
+					// error
+					sr.Close();
+
+					return;
+				}
+
+				long lSize;
+				double dSize;
+				if (!Double.TryParse(sr.ReadLine(), out dSize))
+				{
+					// error
+					sr.Close();
+
+					return;
+				}
+				else lSize = (Int64)(dSize * 1024D * 1024D * 1024D + 0.5D);
+
+				List<Anime> lAni = new List<Anime>();
+				Anime ani;
+				string line;
+				string[] info;
+				string[] date;
+				uint uc = 1;
+
+				try
+				{
+					while (!String.IsNullOrEmpty(line = sr.ReadLine()))
+					{
+						info = line.Split('\t');
+
+						ani = new Anime(uc++);
+						ani.Title = info[0];
+						ani.Name = info[1];
+
+						date = info[2].Split('.');
+						ani.Year = UInt32.Parse(date[0]);
+						ani.Season = (PlaySeason)Enum.Parse(typeof(PlaySeason), date[1]);
+
+						switch (info[3])
+						{
+							case "BDRip":
+							default:
+								ani.Type = MediaType.BDRip; break;
+							case "DVDRip": ani.Type = MediaType.DVDRip; break;
+							case "BDRAW": ani.Type = MediaType.BDRAW; break;
+							case "DVDRAW": ani.Type = MediaType.DVDRAW; break;
+							case "BDMV": ani.Type = MediaType.BDMV; break;
+							case "TVRip": ani.Type = MediaType.TVRip; break;
+						}
+
+						switch (info[4])
+						{
+							case "MKV":
+							default:
+								ani.Format = MergeFormat.MKV; break;
+							case "MP4": ani.Format = MergeFormat.MP4; break;
+							case "M2TS": ani.Format = MergeFormat.M2TS; break;
+							case "WMV": ani.Format = MergeFormat.WMV; break;
+							case "AVI": ani.Format = MergeFormat.AVI; break;
+						}
+
+						ani.SubTeam = info[5];
+
+						switch (info[6])
+						{
+							case "External":
+							default:
+								ani.SubStyle = SubStyles.External; break;
+							case "Sealed": ani.SubStyle = SubStyles.Sealed; break;
+							case "Embedded": ani.SubStyle = SubStyles.Embedded; break;
+						}
+
+						ani.Path = info[7];
+
+						ani.Size = (Int64)(Double.Parse(info[8]) * 1073741824D + 0.5D);
+
+						ani.Store = (info[9] == "Fin.") ? true : false;
+
+						ani.Enjoy = (info[10] == "^-^") ? true : false;
+
+						ani.Grade = 1;
+
+						ani.CreateTime = DateTime.Now;
+
+						ani.UpdateTime = DateTime.Now;
+
+						ani.Kana = info[11];
+
+						ani.Episode = String.Empty;
+
+						ani.Inc = String.Empty;
+
+						ani.Note = info[12];
+
+						lAni.Add(ani);
+					}
+				}
+				catch (Exception)
+				{
+					lAni.Clear();
+
+					return;
+				}
+				finally
+				{
+					sr.Close();
+				}
+
+				StreamWriter sw = new StreamWriter(ofd.FileName.Remove(ofd.FileName.LastIndexOf('.')) + ".xat", false, Encoding.Unicode);
+				sw.WriteLine("{0}\t{1}\t{2}", iTotal, lSize, uc);
+
+				lAni.ForEach(delegate(Anime a)
+				{
+					sw.WriteLine(_sout,
+					a.ID, a.Title, a.Name, a.Year, a.Season, a.Type, a.Format,
+					a.SubTeam, a.SubStyle, a.Path, a.Size, a.Store,
+					a.Enjoy, a.Grade, a.CreateTime, a.UpdateTime, a.Kana,
+					a.Episode, a.Inc, a.Note);
+				});
+
+				sw.Close();
+			}
+			#endregion
+		}
+
+		private	void tsBtnGroupClick(object sender, EventArgs e)
+		{
+			if (ObjectListView.IsVistaOrLater)
+			{
+				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
+				this.folvAnime.BuildList();
+			}
+		}
+
+		private void tsBtnOverlayClick(object sender, EventArgs e)
+		{
+			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+		}
+
+		private void tssBtnMoreDropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			this.tssBtnMore.DefaultItem = e.ClickedItem;
+			this.tssBtnMore.Text = e.ClickedItem.Text;
+			this.tssBtnMore.ToolTipText = e.ClickedItem.ToolTipText;
+			this.tssBtnMore.Image = e.ClickedItem.Image;
 		}
 
 	}

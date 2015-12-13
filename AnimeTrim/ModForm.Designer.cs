@@ -39,14 +39,11 @@
 			this.tbTitle = new System.Windows.Forms.TextBox();
 			this.gbNote = new System.Windows.Forms.GroupBox();
 			this.rtbNote = new System.Windows.Forms.RichTextBox();
-			this.lblStoreIndex = new System.Windows.Forms.Label();
-			this.lblReleaseDate = new System.Windows.Forms.Label();
+			this.lblPath = new System.Windows.Forms.Label();
+			this.lblSchedule = new System.Windows.Forms.Label();
 			this.lblKana = new System.Windows.Forms.Label();
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.lblEpisode = new System.Windows.Forms.Label();
-			this.lblMatchTitle = new System.Windows.Forms.Label();
-			this.lblMatchYear = new System.Windows.Forms.Label();
-			this.lblMatchStoreIndex = new System.Windows.Forms.Label();
 			this.tbInc = new System.Windows.Forms.TextBox();
 			this.lblInc = new System.Windows.Forms.Label();
 			this.cboFormat = new System.Windows.Forms.ComboBox();
@@ -65,6 +62,7 @@
 			// 
 			// btnOK
 			// 
+			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOK.Location = new System.Drawing.Point(456, 235);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
@@ -82,6 +80,7 @@
 			this.btnCancel.TabIndex = 9;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// btnBrowser
 			// 
@@ -104,11 +103,6 @@
 			// 
 			this.cboSeason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboSeason.FormattingEnabled = true;
-			this.cboSeason.Items.AddRange(new object[] {
-            "Winter",
-            "Spring",
-            "Summer",
-            "Fall"});
 			this.cboSeason.Location = new System.Drawing.Point(128, 66);
 			this.cboSeason.Name = "cboSeason";
 			this.cboSeason.Size = new System.Drawing.Size(65, 20);
@@ -135,6 +129,7 @@
 			// 
 			// tbKana
 			// 
+			this.tbKana.Font = new System.Drawing.Font("Meiryo UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
 			this.tbKana.Location = new System.Drawing.Point(342, 12);
 			this.tbKana.Name = "tbKana";
 			this.tbKana.Size = new System.Drawing.Size(220, 21);
@@ -169,23 +164,23 @@
 			this.rtbNote.Enter += new System.EventHandler(this.rtbNote_Enter);
 			this.rtbNote.Leave += new System.EventHandler(this.rtbNote_Leave);
 			// 
-			// lblStoreIndex
+			// lblPath
 			// 
-			this.lblStoreIndex.AutoSize = true;
-			this.lblStoreIndex.Location = new System.Drawing.Point(13, 95);
-			this.lblStoreIndex.Name = "lblStoreIndex";
-			this.lblStoreIndex.Size = new System.Drawing.Size(29, 12);
-			this.lblStoreIndex.TabIndex = 14;
-			this.lblStoreIndex.Text = "Path";
+			this.lblPath.AutoSize = true;
+			this.lblPath.Location = new System.Drawing.Point(13, 95);
+			this.lblPath.Name = "lblPath";
+			this.lblPath.Size = new System.Drawing.Size(29, 12);
+			this.lblPath.TabIndex = 14;
+			this.lblPath.Text = "Path";
 			// 
-			// lblReleaseDate
+			// lblSchedule
 			// 
-			this.lblReleaseDate.AutoSize = true;
-			this.lblReleaseDate.Location = new System.Drawing.Point(13, 69);
-			this.lblReleaseDate.Name = "lblReleaseDate";
-			this.lblReleaseDate.Size = new System.Drawing.Size(53, 12);
-			this.lblReleaseDate.TabIndex = 12;
-			this.lblReleaseDate.Text = "Schedule";
+			this.lblSchedule.AutoSize = true;
+			this.lblSchedule.Location = new System.Drawing.Point(13, 69);
+			this.lblSchedule.Name = "lblSchedule";
+			this.lblSchedule.Size = new System.Drawing.Size(53, 12);
+			this.lblSchedule.TabIndex = 12;
+			this.lblSchedule.Text = "Schedule";
 			// 
 			// lblKana
 			// 
@@ -214,33 +209,6 @@
 			this.lblEpisode.TabIndex = 13;
 			this.lblEpisode.Text = "Episode";
 			// 
-			// lblMatchTitle
-			// 
-			this.lblMatchTitle.AutoSize = true;
-			this.lblMatchTitle.Location = new System.Drawing.Point(538, 66);
-			this.lblMatchTitle.Name = "lblMatchTitle";
-			this.lblMatchTitle.Size = new System.Drawing.Size(41, 12);
-			this.lblMatchTitle.TabIndex = 15;
-			this.lblMatchTitle.Text = "label1";
-			// 
-			// lblMatchYear
-			// 
-			this.lblMatchYear.AutoSize = true;
-			this.lblMatchYear.Location = new System.Drawing.Point(538, 82);
-			this.lblMatchYear.Name = "lblMatchYear";
-			this.lblMatchYear.Size = new System.Drawing.Size(41, 12);
-			this.lblMatchYear.TabIndex = 16;
-			this.lblMatchYear.Text = "label2";
-			// 
-			// lblMatchStoreIndex
-			// 
-			this.lblMatchStoreIndex.AutoSize = true;
-			this.lblMatchStoreIndex.Location = new System.Drawing.Point(538, 98);
-			this.lblMatchStoreIndex.Name = "lblMatchStoreIndex";
-			this.lblMatchStoreIndex.Size = new System.Drawing.Size(41, 12);
-			this.lblMatchStoreIndex.TabIndex = 17;
-			this.lblMatchStoreIndex.Text = "label3";
-			// 
 			// tbInc
 			// 
 			this.tbInc.Location = new System.Drawing.Point(53, 39);
@@ -261,12 +229,6 @@
 			// 
 			this.cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboFormat.FormattingEnabled = true;
-			this.cboFormat.Items.AddRange(new object[] {
-            "MKV",
-            "MP4",
-            "AVI",
-            "WMV",
-            "M2TS"});
 			this.cboFormat.Location = new System.Drawing.Point(301, 66);
 			this.cboFormat.Name = "cboFormat";
 			this.cboFormat.Size = new System.Drawing.Size(65, 20);
@@ -285,10 +247,6 @@
 			// 
 			this.cboSubStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboSubStyle.FormattingEnabled = true;
-			this.cboSubStyle.Items.AddRange(new object[] {
-            "External",
-            "Sealed",
-            "Embedded"});
 			this.cboSubStyle.Location = new System.Drawing.Point(452, 66);
 			this.cboSubStyle.Name = "cboSubStyle";
 			this.cboSubStyle.Size = new System.Drawing.Size(80, 20);
@@ -316,9 +274,6 @@
 			this.Controls.Add(this.lblMergeFormat);
 			this.Controls.Add(this.tbInc);
 			this.Controls.Add(this.lblInc);
-			this.Controls.Add(this.lblMatchStoreIndex);
-			this.Controls.Add(this.lblMatchYear);
-			this.Controls.Add(this.lblMatchTitle);
 			this.Controls.Add(this.lblEpisode);
 			this.Controls.Add(this.tbEpisode);
 			this.Controls.Add(this.btnOK);
@@ -330,10 +285,13 @@
 			this.Controls.Add(this.tbKana);
 			this.Controls.Add(this.tbTitle);
 			this.Controls.Add(this.gbNote);
-			this.Controls.Add(this.lblStoreIndex);
-			this.Controls.Add(this.lblReleaseDate);
+			this.Controls.Add(this.lblPath);
+			this.Controls.Add(this.lblSchedule);
 			this.Controls.Add(this.lblKana);
 			this.Controls.Add(this.lblTitle);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "ModForm";
 			this.Text = "Modify a Anime";
 			this.gbNote.ResumeLayout(false);
@@ -355,14 +313,11 @@
 		private System.Windows.Forms.TextBox tbTitle;
 		private System.Windows.Forms.GroupBox gbNote;
 		private System.Windows.Forms.RichTextBox rtbNote;
-		private System.Windows.Forms.Label lblStoreIndex;
-		private System.Windows.Forms.Label lblReleaseDate;
+		private System.Windows.Forms.Label lblPath;
+		private System.Windows.Forms.Label lblSchedule;
 		private System.Windows.Forms.Label lblKana;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.Label lblEpisode;
-		private System.Windows.Forms.Label lblMatchTitle;
-		private System.Windows.Forms.Label lblMatchYear;
-		private System.Windows.Forms.Label lblMatchStoreIndex;
 		private System.Windows.Forms.TextBox tbInc;
 		private System.Windows.Forms.Label lblInc;
 		private System.Windows.Forms.ComboBox cboFormat;

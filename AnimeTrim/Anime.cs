@@ -4,6 +4,8 @@ using BrightIdeasSoftware;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace AnimeTrim
 {
@@ -22,6 +24,11 @@ namespace AnimeTrim
 		External, Sealed, Embedded
 	}
 
+	public enum PlaySeason
+	{
+		Winter, Spring, Summer, Fall
+	}
+
 	public class Anime
 	{
 		// 标识，唯一性
@@ -37,7 +44,7 @@ namespace AnimeTrim
 		public UInt32 Year
 		{ get; set; }
 
-		public String Season
+		public PlaySeason Season
 		{ get; set; }
 
 		/// <summary>
@@ -111,21 +118,24 @@ namespace AnimeTrim
 		{ get; set; }
 
 		// 作为固定形式时类中适合，以后更新时框架中方法适合
-		private const String _format =
-			"Creation Time: {0}, Update Time: {1}\n\n{2}";
+		//private const String _format =
+		//	"Creation Time: {0}, Update Time: {1}\n\n{2}";
 
-		private const String _picfmt =
-			"Original Name: {0}\nEpisode: {1}\n";
+		//private const String _picfmt =
+		//	"Original Name: {0}\nEpisode: {1}\n";
 
-		public String Remarks()
+		public String Remark
 		{
-			return String.Format(_format, CreateTime, UpdateTime, Note.Replace('\u0002', '\n'));
+			get
+			{
+				return String.Format("Creation Time: {0}, Update Time: {1}\n\n{2}", CreateTime, UpdateTime, Note.Replace('\u0002', '\n'));
+			}
 		}
 
-		public String PicRmks()
-		{
-			return String.Format(_picfmt, Kana, Episode);
-		}
+		//public String PicRmks()
+		//{
+		//	return String.Format(_picfmt, Kana, Episode);
+		//}
 
 		public Anime()
 		{ }
@@ -135,12 +145,7 @@ namespace AnimeTrim
 			this.ID = id;
 		}
 
-		//public Anime(String title)
-		//{
-		//	this.Title = title;
-		//}
-
-		public Anime(UInt32 id, String title, String name, UInt32 year, String season, MediaType type,
+		public Anime(UInt32 id, String title, String name, UInt32 year, PlaySeason season, MediaType type,
 			MergeFormat format, String subTeam, SubStyles subStyle, String path,
 			Int64 size, Boolean store, Boolean enjoy, Int32 grade, DateTime createTime,
 			DateTime updateTime, String kana, String episode, String inc, String note)
@@ -191,20 +196,21 @@ namespace AnimeTrim
 			this.Note = other.Note;
 		}
 
-		// TODO: Del
-		public void EditCopy(Anime edit)
-		{
-			this.Title = edit.Title;
-			this.Year = edit.Year;
-			this.Season = edit.Season;
-			this.Path = edit.Path;
-			this.Size = edit.Size;
-			this.UpdateTime = edit.UpdateTime;
-			this.Kana = edit.Kana;
-			this.Episode = edit.Episode;
-			this.Inc = edit.Inc;
-			this.Note = edit.Note;
-		}
+		#region unused EditCopy
+		//public void EditCopy(Anime edit)
+		//{
+		//	this.Title = edit.Title;
+		//	this.Year = edit.Year;
+		//	this.Season = edit.Season;
+		//	this.Path = edit.Path;
+		//	this.Size = edit.Size;
+		//	this.UpdateTime = edit.UpdateTime;
+		//	this.Kana = edit.Kana;
+		//	this.Episode = edit.Episode;
+		//	this.Inc = edit.Inc;
+		//	this.Note = edit.Note;
+		//}
+		#endregion
 
 		public static Int64 GetSize(String path)
 		{
@@ -258,9 +264,49 @@ namespace AnimeTrim
 
 			return sb.ToString();
 		}
+
+		public static Boolean IsMatchTitle(String title)
+		{
+			return (title != String.Empty);
+		}
+
+		public static Boolean IsMatchYear(String year)
+		{
+			return Regex.IsMatch(year, "^(?!0000)[0-9]{4}$");
+		}
+
+		public static Boolean IsMatchPath(String path)
+		{
+			return (path == String.Empty ||
+				Regex.IsMatch(path, @"^[a-zA-Z]:(\\(?![\s\.])[^\\/:\*\?\x22<>\|]*[^\s\.\\/:\*\?\x22<>\|])+$"));
+		}
 	}
 
-	public struct AnimeInfo
+	//public struct AnimeInfo
+	//{
+	//	public String Path
+	//	{ get; set; }
+
+	//	public String Name
+	//	{ get; set; }
+
+	//	public Int32 Total
+	//	{ get; set; }
+
+	//	public Int64 Space
+	//	{ get; set; }
+
+	//	public UInt32 Uid
+	//	{ get; set; }
+
+	//	public Boolean IsNew
+	//	{ get; set; }
+
+	//	public Boolean IsSaved
+	//	{ get; set; }
+	//}
+
+	public class AnimeInfo
 	{
 		public String Path
 		{ get; set; }
@@ -277,11 +323,118 @@ namespace AnimeTrim
 		public UInt32 Uid
 		{ get; set; }
 
+		private String lastPath;
+		private String lastName;
+		private Int32 lastTotal;
+		private Int64 lastSpace;
+		private UInt32 lastUid;
+
+		public event EventHandler<PropertyChangedEventArgs> NewStatusChanged;
+
+		private Boolean _isNew;
+
 		public Boolean IsNew
-		{ get; set; }
+		{
+			get
+			{
+				return _isNew;
+			}
+			set
+			{
+				if (value != _isNew)
+				{
+					_isNew = value;
+
+					PropertyChangedEventArgs e = new PropertyChangedEventArgs("IsNew");
+					OnPropertyChanged(NewStatusChanged, e);
+				}
+			}
+		}
+
+		public event EventHandler<PropertyChangedEventArgs> SaveStatusChanged;
+
+		private Boolean _isSaved;
 
 		public Boolean IsSaved
-		{ get; set; }
+		{
+			get
+			{
+				return _isSaved;
+			}
+			set
+			{
+				if (value != _isSaved)
+				{
+					_isSaved = value;
+
+					PropertyChangedEventArgs e = new PropertyChangedEventArgs("IsSaved");
+					OnPropertyChanged(SaveStatusChanged, e);
+				}
+			}
+		}
+
+		protected virtual void OnPropertyChanged(EventHandler<PropertyChangedEventArgs> handler, PropertyChangedEventArgs e)
+		{
+			if (handler != null)
+				handler(this, e);
+		}
+
+		public AnimeInfo()
+		{
+			this._isNew = true;
+			this._isSaved = true;
+
+			this.Clear();
+		}
+
+		public void Restore()
+		{
+			this.Path = this.lastPath;
+			this.Name = this.lastName;
+			this.Total = this.lastTotal;
+			this.Space = this.lastSpace;
+			this.Uid = this.lastUid;
+		}
+
+		public void Backup()
+		{
+			this.lastPath = this.Path;
+			this.lastName = this.Name;
+			this.lastTotal = this.Total;
+			this.lastSpace = this.Space;
+			this.lastUid = this.Uid;
+		}
+
+		public void Clear()
+		{
+			this.Path = null;
+			this.Name = null;
+			this.Total = 0;
+			this.Space = 0L;
+			this.Uid = 0U;
+			this.lastPath = null;
+			this.lastName = null;
+			this.lastTotal = 0;
+			this.lastSpace = 0L;
+			this.lastUid = 0U;
+		}
+
+		public static Boolean IsStorageReady()
+		{
+			bool br = false;
+			DriveInfo[] allDrives = DriveInfo.GetDrives();
+
+			foreach (DriveInfo dr in allDrives)
+				if (dr.IsReady)
+					if (dr.VolumeLabel == "Anime" &&
+						(dr.DriveType == DriveType.Fixed || dr.DriveType == DriveType.Removable))
+					{
+						br = true;
+						break;
+					}
+
+			return br;
+		}
 	}
 
 	public class AnimeViewOverlay : AbstractOverlay
@@ -300,7 +453,18 @@ namespace AnimeTrim
 			if (a == null)
 				return;
 
-			this.DrawAnimeView(g, r, a);
+			Rectangle rhrow = olv.GetItem(olv.HotRowIndex).Bounds;
+			Rectangle rView = rhrow.Bottom + iSpacing * 2 + ih > r.Bottom ?
+				new Rectangle(r.Right - iw - iSpacing, rhrow.Top - ih - iSpacing, iw, ih) :
+				new Rectangle(r.Right - iw - iSpacing, rhrow.Bottom + iSpacing, iw, ih);
+
+			//Rectangle rView;
+			//if (olv.HotRowIndex - olv.TopItemIndex < 9)
+			//	rView = new Rectangle(r.Right - iw - iSpacing, r.Bottom - ih - iSpacing, iw, ih);
+			//else
+			//	rView = new Rectangle(r.Right - iw - iSpacing, r.Top + iSpacing + 10, iw, ih);
+
+			this.DrawAnimeView(g, rView, a);
 		}
 
 		private Pen BorderPen = Pens.DarkSalmon;
@@ -311,12 +475,13 @@ namespace AnimeTrim
 
 		private const int iw = 240;
 		private const int ih = 120;
-		private const int iSpacing = 18;
+		private const int iSpacing = 8;
 		private const int iPicW = 80;
 
 		private void DrawAnimeView(Graphics g, Rectangle r, Anime av)
 		{
-			Rectangle rView = new Rectangle(r.Right - iw - iSpacing, r.Bottom - ih - iSpacing, iw, ih);
+			//Rectangle rView = new Rectangle(r.Right - iw - iSpacing, r.Bottom - ih - iSpacing, iw, ih);
+			Rectangle rView = r;
 
 			// Allow a border around the card
 			rView.Inflate(-1, -1);
@@ -374,16 +539,19 @@ namespace AnimeTrim
 			fmt.Alignment = StringAlignment.Near;
 
 			// Draw the other infos
-			using (Font ft = new Font("Tahoma", 8))
+			using (Font ft = new Font("Meiryo UI", 8, FontStyle.Regular))
 			{
 				txt = "Kana: " + av.Kana;
 				SizeF sf = g.MeasureString(txt, ft, rText.Width, fmt);
 				rText.Height = (int)sf.Height;
 				g.DrawString(txt, ft, this.TextBrush, rText, fmt);
+			}
 
+			using (Font ft = new Font("Tahoma", 8))
+			{
 				rText.Y += rText.Height;
 				txt = "Episode: " + av.Episode;
-				sf = g.MeasureString(txt, ft, rText.Width, fmt);
+				SizeF sf = g.MeasureString(txt, ft, rText.Width, fmt);
 				rText.Height = (int)sf.Height;
 				g.DrawString(txt, ft, this.TextBrush, rText, fmt);
 
