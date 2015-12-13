@@ -68,11 +68,11 @@
 			this.tsBtnModify = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnDuplicate = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnDel = new System.Windows.Forms.ToolStripButton();
+			this.tsBtnUndo = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForEdit = new System.Windows.Forms.ToolStripSeparator();
 			this.tsBtnRefresh = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForSpecial = new System.Windows.Forms.ToolStripSeparator();
 			this.tsBtnSearch = new System.Windows.Forms.ToolStripButton();
-			this.tsBtnUndo = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnGroup = new System.Windows.Forms.ToolStripButton();
 			this.tsBtnOverlay = new System.Windows.Forms.ToolStripButton();
 			this.tsSepForSwitch = new System.Windows.Forms.ToolStripSeparator();
@@ -466,7 +466,7 @@
 			this.tsBtnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tsBtnAdd.Name = "tsBtnAdd";
 			this.tsBtnAdd.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnAdd.Text = "Add(+)";
+			this.tsBtnAdd.Text = "Add(I)";
 			this.tsBtnAdd.Click += new System.EventHandler(this.tsBtnAdd_Click);
 			// 
 			// tsBtnModify
@@ -499,6 +499,16 @@
 			this.tsBtnDel.Text = "Delete";
 			this.tsBtnDel.Click += new System.EventHandler(this.tsBtnDel_Click);
 			// 
+			// tsBtnUndo
+			// 
+			this.tsBtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsBtnUndo.Image = global::AnimeTrim.Properties.Resources.undo;
+			this.tsBtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnUndo.Name = "tsBtnUndo";
+			this.tsBtnUndo.Size = new System.Drawing.Size(23, 22);
+			this.tsBtnUndo.Text = "Undo";
+			this.tsBtnUndo.Click += new System.EventHandler(this.tsBtnUndo_Click);
+			// 
 			// tsSepForEdit
 			// 
 			this.tsSepForEdit.Name = "tsSepForEdit";
@@ -528,16 +538,6 @@
 			this.tsBtnSearch.Size = new System.Drawing.Size(23, 22);
 			this.tsBtnSearch.Text = "Search";
 			this.tsBtnSearch.Click += new System.EventHandler(this.tsBtnSearch_Click);
-			// 
-			// tsBtnUndo
-			// 
-			this.tsBtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsBtnUndo.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnUndo.Image")));
-			this.tsBtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsBtnUndo.Name = "tsBtnUndo";
-			this.tsBtnUndo.Size = new System.Drawing.Size(23, 22);
-			this.tsBtnUndo.Text = "Undo";
-			this.tsBtnUndo.Click += new System.EventHandler(this.tsBtnUndo_Click);
 			// 
 			// tsBtnGroup
 			// 
@@ -602,12 +602,10 @@
 			this.Controls.Add(this.tsMain);
 			this.Controls.Add(this.ssAnime);
 			this.Controls.Add(this.scAnime);
-			this.KeyPreview = true;
 			this.Name = "AnimeForm";
 			this.Text = "AnimeTrim";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AnimeForm_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AnimeForm_FormClosed);
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnimeForm_KeyDown);
 			this.tctlAnime.ResumeLayout(false);
 			this.tpAnime.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.folvAnime)).EndInit();
@@ -672,11 +670,11 @@
 		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator tsSepForCms;
 		private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+		private System.Windows.Forms.ToolStripButton tsBtnUndo;
 		private System.Windows.Forms.ToolStripButton tsBtnSearch;
 		private System.Windows.Forms.ToolStripButton tsBtnGroup;
 		private System.Windows.Forms.ToolStripButton tsBtnOverlay;
 		private System.Windows.Forms.ToolStripSeparator tsSepForSwitch;
-		private System.Windows.Forms.ToolStripButton tsBtnUndo;
 
 	}
 }

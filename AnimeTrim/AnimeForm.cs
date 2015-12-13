@@ -8,7 +8,6 @@ using BrightIdeasSoftware;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -324,7 +323,9 @@ namespace AnimeTrim
 			this.olvColSize.AspectToStringConverter = ots => {
 				long ls = (long)ots;
 
-				if (ls >= 1000000000L)
+				if (ls == 0L)
+					return "-";
+				else if (ls >= 1000000000L)
 					return String.Format("{0:#,##0.#0} G", ls / 1073741824D);
 				else
 					return String.Format("{0:#,##0.#0} M", ls / 1048576D);
@@ -498,7 +499,8 @@ namespace AnimeTrim
 				Anime a = this.folvAnime.SelectedObject as Anime;
 
 				this.tsslSelected.Text = String.Format("Selected: {0}", a.Name);
-				this.tsslSelSpace.Text = (a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
+				this.tsslSelSpace.Text = (a.Size == 0L) ? "Selected Size: -" :
+					(a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
 					String.Format("Selected Size: {0:#,##0.#0} MB", a.Size / 1048576D);
 
 				this.rtbAnime.Text = a.Remark;
@@ -531,7 +533,8 @@ namespace AnimeTrim
 					{
 						ls += at.Size;
 					}
-					this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
+					this.tsslSelSpace.Text = (ls == 0L) ? "Selected Size: -" :
+						(ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 				}
 
@@ -985,34 +988,65 @@ namespace AnimeTrim
 			// edit fin
 		}
 
-		private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
+		#region key event
+		//private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
+		//{
+		//	if (e.Control)
+		//	{
+		//		e.Handled = true;
+
+		//		switch (e.KeyCode)
+		//		{
+		//			case Keys.S:
+		//				this.tsBtnSave.PerformClick();
+		//				break;
+		//			case Keys.Add:
+		//				this.tsBtnAdd.PerformClick();
+		//				break;
+		//			case Keys.E:
+		//				this.tsBtnModify.PerformClick();
+		//				break;
+		//			case Keys.D:
+		//				this.tsBtnDuplicate.PerformClick();
+		//				break;
+		//			case Keys.F:
+		//				//this.tbFilter.Focus();
+		//				this.tsBtnSearch.PerformClick();
+		//				break;
+
+		//			default:
+		//				return;
+		//		}
+		//	}
+		//}
+		#endregion
+
+		protected override bool ProcessDialogKey(Keys keyData)
 		{
-			if (e.Control)
+			switch (keyData)
 			{
-				e.Handled = true;
+				case (Keys.S | Keys.Control):
+					this.tsBtnSave_Click(null, null);
+					return true;
 
-				switch (e.KeyCode)
-				{
-					case Keys.S:
-						this.tsBtnSave.PerformClick();
-						break;
-					case Keys.Add:
-						this.tsBtnAdd.PerformClick();
-						break;
-					case Keys.E:
-						this.tsBtnModify.PerformClick();
-						break;
-					case Keys.D:
-						this.tsBtnDuplicate.PerformClick();
-						break;
-					case Keys.F:
-						//this.tbFilter.Focus();
-						this.tsBtnSearch.PerformClick();
-						break;
+				case (Keys.I | Keys.Control):
+					this.tsBtnAdd_Click(null, null);
+					return true;
 
-					default:
-						return;
-				}
+				case (Keys.E | Keys.Control):
+					this.tsBtnModify_Click(null, null);
+					return true;
+
+				case (Keys.D | Keys.Control):
+					this.tsBtnDuplicate_Click(null, null);
+					return true;
+
+				case (Keys.F | Keys.Control):
+					this.tsBtnSearch_Click(null, null);
+					return true;
+
+				default:
+					return base.ProcessDialogKey(keyData);
 			}
 		}
 
