@@ -159,21 +159,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Star.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Yes.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\No.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Smile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Sad.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\AVI.png" />
   </ItemGroup>
   <ItemGroup>
@@ -207,8 +192,13 @@
     <Content Include="Anime\113.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\undo.png" />
+    <None Include="Resources\Sad.png" />
+    <None Include="Resources\Smile.png" />
     <None Include="Resources\search.png" />
+    <None Include="Resources\undo.png" />
+    <None Include="Resources\diamond.png" />
+    <None Include="Resources\alert.png" />
+    <None Include="Resources\accept.png" />
     <None Include="Resources\save.png" />
     <None Include="Resources\refresh.png" />
     <None Include="Resources\overlay.png" />
