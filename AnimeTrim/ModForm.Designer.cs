@@ -58,7 +58,7 @@
 			this.tbEpisode.Location = new System.Drawing.Point(342, 39);
 			this.tbEpisode.Name = "tbEpisode";
 			this.tbEpisode.Size = new System.Drawing.Size(120, 21);
-			this.tbEpisode.TabIndex = 4;
+			this.tbEpisode.TabIndex = 3;
 			// 
 			// btnOK
 			// 
@@ -66,7 +66,7 @@
 			this.btnOK.Location = new System.Drawing.Point(456, 235);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
-			this.btnOK.TabIndex = 8;
+			this.btnOK.TabIndex = 11;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -77,7 +77,7 @@
 			this.btnCancel.Location = new System.Drawing.Point(537, 235);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
-			this.btnCancel.TabIndex = 9;
+			this.btnCancel.TabIndex = 12;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -87,7 +87,7 @@
 			this.btnBrowser.Location = new System.Drawing.Point(359, 91);
 			this.btnBrowser.Name = "btnBrowser";
 			this.btnBrowser.Size = new System.Drawing.Size(75, 23);
-			this.btnBrowser.TabIndex = 6;
+			this.btnBrowser.TabIndex = 9;
 			this.btnBrowser.UseVisualStyleBackColor = true;
 			this.btnBrowser.Click += new System.EventHandler(this.btnBrowser_Click);
 			// 
@@ -96,7 +96,7 @@
 			this.tbStoreIndex.Location = new System.Drawing.Point(53, 92);
 			this.tbStoreIndex.Name = "tbStoreIndex";
 			this.tbStoreIndex.Size = new System.Drawing.Size(300, 21);
-			this.tbStoreIndex.TabIndex = 5;
+			this.tbStoreIndex.TabIndex = 8;
 			this.tbStoreIndex.TextChanged += new System.EventHandler(this.tbStoreIndex_TextChanged);
 			// 
 			// cboSeason
@@ -106,7 +106,7 @@
 			this.cboSeason.Location = new System.Drawing.Point(128, 66);
 			this.cboSeason.Name = "cboSeason";
 			this.cboSeason.Size = new System.Drawing.Size(65, 20);
-			this.cboSeason.TabIndex = 3;
+			this.cboSeason.TabIndex = 5;
 			// 
 			// cboYear
 			// 
@@ -124,7 +124,7 @@
 			this.cboYear.Location = new System.Drawing.Point(72, 66);
 			this.cboYear.Name = "cboYear";
 			this.cboYear.Size = new System.Drawing.Size(50, 20);
-			this.cboYear.TabIndex = 2;
+			this.cboYear.TabIndex = 4;
 			this.cboYear.TextChanged += new System.EventHandler(this.cboYear_TextChanged);
 			// 
 			// tbKana
@@ -149,7 +149,7 @@
 			this.gbNote.Location = new System.Drawing.Point(12, 120);
 			this.gbNote.Name = "gbNote";
 			this.gbNote.Size = new System.Drawing.Size(600, 109);
-			this.gbNote.TabIndex = 7;
+			this.gbNote.TabIndex = 10;
 			this.gbNote.TabStop = false;
 			this.gbNote.Text = "Note";
 			// 
@@ -170,7 +170,7 @@
 			this.lblPath.Location = new System.Drawing.Point(13, 95);
 			this.lblPath.Name = "lblPath";
 			this.lblPath.Size = new System.Drawing.Size(29, 12);
-			this.lblPath.TabIndex = 14;
+			this.lblPath.TabIndex = 20;
 			this.lblPath.Text = "Path";
 			// 
 			// lblSchedule
@@ -179,7 +179,7 @@
 			this.lblSchedule.Location = new System.Drawing.Point(13, 69);
 			this.lblSchedule.Name = "lblSchedule";
 			this.lblSchedule.Size = new System.Drawing.Size(53, 12);
-			this.lblSchedule.TabIndex = 12;
+			this.lblSchedule.TabIndex = 17;
 			this.lblSchedule.Text = "Schedule";
 			// 
 			// lblKana
@@ -188,7 +188,7 @@
 			this.lblKana.Location = new System.Drawing.Point(289, 15);
 			this.lblKana.Name = "lblKana";
 			this.lblKana.Size = new System.Drawing.Size(29, 12);
-			this.lblKana.TabIndex = 11;
+			this.lblKana.TabIndex = 14;
 			this.lblKana.Text = "Kana";
 			// 
 			// lblTitle
@@ -197,7 +197,7 @@
 			this.lblTitle.Location = new System.Drawing.Point(12, 15);
 			this.lblTitle.Name = "lblTitle";
 			this.lblTitle.Size = new System.Drawing.Size(35, 12);
-			this.lblTitle.TabIndex = 10;
+			this.lblTitle.TabIndex = 13;
 			this.lblTitle.Text = "Title";
 			// 
 			// lblEpisode
@@ -206,7 +206,7 @@
 			this.lblEpisode.Location = new System.Drawing.Point(289, 42);
 			this.lblEpisode.Name = "lblEpisode";
 			this.lblEpisode.Size = new System.Drawing.Size(47, 12);
-			this.lblEpisode.TabIndex = 13;
+			this.lblEpisode.TabIndex = 16;
 			this.lblEpisode.Text = "Episode";
 			// 
 			// tbInc
@@ -214,7 +214,7 @@
 			this.tbInc.Location = new System.Drawing.Point(53, 39);
 			this.tbInc.Name = "tbInc";
 			this.tbInc.Size = new System.Drawing.Size(180, 21);
-			this.tbInc.TabIndex = 18;
+			this.tbInc.TabIndex = 2;
 			// 
 			// lblInc
 			// 
@@ -222,7 +222,7 @@
 			this.lblInc.Location = new System.Drawing.Point(13, 45);
 			this.lblInc.Name = "lblInc";
 			this.lblInc.Size = new System.Drawing.Size(23, 12);
-			this.lblInc.TabIndex = 19;
+			this.lblInc.TabIndex = 15;
 			this.lblInc.Text = "Inc";
 			// 
 			// cboFormat
@@ -232,7 +232,7 @@
 			this.cboFormat.Location = new System.Drawing.Point(301, 66);
 			this.cboFormat.Name = "cboFormat";
 			this.cboFormat.Size = new System.Drawing.Size(65, 20);
-			this.cboFormat.TabIndex = 25;
+			this.cboFormat.TabIndex = 6;
 			// 
 			// lblMergeFormat
 			// 
@@ -240,7 +240,7 @@
 			this.lblMergeFormat.Location = new System.Drawing.Point(224, 69);
 			this.lblMergeFormat.Name = "lblMergeFormat";
 			this.lblMergeFormat.Size = new System.Drawing.Size(71, 12);
-			this.lblMergeFormat.TabIndex = 26;
+			this.lblMergeFormat.TabIndex = 18;
 			this.lblMergeFormat.Text = "MergeFormat";
 			// 
 			// cboSubStyle
@@ -250,7 +250,7 @@
 			this.cboSubStyle.Location = new System.Drawing.Point(452, 66);
 			this.cboSubStyle.Name = "cboSubStyle";
 			this.cboSubStyle.Size = new System.Drawing.Size(80, 20);
-			this.cboSubStyle.TabIndex = 27;
+			this.cboSubStyle.TabIndex = 7;
 			// 
 			// lblSubStyle
 			// 
@@ -258,7 +258,7 @@
 			this.lblSubStyle.Location = new System.Drawing.Point(393, 69);
 			this.lblSubStyle.Name = "lblSubStyle";
 			this.lblSubStyle.Size = new System.Drawing.Size(53, 12);
-			this.lblSubStyle.TabIndex = 28;
+			this.lblSubStyle.TabIndex = 19;
 			this.lblSubStyle.Text = "SubStyle";
 			// 
 			// ModForm
