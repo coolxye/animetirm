@@ -8,7 +8,6 @@ using BrightIdeasSoftware;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -42,6 +41,9 @@ namespace AnimeTrim
 
 		private AnimeInfo _ai = new AnimeInfo();
 		//private List<Anime> _lani = new List<Anime>();
+		// stack for restore duplicated or deleted
+		private int reists = -1;
+		private List<Anime> relani = new List<Anime>();
 
 		private FindForm findfm;
 
@@ -66,8 +68,9 @@ namespace AnimeTrim
 			this.tsBtnDuplicate.Enabled = false;
 			this.tsBtnDel.Enabled = false;
 			this.tsBtnRefresh.Enabled = false;
+			this.tsBtnUndo.Enabled = false;
 
-			this.cboFilter.SelectedIndex = 0;
+			//this.cboFilter.SelectedIndex = 0;
 
 			this.tssBtnMore.DefaultItem = this.tsMenItmBackup;
 			this.tssBtnMore.Text = this.tsMenItmBackup.Text;
@@ -320,7 +323,9 @@ namespace AnimeTrim
 			this.olvColSize.AspectToStringConverter = ots => {
 				long ls = (long)ots;
 
-				if (ls >= 1000000000L)
+				if (ls == 0L)
+					return "-";
+				else if (ls >= 1000000000L)
 					return String.Format("{0:#,##0.#0} G", ls / 1073741824D);
 				else
 					return String.Format("{0:#,##0.#0} M", ls / 1048576D);
@@ -355,17 +360,19 @@ namespace AnimeTrim
 			// Note of Anime
 			this.olvColNote.AspectToStringConverter = otn => otn.ToString().Replace('\u0002', '\u0020');
 
-			RowBorderDecoration rbd = new RowBorderDecoration();
-			rbd.BorderPen = new Pen(Color.Orchid, 2);
-			rbd.FillBrush = null;
-			rbd.CornerRounding = 4.0f;
-			HotItemStyle hotItemStyle = new HotItemStyle();
-			hotItemStyle.Decoration = rbd;
-			hotItemStyle.Overlay = new AnimeViewOverlay();
-			this.folvAnime.HotItemStyle = hotItemStyle;
+			//RowBorderDecoration rbd = new RowBorderDecoration();
+			//rbd.BorderPen = new Pen(Color.Orchid, 1);
+			//rbd.FillBrush = null;
+			//rbd.CornerRounding = 4.0f;
+			//HotItemStyle hotItemStyle = new HotItemStyle();
+			//hotItemStyle.Decoration = rbd;
+			//hotItemStyle.Overlay = new AnimeViewOverlay();
+			//this.folvAnime.HotItemStyle = hotItemStyle;
 
-			//this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
-			//this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+			this.folvAnime.UseTranslucentHotItem = true;
+			this.folvAnime.UseTranslucentSelection = true;
+			this.folvAnime.HotItemStyle.Overlay = new AnimeViewOverlay();
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
 			this.folvAnime.PrimarySortColumn = this.olvColTitle;
 			this.folvAnime.PrimarySortOrder = SortOrder.Ascending;
 		}
@@ -492,7 +499,8 @@ namespace AnimeTrim
 				Anime a = this.folvAnime.SelectedObject as Anime;
 
 				this.tsslSelected.Text = String.Format("Selected: {0}", a.Name);
-				this.tsslSelSpace.Text = (a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
+				this.tsslSelSpace.Text = (a.Size == 0L) ? "Selected Size: -" :
+					(a.Size >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", a.Size / 1073741824D) :
 					String.Format("Selected Size: {0:#,##0.#0} MB", a.Size / 1048576D);
 
 				this.rtbAnime.Text = a.Remark;
@@ -525,7 +533,8 @@ namespace AnimeTrim
 					{
 						ls += at.Size;
 					}
-					this.tsslSelSpace.Text = (ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
+					this.tsslSelSpace.Text = (ls == 0L) ? "Selected Size: -" :
+						(ls >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", ls / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", ls / 1048576D);
 				}
 
@@ -534,51 +543,53 @@ namespace AnimeTrim
 			}
 		}
 
-		private void TimedFilter(ObjectListView folv, string txt, int matchKind)
-		{
-			TextMatchFilter filter = null;
-			if (!String.IsNullOrEmpty(txt))
-			{
-				switch (matchKind)
-				{
-					case 0:
-					default:
-						filter = TextMatchFilter.Prefix(folv, txt);
-						break;
-					case 1:
-						filter = TextMatchFilter.Contains(folv, txt);
-						break;
-					case 2:
-						filter = TextMatchFilter.Regex(folv, txt);
-						break;
-				}
-			}
-			// Setup a default renderer to draw the filter matches
-			if (filter == null)
-				folv.DefaultRenderer = null;
-			else
-				folv.DefaultRenderer = new HighlightTextRenderer(filter);
+		#region Move
+		//private void TimedFilter(ObjectListView folv, string txt, int matchKind)
+		//{
+		//	TextMatchFilter filter = null;
+		//	if (!String.IsNullOrEmpty(txt))
+		//	{
+		//		switch (matchKind)
+		//		{
+		//			case 0:
+		//			default:
+		//				filter = TextMatchFilter.Prefix(folv, txt);
+		//				break;
+		//			case 1:
+		//				filter = TextMatchFilter.Contains(folv, txt);
+		//				break;
+		//			case 2:
+		//				filter = TextMatchFilter.Regex(folv, txt);
+		//				break;
+		//		}
+		//	}
+		//	// Setup a default renderer to draw the filter matches
+		//	if (filter == null)
+		//		folv.DefaultRenderer = null;
+		//	else
+		//		folv.DefaultRenderer = new HighlightTextRenderer(filter);
 
-			// Some lists have renderers already installed
-			HighlightTextRenderer highlightingRenderer = folv.GetColumn(0).Renderer as HighlightTextRenderer;
-			if (highlightingRenderer != null)
-				highlightingRenderer.Filter = filter;
+		//	// Some lists have renderers already installed
+		//	HighlightTextRenderer highlightingRenderer = folv.GetColumn(0).Renderer as HighlightTextRenderer;
+		//	if (highlightingRenderer != null)
+		//		highlightingRenderer.Filter = filter;
 
-			Stopwatch stopWatch = new Stopwatch();
-			stopWatch.Start();
-			folv.ModelFilter = filter;
-			stopWatch.Stop();
-		}
+		//	Stopwatch stopWatch = new Stopwatch();
+		//	stopWatch.Start();
+		//	folv.ModelFilter = filter;
+		//	stopWatch.Stop();
+		//}
 
-		private void tbFilter_TextChanged(object sender, EventArgs e)
-		{
-			this.TimedFilter(this.folvAnime, this.tbFilter.Text, this.cboFilter.SelectedIndex);
-		}
+		//private void tbFilter_TextChanged(object sender, EventArgs e)
+		//{
+		//	this.TimedFilter(this.folvAnime, this.tbFilter.Text, this.cboFilter.SelectedIndex);
+		//}
 
-		private void cboFilter_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			this.tbFilter_TextChanged(null, null);
-		}
+		//private void cboFilter_SelectedIndexChanged(object sender, EventArgs e)
+		//{
+		//	this.tbFilter_TextChanged(null, null);
+		//}
+		#endregion
 
 		private void tsBtnNew_Click(object sender, EventArgs e)
 		{
@@ -738,7 +749,7 @@ namespace AnimeTrim
 				return;
 
 			//long ls = a.Size;
-			ModForm mf = new ModForm(ref a);
+			ModForm mf = new ModForm(a);
 			mf.FormClosed += new FormClosedEventHandler(this.ModForm_FormClosed);
 			mf.Show();
 
@@ -810,36 +821,43 @@ namespace AnimeTrim
 
 		private void tsBtnDuplicate_Click(object sender, EventArgs e)
 		{
-			Anime aCopy = null;
+			if (this.folvAnime.SelectedIndices.Count == 0)
+				return;
+
+			if (relani.Count != 0)
+				relani.Clear();
+
+			reists = 0;
 
 			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
-				aCopy = new Anime(a, _ai.Uid++);
+				Anime aCopy = new Anime(a, _ai.Uid++);
 				_ai.Space += aCopy.Size;
 				_ai.Total++;
 				//_lani.Add(aCopy);
+				relani.Add(aCopy);
 
 				this.folvAnime.AddObject(aCopy);
 			}
 
-			if (aCopy != null)
-			{
-				_ai.IsSaved = false;
+			_ai.IsSaved = false;
 
-				this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
-				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
-			}
+			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			this.tsBtnUndo.Enabled = true;
 		}
 
 		private void tsBtnDel_Click(object sender, EventArgs e)
 		{
-			int isel;
+			if (this.folvAnime.SelectedIndices.Count == 0)
+				return;
 
-			if (this.folvAnime.SelectedIndices.Count != 0)
-				isel = this.folvAnime.SelectedIndices[0];
-			else return;
+			int isel = this.folvAnime.SelectedIndices[0];
 
-			_ai.IsSaved = false;
+			if (relani.Count != 0)
+				relani.Clear();
+
+			reists = 1;
 
 			foreach (Anime a in this.folvAnime.SelectedObjects)
 			{
@@ -847,19 +865,21 @@ namespace AnimeTrim
 				_ai.Total--;
 
 				//_lani.Remove(a);
+				relani.Add(a);
 			}
 
 			this.folvAnime.RemoveObjects(this.folvAnime.SelectedObjects);
 
-			if (isel < this.folvAnime.Items.Count)
-				this.folvAnime.SelectedIndex = isel;
-			else this.folvAnime.SelectedIndex = isel - 1;
-
+			this.folvAnime.SelectedIndex = isel < this.folvAnime.Items.Count ? isel : isel - 1;
 			this.folvAnime.SelectedItem.EnsureVisible();
+
+			_ai.IsSaved = false;
+
 			// TODO: 需修正工具栏
 			//this.folvAnime.Focus();
 			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
 			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			this.tsBtnUndo.Enabled = true;
 		}
 
 		private void tsBtnRefresh_Click(object sender, EventArgs e)
@@ -894,6 +914,8 @@ namespace AnimeTrim
 
 			if (lSpace != _ai.Space)
 			{
+				_ai.Space = lSpace;
+
 				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
 						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
@@ -966,41 +988,65 @@ namespace AnimeTrim
 			// edit fin
 		}
 
-		private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
+		#region key event
+		//private void AnimeForm_KeyDown(object sender, KeyEventArgs e)
+		//{
+		//	if (e.Control)
+		//	{
+		//		e.Handled = true;
+
+		//		switch (e.KeyCode)
+		//		{
+		//			case Keys.S:
+		//				this.tsBtnSave.PerformClick();
+		//				break;
+		//			case Keys.Add:
+		//				this.tsBtnAdd.PerformClick();
+		//				break;
+		//			case Keys.E:
+		//				this.tsBtnModify.PerformClick();
+		//				break;
+		//			case Keys.D:
+		//				this.tsBtnDuplicate.PerformClick();
+		//				break;
+		//			case Keys.F:
+		//				//this.tbFilter.Focus();
+		//				this.tsBtnSearch.PerformClick();
+		//				break;
+
+		//			default:
+		//				return;
+		//		}
+		//	}
+		//}
+		#endregion
+
+		protected override bool ProcessDialogKey(Keys keyData)
 		{
-			if (e.Control)
+			switch (keyData)
 			{
-				e.Handled = true;
+				case (Keys.S | Keys.Control):
+					this.tsBtnSave_Click(null, null);
+					return true;
 
-				switch (e.KeyCode)
-				{
-					case Keys.S:
-						this.tsBtnSave.PerformClick();
-						break;
-					case Keys.Add:
-						this.tsBtnAdd.PerformClick();
-						break;
-					case Keys.E:
-						this.tsBtnModify.PerformClick();
-						break;
-					case Keys.D:
-						this.tsBtnDuplicate.PerformClick();
-						break;
-					case Keys.F:
-						//this.tbFilter.Focus();
-						if (findfm == null)
-						{
-							findfm = new FindForm(this.folvAnime);
-							findfm.FormClosed += FindForm_FormClosed;
-							findfm.Show(this);
-						}
-						else
-							findfm.Focus();
-						break;
+				case (Keys.I | Keys.Control):
+					this.tsBtnAdd_Click(null, null);
+					return true;
 
-					default:
-						return;
-				}
+				case (Keys.E | Keys.Control):
+					this.tsBtnModify_Click(null, null);
+					return true;
+
+				case (Keys.D | Keys.Control):
+					this.tsBtnDuplicate_Click(null, null);
+					return true;
+
+				case (Keys.F | Keys.Control):
+					this.tsBtnSearch_Click(null, null);
+					return true;
+
+				default:
+					return base.ProcessDialogKey(keyData);
 			}
 		}
 
@@ -1176,20 +1222,20 @@ namespace AnimeTrim
 			#endregion
 		}
 
-		private	void tsBtnGroupClick(object sender, EventArgs e)
-		{
-			if (ObjectListView.IsVistaOrLater)
-			{
-				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
-				this.folvAnime.BuildList();
-			}
-		}
+		//private void tsBtnGroupClick(object sender, EventArgs e)
+		//{
+		//	if (ObjectListView.IsVistaOrLater)
+		//	{
+		//		this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
+		//		this.folvAnime.BuildList();
+		//	}
+		//}
 
-		private void tsBtnOverlayClick(object sender, EventArgs e)
-		{
-			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
-			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
-		}
+		//private void tsBtnOverlayClick(object sender, EventArgs e)
+		//{
+		//	this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+		//	this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+		//}
 
 		private void tssBtnMoreDropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
@@ -1199,5 +1245,71 @@ namespace AnimeTrim
 			this.tssBtnMore.Image = e.ClickedItem.Image;
 		}
 
+		private void tsBtnUndo_Click(object sender, EventArgs e)
+		{
+			if (reists == -1 || relani.Count == 0)
+				return;
+
+			// restore duplicated
+			if (reists == 0)
+			{
+				foreach (Anime a in relani)
+				{
+					_ai.Space -= a.Size;
+					_ai.Total--;
+				}
+
+				this.folvAnime.RemoveObjects(relani);
+			}
+			else if (reists == 1)
+			{
+				foreach (Anime a in relani)
+				{
+					_ai.Space += a.Size;
+					_ai.Total++;
+				}
+
+				this.folvAnime.AddObjects(relani);
+
+				this.folvAnime.SelectedObject = relani[0];
+				this.folvAnime.SelectedItem.EnsureVisible();
+				this.folvAnime.SelectedObjects = relani;
+			}
+
+			_ai.IsSaved = false;
+			reists = -1;
+			relani.Clear();
+
+			this.tsslTotal.Text = String.Format("Total: {0}", _ai.Total);
+			this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
+			this.tsBtnUndo.Enabled = false;
+		}
+
+		private void tsBtnGroup_Click(object sender, EventArgs e)
+		{
+			if (ObjectListView.IsVistaOrLater)
+			{
+				this.folvAnime.ShowGroups = !this.folvAnime.ShowGroups;
+				this.folvAnime.BuildList();
+			}
+		}
+
+		private void tsBtnOverlay_Click(object sender, EventArgs e)
+		{
+			this.folvAnime.UseOverlays = !this.folvAnime.UseOverlays;
+			this.folvAnime.HotItemStyle = this.folvAnime.HotItemStyle;
+		}
+
+		private void tsBtnSearch_Click(object sender, EventArgs e)
+		{
+			if (findfm != null)
+				findfm.Focus();
+			else
+			{
+				findfm = new FindForm(this.folvAnime);
+				findfm.FormClosed += FindForm_FormClosed;
+				findfm.Show(this);
+			}
+		}
 	}
 }
