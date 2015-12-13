@@ -338,7 +338,7 @@ namespace AnimeTrim
 			// Store of Anime
 			tc = new TypedColumn<Anime>(this.olvColStore);
 			tc.AspectPutter = (Anime a, object opg) => { a.Store = (bool)opg; };
-			this.olvColStore.Renderer = new MappedImageRenderer(true, Properties.Resources.Yes, false, Properties.Resources.No);
+			this.olvColStore.Renderer = new MappedImageRenderer(true, Properties.Resources.Accept, false, Properties.Resources.Alert);
 
 			// Enjoy of Anime
 			tc = new TypedColumn<Anime>(this.olvColEnjoy);
@@ -351,7 +351,7 @@ namespace AnimeTrim
 				int onr = (int)opr;
 				a.Grade = onr < 1 ? 1 : onr;
 			};
-			this.olvColGrade.Renderer = new MultiImageRenderer(Properties.Resources.Star, 3, 0, 4);
+			this.olvColGrade.Renderer = new MultiImageRenderer(Properties.Resources.Diamond, 3, 0, 4);
 			this.olvColGrade.MakeGroupies(
 				new int[] { 1, 2 },
 				new string[] { "Normal", "Nice", "Good" }
@@ -916,8 +916,9 @@ namespace AnimeTrim
 			{
 				_ai.Space = lSpace;
 
-				this.tsslSelSpace.Text = (lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
-						String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
+				this.tsslSelSpace.Text = (lSelSize == 0L) ? "Selected Size: -" :
+					(lSelSize >= 1000000000L) ? String.Format("Selected Size: {0:#,##0.#0} GB", lSelSize / 1073741824D) :
+					String.Format("Selected Size: {0:#,##0.#0} MB", lSelSize / 1048576D);
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 			}
 		}
