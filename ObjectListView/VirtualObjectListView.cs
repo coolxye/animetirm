@@ -5,6 +5,9 @@
  * Date: 27/09/2008 9:15 AM
  *
  * Change log:
+ * 2015-06-14   JPP  - Moved handling of CheckBoxes on virtual lists into base class (ObjectListView).
+ *                     This allows the property to be set correctly, even when set via an upcast reference.
+ * 2015-03-25   JPP  - Subscribe to change notifications when objects are added
  * v2.8
  * 2014-09-26   JPP  - Correct an incorrect use of checkStateMap when setting CheckedObjects
  *                     and a CheckStateGetter is installed
@@ -64,7 +67,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * If you wish to use this code in a closed source application, please contact phillip_piper@bigfoot.com.
+ * If you wish to use this code in a closed source application, please contact phillip.piper@gmail.com.
  */
 
 using System;
@@ -134,32 +137,6 @@ namespace BrightIdeasSoftware
             get {
                 // Virtual lists need Vista and a grouping strategy to show groups
                 return (ObjectListView.IsVistaOrLater && this.GroupingStrategy != null);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets whether this ObjectListView will show checkboxes in the primary column
-        /// </summary>
-        /// <remarks>Due to code in the base ListView class, turning off CheckBoxes on a virtual
-        /// list always throws an InvalidOperationException. This implementation codes around
-        /// that limitation.</remarks>
-        [Category("Appearance"),
-         Description("Should the list view show checkboxes?"),
-         DefaultValue(false)]
-        new public bool CheckBoxes {
-            get { return base.CheckBoxes;  }
-            set {
-                try {
-                    base.CheckBoxes = value;
-                }
-                catch (InvalidOperationException) {
-                    this.StateImageList = null;
-                    this.VirtualMode = false;
-                    base.CheckBoxes = value;
-                    this.VirtualMode = true;
-                    this.ShowGroups = this.ShowGroups;
-                    this.BuildList(true);
-                }
             }
         }
 
@@ -502,12 +479,15 @@ namespace BrightIdeasSoftware
             if (args.Canceled)
                 return;
 
-            try {
+            try
+            {
                 this.BeginUpdate();
                 this.VirtualListDataSource.AddObjects(args.ObjectsToAdd);
                 this.BuildList();
+                this.SubscribeNotifications(args.ObjectsToAdd);
             }
-            finally {
+            finally
+            {
                 this.EndUpdate();
             }
         }
@@ -553,6 +533,40 @@ namespace BrightIdeasSoftware
                 // which will make the desired group header visible.
                 int delta = r.Y + r.Height / 2;
                 NativeMethods.Scroll(this, 0, delta);
+            }
+        }
+
+        /// <summary>
+        /// Inserts the given collection of model objects to this control at hte given location
+        /// </summary>
+        /// <param name="modelObjects">A collection of model objects</param>
+        /// <remarks>
+        /// <para>The added objects will appear in their correct sort position, if sorting
+        /// is active. Otherwise, they will appear at the given position of the list.</para>
+        /// <para>No check is performed to see if any of the objects are already in the ListView.</para>
+        /// <para>Null objects are silently ignored.</para>
+        /// </remarks>
+        public override void InsertObjects(int index, ICollection modelObjects)
+        {
+            if (this.VirtualListDataSource == null)
+                return;
+
+            // Give the world a chance to cancel or change the added objects
+            ItemsAddingEventArgs args = new ItemsAddingEventArgs(index, modelObjects);
+            this.OnItemsAdding(args);
+            if (args.Canceled)
+                return;
+
+            try
+            {
+                this.BeginUpdate();
+                this.VirtualListDataSource.InsertObjects(index, args.ObjectsToAdd);
+                this.BuildList();
+                this.SubscribeNotifications(args.ObjectsToAdd);
+            }
+            finally
+            {
+                this.EndUpdate();
             }
         }
 
