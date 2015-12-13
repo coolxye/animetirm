@@ -146,10 +146,10 @@ namespace AnimeTrim
 			lsize = a.Size;
 		}
 
-		//public Anime GetAnime()
-		//{
-		//	return _anime;
-		//}
+		public Anime GetAnime()
+		{
+			return _anime;
+		}
 
 		public long GetDiffSize()
 		{

@@ -779,7 +779,7 @@ namespace AnimeTrim
 				_ai.IsSaved = false;
 
 				this.folvAnime_SelectionChanged(null, null);
-				this.folvAnime.RefreshItem(this.folvAnime.SelectedItem);
+				this.folvAnime.RefreshItem(this.folvAnime.ModelToItem(mf.GetAnime()));
 
 				this.tsslSpace.Text = String.Format("Total Size: {0:#,##0.#0} GB", _ai.Space / 1073741824D);
 			}
