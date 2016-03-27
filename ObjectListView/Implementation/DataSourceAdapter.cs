@@ -5,6 +5,9 @@
  * Date: 20/09/2010 7:42 AM
  *
  * Change log:
+ * v2.9
+ * 2015-10-31  JPP  - Put back sanity check on upper limit of source items
+ * 2015-02-02  JPP  - Made CreateColumnsFromSource() only rebuild columns when new ones were added
  * v2.8.1
  * 2014-11-23  JPP  - Honour initial CurrencyManager.Position when setting DataSource.
  * 2014-10-27  JPP  - Fix issue where SelectedObject was not sync'ed with CurrencyManager.Position (SF #129)
@@ -28,7 +31,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * If you wish to use this code in a closed source application, please contact phillip_piper@bigfoot.com.
+ * If you wish to use this code in a closed source application, please contact phillip.piper@gmail.com.
  */
 
 using System;
@@ -282,6 +285,7 @@ namespace BrightIdeasSoftware
             if (properties.Count == 0)
                 return;
 
+            bool wereColumnsAdded = false;
             foreach (PropertyDescriptor property in properties) {
 
                 if (!this.ShouldCreateColumn(property))
@@ -293,9 +297,11 @@ namespace BrightIdeasSoftware
 
                 // Add it to our list
                 this.ListView.AllColumns.Add(column);
+                wereColumnsAdded = true;
             }
 
-            generator.PostCreateColumns(this.ListView);
+            if (wereColumnsAdded)
+                generator.PostCreateColumns(this.ListView);
         }
 
         /// <summary>
@@ -521,7 +527,7 @@ namespace BrightIdeasSoftware
             int index = this.CurrencyManager.Position;
 
             // Make sure the index is sane (-1 pops up from time to time)
-            if (index < 0)
+            if (index < 0 || index >= this.ListView.GetItemCount())
                 return;
 
             // Avoid recursion. If we are currently changing the index, don't

@@ -942,6 +942,8 @@ namespace AnimeTrim
 			// edit fin
 
 			_ai.IsSaved = false;
+
+			this.tsslSelected.Text = String.Format("Selected: {0}", a.Name);
 		}
 
 		private void folvAnime_CellToolTipShowing(object sender, ToolTipShowingEventArgs e)

@@ -22,7 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * If you wish to use this code in a closed source application, please contact phillip_piper@bigfoot.com.
+ * If you wish to use this code in a closed source application, please contact phillip.piper@gmail.com.
  */
 
 using System;
@@ -141,6 +141,11 @@ namespace BrightIdeasSoftware {
     /// These delegates are used to format a listviewitem before it is added to the control.
     /// </summary>
     public delegate void RowFormatterDelegate(OLVListItem olvItem);
+
+    /// <summary>
+    /// These delegates can be used to return the array of texts that should be searched for text filtering
+    /// </summary>
+    public delegate string[] SearchValueGetterDelegate(Object value);
 
     /// <summary>
     /// These delegates are used to sort the listview in some custom fashion
