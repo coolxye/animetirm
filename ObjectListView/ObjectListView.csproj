@@ -27,7 +27,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>1</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DocumentationFile>bin\Debug\ObjectListView.XML</DocumentationFile>
   </PropertyGroup>
@@ -39,6 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\ObjectListView.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -155,7 +156,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CustomDictionary.xml" />
+    <None Include="CustomDictionary.xml" />
     <None Include="FullClassDiagram.cd" />
     <None Include="Resources\sort-descending.png" />
     <None Include="Resources\sort-ascending.png" />
