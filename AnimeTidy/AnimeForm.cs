@@ -355,7 +355,7 @@ namespace AnimeTidy
 			tc = new TypedColumn<Anime>(this.olvColGrade);
 			tc.AspectPutter = (Anime a, object opr) => {
 				int onr = (int)opr;
-				a.Grade = onr < 1 ? 1 : onr;
+				a.Grade = onr;//onr < 1 ? 1 : onr;
 			};
 			this.olvColGrade.Renderer = new MultiImageRenderer(Properties.Resources.Diamond, 3, 0, 4);
 			this.olvColGrade.MakeGroupies(
