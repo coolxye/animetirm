@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Drawing;
+using AnimeTidy.Core;
 
 namespace AnimeTidy
 {

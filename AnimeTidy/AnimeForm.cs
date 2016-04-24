@@ -4,6 +4,7 @@
  * Date: 2010/8/10
  * Time: 9:23
 */
+using AnimeTidy.Core;
 using AnimeTidyLib;
 using System;
 using System.Collections.Generic;

@@ -46,13 +46,15 @@
     <Compile Include="AddForm.Designer.cs">
       <DependentUpon>AddForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Anime.cs" />
+    <Compile Include="Core\Anime.cs" />
     <Compile Include="AnimeForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AnimeForm.Designer.cs">
       <DependentUpon>AnimeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\AnimeInfo.cs" />
+    <Compile Include="Core\AnimeViewOverlay.cs" />
     <Compile Include="FindForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +154,7 @@
       <Name>AnimeTidyLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
