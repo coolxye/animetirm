@@ -32,17 +32,17 @@
 			this.tctlAnime = new System.Windows.Forms.TabControl();
 			this.tpAnime = new System.Windows.Forms.TabPage();
 			this.folvAnime = new AnimeTidyLib.ObjectListView();
-			this.olvColTitle = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColName = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColSchedule = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColType = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColSubTeam = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColPath = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColSize = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColStore = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColEnjoy = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColGrade = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
-			this.olvColNote = ((AnimeTidyLib.OLVColumn)(new AnimeTidyLib.OLVColumn()));
+			this.olvColTitle = new AnimeTidyLib.OLVColumn();
+			this.olvColName = new AnimeTidyLib.OLVColumn();
+			this.olvColSchedule = new AnimeTidyLib.OLVColumn();
+			this.olvColType = new AnimeTidyLib.OLVColumn();
+			this.olvColSubTeam = new AnimeTidyLib.OLVColumn();
+			this.olvColPath = new AnimeTidyLib.OLVColumn();
+			this.olvColSize = new AnimeTidyLib.OLVColumn();
+			this.olvColStore = new AnimeTidyLib.OLVColumn();
+			this.olvColEnjoy = new AnimeTidyLib.OLVColumn();
+			this.olvColGrade = new AnimeTidyLib.OLVColumn();
+			this.olvColNote = new AnimeTidyLib.OLVColumn();
 			this.cmsAnime = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.modifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -275,7 +275,7 @@
 			// 
 			this.addToolStripMenuItem.Name = "addToolStripMenuItem";
 			this.addToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-			this.addToolStripMenuItem.Text = "Add(+)";
+			this.addToolStripMenuItem.Text = "Add(I)";
 			this.addToolStripMenuItem.Click += new System.EventHandler(this.tsBtnAdd_Click);
 			// 
 			// modifyToolStripMenuItem
@@ -603,6 +603,7 @@
 			this.Controls.Add(this.ssAnime);
 			this.Controls.Add(this.scAnime);
 			this.Name = "AnimeForm";
+			this.Text = "AnimeTidy";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AnimeForm_FormClosing);
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AnimeForm_FormClosed);
 			this.tctlAnime.ResumeLayout(false);

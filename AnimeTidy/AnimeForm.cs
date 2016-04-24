@@ -23,7 +23,6 @@ namespace AnimeTidy
 		public AnimeForm()
 		{
 			InitializeComponent();
-			Text = assemname;
 
 			// edit 13/1/8 for bug3
 			InitAnimeInfo();
