@@ -150,6 +150,17 @@ namespace AnimeTidy.Core
 				rText.Height = (int)sf.Height;
 				g.DrawString(txt, ft, this.TextBrush, rText, fmt);
 			}
+
+			fmt.Alignment = StringAlignment.Far;
+
+			using (Font ft = new Font("Tahoma", 7))
+			{
+				txt = "ID: "+ av.ID;
+				SizeF sf = g.MeasureString(txt, ft, rText.Width, fmt);
+				rText.Height = (int)sf.Height;
+				rText.Y = rView.Bottom - rText.Height - 4;
+				g.DrawString(txt, ft, this.TextBrush, rText, fmt);
+			}
 		}
 	}
 }
