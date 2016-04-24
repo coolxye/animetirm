@@ -62,7 +62,7 @@ namespace AnimeTidy.Core
 			g.DrawPath(this.BorderPen, path);
 			g.Clip = new Region(rView);
 
-			// Draw the pic
+			// Draw the pic 80*102
 			Rectangle rPic = rView;
 			rPic.Inflate(-8, -8);
 			rPic.Width = iPicW;
@@ -70,12 +70,32 @@ namespace AnimeTidy.Core
 			if (File.Exists(strPic))
 			{
 				Image img = Image.FromFile(strPic);
-				if (img.Width > rPic.Width)
-					rPic.Height = (int)(img.Height * ((float)rPic.Width / img.Width));
-				else
-					rPic.Height = img.Height;
+				//if (img.Width > rPic.Width)
+				//	rPic.Height = (int)(img.Height * ((float)rPic.Width / img.Width));
+				//else
+				//	rPic.Height = img.Height;
+				int imgW = img.Width;
+				int imgH = img.Height;
 
-				g.DrawImage(img, rPic);
+				if (imgW > rPic.Width)
+				{
+					imgH = (int)(imgH * ((float)rPic.Width / imgW));
+					imgW = rPic.Width;
+				}
+
+				if (imgH > rPic.Height)
+				{
+					imgW = (int)(imgW * ((float)rPic.Height / imgH));
+					imgH = rPic.Height;
+				}
+
+				Rectangle destPic = new Rectangle();
+				destPic.X = rPic.X + (rPic.Width - imgW) / 2;
+				destPic.Y = rPic.Y + (rPic.Height - imgH) / 2;
+				destPic.Width = imgW;
+				destPic.Height = imgH;
+
+				g.DrawImage(img, destPic);
 			}
 			else
 				g.DrawRectangle(this.PicBorder, rPic);
